@@ -7,8 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * User
  *
- * @ORM\Table(name="user")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @ORM\MappedSuperclass
  */
 class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symfony\Component\Security\Core\User\EquatableInterface, \JsonSerializable {
 
@@ -46,6 +45,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
      * @ORM\Column(name="roles", type="integer")
      */
     private $roles;
+
 
     public function __construct(string $login, string $password, array $roles) {
         $this->login = $login;
@@ -129,7 +129,8 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
             }
         }
     }
-
+    
+    
     public function eraseCredentials() {
         //Nothing sensitive to erase
     }
@@ -169,6 +170,22 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
             "id" => $this->id,
             "login" => $this->login
         ];
+    }
+    
+    public function isStudent(){
+        return $this->isRole(User::ROLE_STUDENT);
+    }
+    
+    public function isTeacher(){
+        return $this->isRole(User::ROLE_TEACHER);
+    }
+    
+    public function isAdmin(){
+        return $this->isRole(User::ROLE_ADMIN);
+    }
+    
+    private function isRole(int $role){
+        return $this->roles & $role != 0;
     }
 
 }

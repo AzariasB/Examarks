@@ -50,6 +50,18 @@ class Assessment {
     private $module;
     
     /**
+     *
+     * @var ArrayCollection
+     * 
+     * @ORM\OneToMany(targetEntity="Mark", mappedBy="assessment") 
+     */
+    private $marks;
+    
+    public function __construct() {
+        $this->marks = new \Doctrine\Common\Collections\ArrayCollection;
+    }
+    
+    /**
      * Get id
      *
      * @return int
@@ -118,5 +130,23 @@ class Assessment {
      */
     public function setModule(Module $nwModule){
         $this->module = $nwModule;
+    }
+    
+    /**
+     * Get marks
+     * 
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getMarks(){
+        return $this->marks;
+    }
+    
+    /**
+     * Set marks
+     * 
+     * @param \Doctrine\Common\Collections\ArrayCollection $nwmarks
+     */
+    public function setMarks(\Doctrine\Common\Collections\ArrayCollection $nwmarks){
+        $this->marks = $nwmarks;
     }
 }
