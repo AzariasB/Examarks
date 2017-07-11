@@ -7,17 +7,42 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset(bower~'angular-ui-notification/dist/angular-ui-notification.min.css') }}" />
         {% endblock %}
         <link type="text/css" rel="stylesheet" href="{{ asset(bower ~ 'bootstrap/dist/css/bootstrap.min.css') }}" />
         <link type="text/css" rel="stylesheet" href="{{ asset(bower ~ 'bootstrap/dist/css/bootstrap-theme.min.css') }}" />
+        <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
         <script src="{{ asset(bower ~ 'angular/angular.min.js') }}" ></script>
         <script src="{{ asset(bower ~ 'jquery/dist/jquery.min.js') }}" ></script>
         <script src="{{ asset(bower ~ 'bootstrap/dist/js/bootstrap.min.js') }}" ></script>
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body ng-cloak="" ng-controller="Controller as ctrl" >
-    {% block body %}{% endblock %}
-    {% block javascripts %}
-    {% endblock %}
-</body>
+        {% block body %}
+            {% include 'navbar.html.twig' %}
+            <div id="lobby-content" >
+                {% block content %} {% endblock %}
+            </div>
+            <footer class="container-fluid" >
+                {% block footer %}
+                    <div class="row">
+                        <div class="col-xs-12">
+                            Copyright Infres9 &copy; Examarks
+                        </div>
+                    </div>
+                {% endblock %}
+            </footer>
+        {% endblock %}
+        {% block javascripts %}
+            <script src="{{ asset(bower~'angular-ui-notification/dist/angular-ui-notification.min.js') }}"></script>
+            {% block angularApp %}
+                <script src="{{ asset('assets/js/baseApp.js') }}"></script>
+            {% endblock %}
+            {% block angularServices %}
+            {% endblock %}
+            {% block angularController %}
+                <script src="{{ asset('assets/js/controllers/defaultController.js') }}" type="text/javascript"></script>
+            {% endblock %}
+        {% endblock %}
+    </body>
 </html>

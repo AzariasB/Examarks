@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+
 class DefaultController extends Controller {
 
     /**
@@ -24,8 +25,16 @@ class DefaultController extends Controller {
      * @param Request $req
      */
     public function lobbyAction(Request $req) {
-        return $this->render('lobby/index.html.twig', [
-        ]);
+
+        if ($this->get("security.authorization_checker")->isGranted("ROLE_TEACHER") ) {
+            return $this->render('lobby/index-teacher.html.twig', [
+            ]);
+        } else if ($this->get('security.authorization_checker')->isGranted('ROLE_STUDENT')) {
+            return $this->render('lobby/index-student.html.twig', [
+            ]);
+        } else {
+            //lobby 
+        }
     }
 
 }

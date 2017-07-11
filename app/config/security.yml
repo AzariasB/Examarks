@@ -38,8 +38,10 @@ security:
         ROLE_ADMIN: [ROLE_TEACHER, ROLE_STUDENT]
         
     access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, roles: ROLE_ADMIN }
         - { path: ^/createUser, roles: ROLE_ADMIN }
+        - { path: ^/, role: ROLE_USER }
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -48,10 +50,11 @@ security:
             security: false
             
         main:
-            anonymous: ~
+            pattern: ^/
+            anonymous: true
             logout:
                 path: /logout
-                target: /
+                target: /login
             form_login:
                 login_path: login
                 check_path: login

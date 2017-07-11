@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="assessment")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AssessmentRepository")
  */
-class Assessment {
+class Assessment implements \JsonSerializable {
 
     const ASSIGNMENT = "Assignemnt";
     const LAB_TEST = "Lab test";
@@ -28,7 +28,7 @@ class Assessment {
     /**
      * @var int
      *
-     * @ORM\Column(name="type", type="integer")
+     * @ORM\Column(name="type", type="string", length=255)
      */
     private $type;
 
@@ -39,7 +39,6 @@ class Assessment {
      */
     private $weight;
 
-    
     /**
      *
      * @var Module
@@ -48,7 +47,7 @@ class Assessment {
      * @ORM\JoinColumn(name="module_id", referencedColumnName="id")
      */
     private $module;
-    
+
     /**
      *
      * @var ArrayCollection
@@ -56,11 +55,11 @@ class Assessment {
      * @ORM\OneToMany(targetEntity="Mark", mappedBy="assessment") 
      */
     private $marks;
-    
+
     public function __construct() {
         $this->marks = new \Doctrine\Common\Collections\ArrayCollection;
     }
-    
+
     /**
      * Get id
      *
@@ -119,34 +118,44 @@ class Assessment {
      * 
      * @return Module
      */
-    public function getModule(){
+    public function getModule() {
         return $this->module;
     }
-    
+
     /**
      * Set module
      * 
      * @param Module $nwModule
      */
-    public function setModule(Module $nwModule){
+    public function setModule(Module $nwModule) {
         $this->module = $nwModule;
     }
-    
+
     /**
      * Get marks
      * 
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function getMarks(){
+    public function getMarks() {
         return $this->marks;
     }
-    
+
     /**
      * Set marks
      * 
      * @param \Doctrine\Common\Collections\ArrayCollection $nwmarks
      */
-    public function setMarks(\Doctrine\Common\Collections\ArrayCollection $nwmarks){
+    public function setMarks(\Doctrine\Common\Collections\ArrayCollection $nwmarks) {
         $this->marks = $nwmarks;
     }
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'type' => $this->type,
+            'weigth' => $this->weight,
+            'moduleId' => $this->module->getId()
+        ];
+    }
+
 }
