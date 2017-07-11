@@ -39,8 +39,9 @@ security:
         
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, roles: ROLE_ADMIN }
-        - { path: ^/createUser, roles: ROLE_ADMIN }
+        - { path: ^/createUser, roles: ROLE_TEACHER }
+        - { path: ^/studentList, roles: ROLE_TEACHER }
+        - { path: ^/userList, roles: ROLE_ADMIN}
         - { path: ^/, role: ROLE_USER }
 
     firewalls:

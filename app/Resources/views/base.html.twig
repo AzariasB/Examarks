@@ -40,9 +40,7 @@
             {% endblock %}
             {% block angularServices %}
             {% endblock %}
-            {% block angularController %}
-                <script src="{{ asset('assets/js/controllers/defaultController.js') }}" type="text/javascript"></script>
-            {% endblock %}
+            <script src="{% block angularController %}{ asset('assets/js/controllers/defaultController.js') }}{% endblock %}" type="text/javascript"></script>
         {% endblock %}
     </body>
 </html>
