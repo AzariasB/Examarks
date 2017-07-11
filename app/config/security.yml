@@ -19,6 +19,12 @@ security:
                     root:
                         password: root
                         roles: 'ROLE_ADMIN'
+                    student:
+                        password: student
+                        roles: 'ROLE_STUDENT'
+                    teacher:
+                        password: teacher
+                        roles: 'ROLE_TEACHER'
                         
                                 
         our_db_provider:
@@ -33,15 +39,19 @@ security:
         
     access_control:
         - { path: ^/register, roles: ROLE_ADMIN }
+        - { path: ^/createUser, roles: ROLE_ADMIN }
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
+            
         main:
             anonymous: ~
+            logout:
+                path: /logout
+                target: /
             form_login:
                 login_path: login
                 check_path: login

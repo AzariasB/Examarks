@@ -16,5 +16,5 @@
 /vendor/
 /web/bundles/
 nbproject
-/web/assets
+/web/assets/vendor
 /web/phpmyadmin

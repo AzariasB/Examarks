@@ -18,4 +18,14 @@ class DefaultController extends Controller {
         ]);
     }
 
+    /**
+     * @Route("/home", name="lobby")
+     * 
+     * @param Request $req
+     */
+    public function lobbyAction(Request $req) {
+        return $this->render('lobby/index.html.twig', [
+        ]);
+    }
+
 }
