@@ -1,0 +1,19 @@
+
+{% set formId = 'create-student-form' %}
+
+{% extends "lobby/modalForm.html.twig" %}
+
+{% block modalTitle %}
+    Create new student
+{% endblock %}
+
+{% block modalBody %}
+    <div class="row">
+        <div class="col-xs-12">
+            {{ form_row(form.login, formClass) }}
+        </div>
+        <div class="col-xs-12" >
+            {{ form_row(form.email, formClass) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,47 @@
+
+{% set formId = 'create-module-form' %}
+
+{% extends "lobby/modalForm.html.twig" %}
+
+{% block modalTitle %}
+    Create new student
+{% endblock %}
+
+{% block modalBody %}
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            {{ form_row(form.name, formClass) }}
+        </div>
+        <div class="col-xs-12 col-sm-6" >
+            {{ form_row(form.abbreviation, formClass) }}
+        </div>
+    </div>
+    <div id="assessementsList" 
+         class="row" 
+         ng-init="ctrl.dataPrototype='{{ form_widget(form.assessments.vars.prototype)|e }}'">
+        <div class="col-xs-12">
+            {{ form_row(form.assessments) }}
+        </div>
+        {% for assess in form.assessments %}
+            <div class="col-xs-12 col-md-6">
+                {{ form_row(assess.type) }}
+            </div>
+            <div class="col-xs-12 col-md-6">
+                {{ form_row(assess.weight) }}
+            </div>
+            <button type="button" class="close" 
+                    data-dismiss="modal"
+                    ng-click='ctrl.removeAssessment(this)'
+                    aria-label="Close">
+                <span aria-hidden="true">&times;</span></button>
+            {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-4">
+            <button
+                ng-click='ctrl.addAssessment({{ form.assessments| length}})'
+                class="btn btn-success"
+                type="button">Add an assessment</button>
+        </div>
+    </div>
+{% endblock %}

@@ -40,14 +40,14 @@ class StudentType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('Login', TextType::class)
-                ->add('Email', EmailType::class);
+                ->add('login', TextType::class)
+                ->add('email', EmailType::class);
     }
 
     
     public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver) {
-        $resolver->setDefault([
-           'data_class' => 'AppBundle\Entity\Student' 
+        $resolver->setDefaults([
+           'data_class' => \AppBundle\Entity\Student::class
         ]);
     }
 }

@@ -41,7 +41,7 @@ class Mark implements \JsonSerializable
      *
      * @var User
      * 
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="marks") 
+     * @ORM\ManyToOne(targetEntity="Student", inversedBy="marks") 
      * @ORM\JoinColumn(name="student_id", referencedColumnName="id")
      */
     private $student;

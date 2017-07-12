@@ -46,12 +46,13 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
      */
     private $roles;
 
-
-    public function __construct(string $login, string $password, array $roles) {
-        $this->login = $login;
-        $this->password = $password;
-        $this->setRoles($roles);
-    }
+    /**
+     *
+     * @var string
+     * 
+     * @ORM\Column(name="email", type="string", length=255) 
+     */
+    private $email;
 
     /**
      * Get id
@@ -107,6 +108,24 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
     }
 
     /**
+     * Get email
+     * 
+     * @return string
+     */
+    public function getEmail() {
+        return $this->email;
+    }
+
+    /**
+     * Set email
+     * 
+     * @param string $nwEmail
+     */
+    public function setEmail(string $nwEmail) {
+        $this->email = $nwEmail;
+    }
+
+    /**
      * Set new role
      * 
      * @param int $nwRoles
@@ -129,8 +148,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
             }
         }
     }
-    
-    
+
     public function eraseCredentials() {
         //Nothing sensitive to erase
     }
@@ -171,20 +189,20 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
             "login" => $this->login
         ];
     }
-    
-    public function isStudent(){
+
+    public function isStudent() {
         return $this->isRole(User::ROLE_STUDENT);
     }
-    
-    public function isTeacher(){
+
+    public function isTeacher() {
         return $this->isRole(User::ROLE_TEACHER);
     }
-    
-    public function isAdmin(){
+
+    public function isAdmin() {
         return $this->isRole(User::ROLE_ADMIN);
     }
-    
-    private function isRole(int $role){
+
+    private function isRole(int $role) {
         return $this->roles & $role != 0;
     }
 

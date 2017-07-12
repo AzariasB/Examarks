@@ -35,12 +35,15 @@
         {% endblock %}
         {% block javascripts %}
             <script src="{{ asset(bower~'angular-ui-notification/dist/angular-ui-notification.min.js') }}"></script>
+            <script src="{{ asset(bower~'angular-bind-html-compile/angular-bind-html-compile.min.js') }}" ></script>
             {% block angularApp %}
                 <script src="{{ asset('assets/js/baseApp.js') }}"></script>
             {% endblock %}
             {% block angularServices %}
             {% endblock %}
-            <script src="{% block angularController %}{ asset('assets/js/controllers/defaultController.js') }}{% endblock %}" type="text/javascript"></script>
+            <script src="{% block angularController %}{{ asset('assets/js/controllers/defaultController.js') }}{% endblock %}" type="text/javascript"></script>
         {% endblock %}
+        
+        {% include 'modal.html.twig' %}
     </body>
 </html>

@@ -29,6 +29,10 @@ class Student extends User {
         return $this->marks;
     }
     
+    public function __construct() {
+        $this->marks = new \Doctrine\Common\Collections\ArrayCollection;
+    }
+    
     /**
      * Set marks
      * 

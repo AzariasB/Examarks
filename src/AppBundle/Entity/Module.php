@@ -31,9 +31,9 @@ class Module
     /**
      * @var string
      *
-     * @ORM\Column(name="abreviation", type="string", length=255)
+     * @ORM\Column(name="abbreviation", type="string", length=255)
      */
-    private $abreviation;
+    private $abbreviation;
     
     /**
      *
@@ -88,9 +88,9 @@ class Module
      *
      * @return Module
      */
-    public function setAbreviation($abreviation)
+    public function setAbbreviation($abreviation)
     {
-        $this->abreviation = $abreviation;
+        $this->abbreviation = $abreviation;
 
         return $this;
     }
@@ -100,9 +100,9 @@ class Module
      *
      * @return string
      */
-    public function getAbreviation()
+    public function getAbbreviation()
     {
-        return $this->abreviation;
+        return $this->abbreviation;
     }
     
     /**

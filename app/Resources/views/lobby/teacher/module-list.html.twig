@@ -1,0 +1,61 @@
+
+{% extends "base.html.twig" %}
+
+{% block angularController %}
+    {{ asset('assets/js/controllers/moduleListController.js') }}
+{% endblock %}
+
+{% block angularServices %}
+    <script src="{{ asset('assets/js/services/modalFormService.js') }}"></script>
+    <script src="{{ asset('assets/js/services/postService.js') }}"></script>
+
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1>
+            Modules
+        </h1>
+        {% set maxLength = 0 %}
+
+        {% for m in modules %}
+            {% if m.assessments.length > maxLength %}
+                {% set maxLength = m.assessments.length %}
+            {% endif %}
+        {% endfor %}
+
+        <table class="table-responsive col-xs-12" >
+            <thead>
+                <tr>
+                    <th>Abbreviation</th>
+                    <th>Name</th>
+                    <th colspan="{{ max(1,maxLength) }}" >Assessments and Exams components</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for module in modules%}
+                    <tr>
+                        <td>
+                            {{ module.abbreviation }}
+                        </td>
+                        <td>
+                            {{ user.name }}
+                        </td>
+                        {% for assess in module.assessments %}
+                            <td>
+                                {{ assess.type }} ({{ assess.weight }})
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button 
+            ng-click="ctrl.showNewModuleModal('{{ absolute_url(path('createModule')) }}')"
+            type="button" 
+            class="btn btn-default"
+            >Create new module</button>
+    </div>
+
+{% endblock %}

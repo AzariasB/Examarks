@@ -1,4 +1,6 @@
-/* 
+<?php
+
+/*
  * The MIT License
  *
  * Copyright 2017 azarias.
@@ -22,36 +24,36 @@
  * THE SOFTWARE.
  */
 
+namespace AppBundle\Form;
 
-(function () {
-    'use strict';
 
-    angular.module('examarks')
-            .controller('Controller', ['post', 'modalForm', 'Notification', userListController]);
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-    function userListController(post, modalForm, Notification) {
-
-        var self = this;
-
-        self.showNewStudentModal = showNewStudentModal;
-
-        function showNewStudentModal(requestUrl) {
-            console.log(requestUrl);
-            post(requestUrl, function (response) {
-                console.log(response);
-                modalForm(response.data, 'create-student-form', requestUrl, actionUpdated);
-            });
-        }
-
-        function actionUpdated(data) {
-            console.log(data);
-            if(data.success){
-                Notification.success("Successfully created");
-            }else{
-                Notification.error(data.message);
-            }
-        }
-
+/**
+ * Description of ModuleType
+ *
+ * @author azarias
+ */
+class ModuleType extends AbstractType {
+    //put your code here
+    
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        
+        $builder
+                ->add('name', TextType::class)
+                ->add('abbreviation', TextType::class)
+                ->add('assessments', CollectionType::class, [
+                   'entry_type' => AssessmentType::class,
+                    'allow_add' => true
+                ]);
     }
-
-})();
+    
+    public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver) {
+        $resolver->setDefaults([
+            'data_class' => \AppBundle\Entity\Module::class
+        ]);
+    }
+}

@@ -26,7 +26,7 @@ class Assessment implements \JsonSerializable {
     private $id;
 
     /**
-     * @var int
+     * @var string
      *
      * @ORM\Column(name="type", type="string", length=255)
      */
@@ -72,7 +72,7 @@ class Assessment implements \JsonSerializable {
     /**
      * Set type
      *
-     * @param integer $type
+     * @param string $type
      *
      * @return Assessment
      */
@@ -85,7 +85,7 @@ class Assessment implements \JsonSerializable {
     /**
      * Get type
      *
-     * @return int
+     * @return string
      */
     public function getType() {
         return $this->type;

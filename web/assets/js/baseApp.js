@@ -27,7 +27,10 @@
 (function () {
     'use strict';
 
-    angular.module('examarks', ['ui-notification'])
+    angular.module('examarks', ['ui-notification', 'angular-bind-html-compile'])
+            .filter('trustAsHtml', function ($sce) {
+                return $sce.trustAsHtml;
+            })
             .config(function ($interpolateProvider) {
                 $interpolateProvider.startSymbol('[[');
                 $interpolateProvider.endSymbol(']]');

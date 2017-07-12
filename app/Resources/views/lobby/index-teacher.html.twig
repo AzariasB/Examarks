@@ -12,14 +12,16 @@
             <div class="col-xs-12" id='modules'>
                 <ul class="nav nav-pills nav-stacked col-xs-12 col-md-3" >
                     <li> 
-                        {% if is_granted('') %}
-                            <a href="#">Users</a>
-                        {% else %}
-                            <a href="{{ path('studentList') }}">Students</a>                                
-                        {% endif %}
+                        <a href="{{ path('studentList') }}">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                Users
+                            {% else %}
+                                Students
+                            {% endif %}
+                        </a>                                
                     </li>
                     <li>
-                        <a href="#">Modules</a>
+                        <a href="{{ path('moduleList') }}">Modules</a>
                     </li>
                     <li>
                         <a href="#">Exam details</a>

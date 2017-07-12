@@ -27,29 +27,58 @@
     'use strict';
 
     angular.module('examarks')
-            .controller('Controller', ['post', 'modalForm', 'Notification', userListController]);
+            .controller('Controller', ['post', 'modalForm', 'Notification', '$scope', userListController]);
 
-    function userListController(post, modalForm, Notification) {
+    function userListController(post, modalForm, Notification, $scope) {
 
         var self = this;
 
-        self.showNewStudentModal = showNewStudentModal;
+        //Attributes
+        self.lastAssessmentId = null;
+        self.dataPrototype = null;
+        self.modules = [];
 
-        function showNewStudentModal(requestUrl) {
-            console.log(requestUrl);
+        self.nwAssessments = [];
+
+        //Funtions
+        self.showNewModuleModal = showNewModuleModal;
+        self.addAssessment = addAssessment;
+        self.removeAssessment = removeAssessment;
+        self.addAssessmentForm = addAssessmentForm;
+
+        function showNewModuleModal(requestUrl) {
             post(requestUrl, function (response) {
                 console.log(response);
-                modalForm(response.data, 'create-student-form', requestUrl, actionUpdated);
+                $scope.modalHtml = response.data;
+                modalForm(response.data, 'create-module-form', requestUrl, actionUpdated);
             });
         }
 
         function actionUpdated(data) {
-            console.log(data);
-            if(data.success){
+            if (data.success) {
                 Notification.success("Successfully created");
-            }else{
+            } else {
                 Notification.error(data.message);
             }
+        }
+
+        function addAssessment(lastId) {
+            console.log("Add assessment", lastId);
+            if (self.lastAssessmentId === null) {
+                self.lastAssessmentId = lastId;
+            }
+            self.addAssessmentForm();
+
+        }
+
+        function removeAssessment($el) {
+
+        }
+
+        function addAssessmentForm() {
+            var nwForm = self.dataPrototype.replace(/__name__/g, self.lastAssessmentId);
+            self.lastAssessmentId++;
+            $("#assessementsList").before($(nwForm));
         }
 
     }

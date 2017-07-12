@@ -1,4 +1,6 @@
-/* 
+<?php
+
+/*
  * The MIT License
  *
  * Copyright 2017 azarias.
@@ -22,36 +24,38 @@
  * THE SOFTWARE.
  */
 
+namespace AppBundle\Form;
 
-(function () {
-    'use strict';
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use AppBundle\Entity\Assessment;
 
-    angular.module('examarks')
-            .controller('Controller', ['post', 'modalForm', 'Notification', userListController]);
+/**
+ * Form description for an assessment
+ *
+ * @author azarias
+ */
+class AssessmentType extends AbstractType {
 
-    function userListController(post, modalForm, Notification) {
-
-        var self = this;
-
-        self.showNewStudentModal = showNewStudentModal;
-
-        function showNewStudentModal(requestUrl) {
-            console.log(requestUrl);
-            post(requestUrl, function (response) {
-                console.log(response);
-                modalForm(response.data, 'create-student-form', requestUrl, actionUpdated);
-            });
-        }
-
-        function actionUpdated(data) {
-            console.log(data);
-            if(data.success){
-                Notification.success("Successfully created");
-            }else{
-                Notification.error(data.message);
-            }
-        }
-
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder
+                ->add('type', ChoiceType::class, [
+                    'choices' => [Assessment::ASSIGNMENT, Assessment::LAB_TEST, Assessment::WRITTEN_EXAM]
+        ])
+                ->add('weight', IntegerType::class,[
+                   'attr' => [
+                       'min' => 0,
+                       'max' => 100
+                   ] 
+                ]);
     }
 
-})();
+    public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver) {
+        $resolver->setDefaults([
+            'data_class' => \AppBundle\Entity\Assessment::class
+        ]);
+    }
+
+}

@@ -28,76 +28,68 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\StudentType;
+use AppBundle\Form\ModuleType;
 use \Symfony\Component\HttpFoundation\JsonResponse;
 use \Symfony\Component\Form\Form;
-use \AppBundle\Entity\Student;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use AppBundle\Entity\Module;
 
 /**
- * Description of StudentListController
+ * Controller for the list of module page
  *
  * @author azarias
  */
-class StudentListController extends SuperController {
+class ModuleListController extends SuperController {
 
     /**
-     * 
-     * @param Request $req
-     * @Route("/studentList", name="studentList")
+     * @Route("/moduleList",name="moduleList")
      */
     public function indexAction() {
-        $users = $this->getAllFromClass(Student::class);
-        if ($this->isGranted('ROLE_ADMIN')) {
-            $users = array_merge($users, $this->getAllFromClass(\AppBundle\Entity\Teacher::class));
-        }
-
-        return $this->render('lobby/teacher/student-list.html.twig', [
-                    'users' => $users
+        return $this->render('lobby/teacher/module-list.html.twig', [
+                    'modules' => $this->getAllFromClass(\AppBundle\Entity\Module::class)
         ]);
     }
 
     /**
-     * 
-     * 
-     * @param Request $req
-     * @return Response
-     * @Route("/createStudent",name="createStudent")
+     * @Route("/createModule",name="createModule")
      */
-    public function createStudentAction(Request $req, UserPasswordEncoderInterface $encoder) {
-        $s = new Student;
+    public function createModuleAction(Request $req) {
+        $module = new Module;
 
-        $form = $this->createForm(StudentType::class, $s);
+        $form = $this->createForm(ModuleType::class, $module);
+
         $form->handleRequest($req);
 
         if ($form->isSubmitted()) {
-            return $this->createStudent($form, $s, $encoder);
+            return $this->createModule($form, $m);
         }
-        return $this->newStudentForm($form);
+
+        return $this->createModuleForm($form);
     }
 
-    private function createStudent(Form $form, Student $s, UserPasswordEncoderInterface $encoder) {
+    private function createModule(Form $form, Module $m) {
         if ($form->isValid()) {
-            $s->setRoles(\AppBundle\Entity\User::ROLE_STUDENT | \AppBundle\Entity\User::ROLE_USER);
-            $password = base64_encode(random_bytes(15));
-            $s->setPassword($encoder->encodePassword($s, $password));
-            $this->saveEntity($s);
+
+            foreach ($m->getAssessments() as $a) {
+                $a->setModule($m);
+                $this->saveEntity($a);
+            }
+            $this->saveEntity($m);
+
 
             return new JsonResponse([
                 'success' => true,
-                'student' => $s,
-                'password' => $password//TO REMOVE LATER (when sending an email)
-            ]); //send mail to the studen with generated mail and password
+                'module' => $m
+            ]);
         }
 
         return new JsonResponse([
             'success' => false,
-            'newContent' => $this->newStudentForm($form)
+            'newContent' => $this->createModuleForm($form)
         ]);
     }
 
-    private function newStudentForm(Form $form) {
-        return $this->render('lobby/teacher/new-student.html.twig', [
+    private function createModuleForm(Form $form) {
+        return $this->render('lobby/teacher/new-module.html.twig', [
                     'form' => $form->createView()
         ]);
     }

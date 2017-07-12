@@ -53,7 +53,7 @@
 
         function showModal(data, formId, url, submitCallback, failure) {
             failure = failure || defaultFailure;
-            $("#modal-main-content").html(data);
+            //$("#modal-main-content").html(data);
             $("#" + formId).on('submit', function (e) {
                 e.preventDefault();
                 var data = $(this).serialize();

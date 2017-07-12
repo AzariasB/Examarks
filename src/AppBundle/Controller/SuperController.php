@@ -81,7 +81,7 @@ class SuperController extends Controller {
      * of a given class
      * 
      * @param string $className
-     * @return ArrayCollection
+     * @return array
      */
     protected function getAllFromClass($className) {
         return $this->getDoctrine()->getRepository($className)->findAll();
