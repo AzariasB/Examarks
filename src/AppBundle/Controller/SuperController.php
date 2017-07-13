@@ -40,10 +40,12 @@ class SuperController extends Controller {
      * 
      * @param Object $entity
      */
-    protected function saveEntity(&$entity) {
+    protected function saveEntity(&$entity, $flush = true) {
         $em = $this->getDoctrine()->getManager();
         $em->persist($entity);
-        $em->flush();
+        if ($flush) {
+            $em->flush();
+        }
     }
 
     /**

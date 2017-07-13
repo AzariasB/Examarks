@@ -36,7 +36,7 @@
                 <ul class="list-group list-unstyled" >
                     {% for assessment in module.assessments %}
                         <li class="list-group-item" >
-                            <a href="#">
+                            <a href="{{ path('assessment', { 'assessmentId' : assessment.id }) }}">
                                 {{ assessment.type }}
                             </a>
                         </li>
@@ -45,15 +45,14 @@
             </div>
         </div>
 
-        <div class="col-xs-12">
-            <a href="{{ path('deleteModule',{'moduleId' : module.id }) }}" 
-               ng-click="ctrl.deleteModule($event)"
-               class="btn btn-warning" >
-                Delete this module
-            </a>
-            <a href="#" class="btn btn-primary" > 
-                Edit this module
-            </a>
-        </div>
+        <a href="{{ path('deleteModule',{'moduleId' : module.id }) }}" 
+           ng-click="ctrl.deleteModule($event)"
+           class="btn btn-warning" >
+            Delete this module
+        </a>
+        {#           TODO : EDITION #}
+        <a href="#" class="btn btn-primary" > 
+            Edit this module
+        </a>
     </div>
 {% endblock %}

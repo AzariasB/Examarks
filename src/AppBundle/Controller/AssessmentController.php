@@ -1,4 +1,6 @@
-/* 
+<?php
+
+/*
  * The MIT License
  *
  * Copyright 2017 azarias.
@@ -22,34 +24,32 @@
  * THE SOFTWARE.
  */
 
+namespace AppBundle\Controller;
 
-(function () {
-    'use strict';
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Form\ModuleType;
+use \Symfony\Component\HttpFoundation\JsonResponse;
+use \Symfony\Component\Form\Form;
+use AppBundle\Entity\Module;
 
-    angular.module('examarks')
-            .controller('Controller', ['post', 'modalForm', 'Notification', '$scope', userListController]);
+/**
+ * Description of AssessmentController
+ *
+ * @author azarias
+ */
+class AssessmentController extends SuperController {
 
-    function userListController(post, modalForm, Notification, $scope) {
-
-        var self = this;
-
-        self.showNewStudentModal = showNewStudentModal;
-
-        function showNewStudentModal(requestUrl) {
-            post(requestUrl, function (response) {
-                modalForm($scope, response.data, requestUrl, actionUpdated, Notification.error);
-            });
-        }
-
-        function actionUpdated(data) {
-            if (data.success) {
-                location.reload();
-                //Notification.success("Successfully created");
-            } else {
-                Notification.error(data.message);
-            }
-        }
-
+    /**
+     * 
+     * @param int $assessmentId
+     * 
+     * @Route("/assessment/{assessmentId}",name="assessment")
+     */
+    public function indexAction($assessmentId) {
+        return $this->render('lobby/teacher/assessment.html.twig', [
+                    'assessment' => $this->getEntityFromId(\AppBundle\Entity\Assessment::class, $assessmentId)
+        ]);
     }
 
-})();
+}

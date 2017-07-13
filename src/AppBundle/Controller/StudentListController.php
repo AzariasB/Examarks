@@ -87,8 +87,24 @@ class StudentListController extends SuperController {
             $this->saveEntity($s);
             foreach ($allModules as $m) {
                 $m->getStudents()->add($s);
-                $this->mergeEntity($m);
+
+                foreach ($m->getAssessments() as $assessm) {
+                    $mark = new \AppBundle\Entity\Mark;
+                    $mark->setAssessment($assessm);
+                    $mark->setStudent($s);
+
+                    $s->getMarks()->add($mark);
+                    $assessm->getMarks()->add($mark);
+
+                    $this->saveEntity($mark, false);
+                    $this->mergeEntity($assessm, false);
+                }
+
+
+                $this->mergeEntity($m, false);
             }
+
+            $this->mergeEntity($s);
 
             return new JsonResponse([
                 'success' => true,

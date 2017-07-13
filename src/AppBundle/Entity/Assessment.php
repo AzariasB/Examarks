@@ -52,12 +52,25 @@ class Assessment implements \JsonSerializable {
      *
      * @var ArrayCollection
      * 
-     * @ORM\OneToMany(targetEntity="Mark", mappedBy="assessment") 
+     * @ORM\OneToMany(targetEntity="Mark", mappedBy="assessment", cascade={"all"}) 
      */
-    private $marks; 
+    private $marks;
 
     public function __construct() {
         $this->marks = new \Doctrine\Common\Collections\ArrayCollection;
+    }
+
+    public function hasStudentMark(Student $stud) {
+        if ($this->marks->isEmpty()) {
+            return false;
+        }
+
+        foreach ($this->marks->toArray() as $myMark) {
+            foreach ($stud->getMarks()->toArray() as $hisMarks) {
+                return $hisMarks;
+            }
+        }
+        return false;
     }
 
     /**

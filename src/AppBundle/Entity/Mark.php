@@ -27,7 +27,7 @@ class Mark implements \JsonSerializable {
     /**
      * @var int
      *
-     * @ORM\Column(name="value", type="integer")
+     * @ORM\Column(name="value", type="integer", nullable=true)
      */
     private $value;
 
@@ -42,7 +42,7 @@ class Mark implements \JsonSerializable {
 
     /**
      *
-     * @var User
+     * @var Student
      * 
      * @ORM\ManyToOne(targetEntity="Student", inversedBy="marks") 
      * @ORM\JoinColumn(name="student_id", referencedColumnName="id")
@@ -145,7 +145,7 @@ class Mark implements \JsonSerializable {
      * 
      * @param \AppBundle\Entity\User $user
      */
-    public function setStudent(User $user) {
+    public function setStudent(Student $user) {
         $this->student = $user;
     }
 

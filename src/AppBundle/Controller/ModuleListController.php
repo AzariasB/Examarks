@@ -79,6 +79,16 @@ class ModuleListController extends SuperController {
             $m->setStudents(new \Doctrine\Common\Collections\ArrayCollection($students));
             foreach ($students as $stud) {
                 $stud->getModules()->add($m);
+
+                foreach ($m->getAssessments() as $assess) {
+                    $mark = new \AppBundle\Entity\Mark;
+                    $mark->setAssessment($assess);
+                    $mark->setStudent($stud);
+
+                    $this->saveEntity($mark, false);
+                    $this->mergeEntity($assess, false);
+                }
+
                 $this->mergeEntity($stud, false);
             }
 
