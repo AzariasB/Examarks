@@ -42,14 +42,18 @@ class AssessmentType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                 ->add('type', ChoiceType::class, [
-                    'choices' => [Assessment::ASSIGNMENT, Assessment::LAB_TEST, Assessment::WRITTEN_EXAM]
-        ])
-                ->add('weight', IntegerType::class,[
-                   'attr' => [
-                       'min' => 0,
-                       'max' => 100
-                   ] 
-                ]);
+                    'choices' => [
+                        Assessment::ASSIGNMENT => Assessment::ASSIGNMENT,
+                        Assessment::LAB_TEST => Assessment::LAB_TEST,
+                        Assessment::WRITTEN_EXAM => Assessment::WRITTEN_EXAM
+                    ]
+                ])
+                ->add('weight', IntegerType::class, [
+                    'attr' => [
+                        'min' => 0,
+                        'max' => 100
+                    ]
+        ]);
     }
 
     public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver) {

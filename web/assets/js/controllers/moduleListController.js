@@ -48,9 +48,7 @@
 
         function showNewModuleModal(requestUrl) {
             post(requestUrl, function (response) {
-                console.log(response);
-                $scope.modalHtml = response.data;
-                modalForm(response.data, 'create-module-form', requestUrl, actionUpdated);
+                modalForm($scope, response.data, requestUrl, actionUpdated);
             });
         }
 

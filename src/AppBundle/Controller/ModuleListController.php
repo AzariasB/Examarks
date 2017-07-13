@@ -60,7 +60,7 @@ class ModuleListController extends SuperController {
         $form->handleRequest($req);
 
         if ($form->isSubmitted()) {
-            return $this->createModule($form, $m);
+            return $this->createModule($form, $module);
         }
 
         return $this->createModuleForm($form);

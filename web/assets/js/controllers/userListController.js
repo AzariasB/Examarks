@@ -27,27 +27,24 @@
     'use strict';
 
     angular.module('examarks')
-            .controller('Controller', ['post', 'modalForm', 'Notification', userListController]);
+            .controller('Controller', ['post', 'modalForm', 'Notification', '$scope', userListController]);
 
-    function userListController(post, modalForm, Notification) {
+    function userListController(post, modalForm, Notification, $scope) {
 
         var self = this;
 
         self.showNewStudentModal = showNewStudentModal;
 
         function showNewStudentModal(requestUrl) {
-            console.log(requestUrl);
             post(requestUrl, function (response) {
-                console.log(response);
-                modalForm(response.data, 'create-student-form', requestUrl, actionUpdated);
+                modalForm($scope, response.data, requestUrl, actionUpdated, Notification.error);
             });
         }
 
         function actionUpdated(data) {
-            console.log(data);
-            if(data.success){
+            if (data.success) {
                 Notification.success("Successfully created");
-            }else{
+            } else {
                 Notification.error(data.message);
             }
         }

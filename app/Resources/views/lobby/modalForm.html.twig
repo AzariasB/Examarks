@@ -19,7 +19,7 @@
     </h4>
 </div>
 
-{{ form_start(form,{'attr':{'id': formId } }) }}
+{{ form_start(form,{'attr':{'id': formId, 'ng-submit':'submit(\'' ~  formId ~'\')' } }) }}
 <div class="modal-body">
     {% block modalBody %}
     {% endblock %}

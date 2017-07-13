@@ -51,14 +51,13 @@
             };
         }
 
-        function showModal(data, formId, url, submitCallback, failure) {
+        function showModal($scope, data, url, submitCallback, failure) {
             failure = failure || defaultFailure;
-            //$("#modal-main-content").html(data);
-            $("#" + formId).on('submit', function (e) {
-                e.preventDefault();
-                var data = $(this).serialize();
-                post(url, ajaxCallback(submitCallback), data, failure);
-            });
+            $scope.modalHtml = data;
+            $scope.submit = function (fId) {
+                var serialized = $('#' + fId).serialize();
+                post(url, ajaxCallback(submitCallback), serialized, failure);
+            };
             $("#modal-main").modal();
         }
 
