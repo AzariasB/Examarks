@@ -109,7 +109,7 @@ class SuperController extends Controller {
      * @param string $className
      * @param array $predicate
      * @param array $ordering
-     * @return Object
+     * @return array
      */
     protected function getFromClass($className, $predicate, $ordering = []) {
         return $this->getDoctrine()

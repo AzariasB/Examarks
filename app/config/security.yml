@@ -11,26 +11,18 @@ security:
     providers:
         chain_provider:
             chain:
-                providers: [in_memory, our_db_provider]
-        
-        in_memory:
-            memory:
-                users:
-                    root:
-                        password: root
-                        roles: 'ROLE_ADMIN'
-                    student:
-                        password: student
-                        roles: 'ROLE_STUDENT'
-                    teacher:
-                        password: teacher
-                        roles: 'ROLE_TEACHER'
-                        
+                providers: [teacher_provider, student_provider]           
                                 
-        our_db_provider:
+        teacher_provider:
             entity:
-                class: AppBundle:User
-                property: username
+                class: AppBundle:Teacher
+                property: login
+        student_provider:
+            entity:
+                class: AppBundle:Student
+                property: login
+        
+        
 
     role_hierarchy:
         ROLE_STUDENT: ROLE_USER

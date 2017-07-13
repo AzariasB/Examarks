@@ -12,9 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Mark implements \JsonSerializable {
 
-    const STATE_UNMARKED = 0;
-    const STATE_MAKRED = 1;
-
     /**
      * @var int
      *
@@ -50,13 +47,6 @@ class Mark implements \JsonSerializable {
     private $student;
 
     /**
-     * 
-     * @var intger
-     * @ORM\Column(name="state", type="integer")
-     */
-    private $state = Mark::STATE_UNMARKED;
-
-    /**
      * Get id
      *
      * @return int
@@ -87,31 +77,6 @@ class Mark implements \JsonSerializable {
         return $this->value;
     }
 
-    /**
-     * Get state
-     * 
-     * @return integer 
-     */
-    public function getState() {
-        return $this->state;
-    }
-
-    /**
-     * Set state
-     * 
-     * @param integer $nwState
-     */
-    public function setState(integer $nwState) {
-        $this->state = $nwState;
-    }
-
-    public function isMarked() {
-        return $this->state == Mark::STATE_MAKRED;
-    }
-
-    public function isNotMarked() {
-        return $this->state == Mark::STATE_UNMARKED;
-    }
 
     /**
      * Get assessment
