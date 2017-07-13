@@ -17,44 +17,70 @@
                 <table class="col-xs-12 table">
                     <thead>
                         <tr>
-                            <th>Module </th>
+                            <th> </th>
                             <th> Assessment </th>
                             <th> Mark </th>
                             <th> Equivalent Grade </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for mark in student.marks %}
-                            <tr>
-                                <td>
-                                    <a href="{{ path('module', {'moduleId' : mark.assessment.module.id }) }}">
-                                        {{ mark.assessment.module.name }}
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="{{ path('assessment', {'assessmentId' : mark.assessment.id}) }}" >
-                                        {{ mark.assessment.type }}
-                                    </a>
-                                </td>
-                                <td>
-                                    {% if mark.value  %}
-                                        {{ mark.value }}
-                                    {% else %}
-                                        Not marked yet
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if mark.value %}
-                                        {{ mark.grade }}
-                                    {% else %}
-                                        /
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-{% endblock %}
+                        {% for module in student.modules %}
+                            {% for assess in module.assessments %}
+                                {% set mark = assess.hasStudentMark(student) %}
+                                <tr {% if mark.value and mark.value < 40 %}
+                                    class="warning" title="Missed module" 
+                                    {% elseif mark.value and mark.value > 40 %}
+                                        class="success" title="Exam passed"
+                                        {% endif %}  
+                                            >
+                                            {% if loop.first %}
+                                                <td rowspan="{{ module.assessments | length }}" >
+                                                    <a href="{{ path('module', {'moduleId' : mark.assessment.module.id }) }}">
+                                                        {{ mark.assessment.module.name }}
+                                                    </a>
+                                                </td>
+                                            {% endif %}
+                                            <td>
+                                                <a href="{{ path('assessment', {'assessmentId' : assess.id}) }}" >
+                                                    {{ assess.type }}
+                                                </a>
+                                                ({{ assess.weight }} %)
+                                            </td>
+                                            <td>
+                                                {% if mark.value  %}
+                                                    {{ mark.value }}
+                                                {% else %}
+                                                    Not marked yet
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if mark.value %}
+                                                    {{ mark.grade }}
+                                                {% else %}
+                                                    /
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                            {% set avg = module.studentAverage(student) %}
+                                            <tr
+                                                {% if module.studentCompleted(student) and avg < 40 %}
+                                                    class="warning" title="Module failed"
+                                                {% elseif module.studentCompleted(student) and avg > 40 %}
+                                                    class="success" title="Module passed"
+                                                {% else %}
+                                                    title="Module not completed yet"
+                                                {% endif %}
+                                                >
+                                                <th colspan="2" >Average</th>
+                                                <td colspan="2" >
+                                                    {{ avg }}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endblock %}

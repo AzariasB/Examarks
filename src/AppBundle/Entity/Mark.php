@@ -59,21 +59,32 @@ class Mark implements \JsonSerializable {
      * Returns the grade based on the mark's value
      */
     public function getGrade() {
-        if($this->value < 50){
+        return Mark::toGrade($this->value);
+    }
+
+    public static function toGrade(int $num) {
+        if ($num < 50) {
             return 'C-';
         }
-        
-        if ($this->value >= 50 && $this->value < 60) {
+
+        if ($num >= 50 && $num < 60) {
             return 'C';
-        } else if ($this->value >= 60 && $this->value < 70) {
+        } else if ($num >= 60 && $num < 70) {
             return 'B';
-        } else if ($this->value >= 70 && $this->value < 80) {
+        } else if ($num >= 70 && $num < 80) {
             return 'A';
-        } else if ($this->value >= 80 && $this->value < 90) {
+        } else if ($num >= 80 && $num < 90) {
             return 'A+';
-        } else if ($this->value > 90) {
+        } else if ($num > 90) {
             return 'A++';
         }
+    }
+
+    /**
+     * Returns weight * value
+     */
+    public function getCalculatedResult() {
+        return ($this->assessment->getWeight() / 100) * $this->value;
     }
 
     /**

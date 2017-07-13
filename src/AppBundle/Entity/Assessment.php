@@ -61,13 +61,11 @@ class Assessment implements \JsonSerializable {
     }
 
     public function hasStudentMark(Student $stud) {
-        if ($this->marks->isEmpty()) {
-            return false;
-        }
-
         foreach ($this->marks->toArray() as $myMark) {
             foreach ($stud->getMarks()->toArray() as $hisMarks) {
-                return $hisMarks;
+                if ($myMark->getId() == $hisMarks->getId()) {
+                    return $hisMarks;
+                }
             }
         }
         return false;

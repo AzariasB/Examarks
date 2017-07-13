@@ -44,7 +44,8 @@ class MarkType extends AbstractType {
                     'attr' => [
                         'min' => 0,
                         'max' => 100
-                    ]
+                    ],
+                    'required' => false
         ]);
     }
     

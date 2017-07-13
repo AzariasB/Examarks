@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="module")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ModuleRepository")
  */
-class Module
-{
+class Module {
+
     /**
      * @var int
      *
@@ -34,15 +34,15 @@ class Module
      * @ORM\Column(name="abbreviation", type="string", length=255)
      */
     private $abbreviation;
-    
+
     /**
      *
-     * @var Assessment
+     * @var \Doctrine\Common\Collections\ArrayCollection
      * 
      * @ORM\OneToMany(targetEntity="Assessment", mappedBy="module", cascade={"all"}, orphanRemoval=true) 
      */
     private $assessments;
-    
+
     /**
      *
      * @var \Doctrine\Common\Collections\ArrayCollection
@@ -58,12 +58,46 @@ class Module
     }
 
     /**
+     * Average of the module for the given student
+     * 
+     * @param \AppBundle\Entity\Student $s
+     */
+    public function studentAverage(Student $s) {
+        $total = 0;
+        $assessments = 0;
+        foreach ($this->assessments->toArray() as $assess) {
+            $assessments += ($assess->getWeight() / 100);
+            $total += $assess->hasStudentMark($s)->getCalculatedResult();
+        }
+
+        return $total / $assessments;
+    }
+
+    /**
+     * Wether the student completed all the exams
+     * 
+     * @param \AppBundle\Entity\Student $s
+     */
+    public function studentCompleted(Student $s) {
+        if (!$this->students->contains($s)) {
+            return false;
+        }
+
+        foreach ($this->assessments->toArray() as $assess) {
+            $mark = $assess->hasStudentMark($s);
+            if (!$mark || !$mark->getValue()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Get id
      *
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -74,8 +108,7 @@ class Module
      *
      * @return Module
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -86,8 +119,7 @@ class Module
      *
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -98,8 +130,7 @@ class Module
      *
      * @return Module
      */
-    public function setAbbreviation($abreviation)
-    {
+    public function setAbbreviation($abreviation) {
         $this->abbreviation = $abreviation;
 
         return $this;
@@ -110,46 +141,44 @@ class Module
      *
      * @return string
      */
-    public function getAbbreviation()
-    {
+    public function getAbbreviation() {
         return $this->abbreviation;
     }
-    
+
     /**
      * Get assessments
      * 
      * @return ArrayCollection
      */
-    public function getAssessments(){
+    public function getAssessments() {
         return $this->assessments;
     }
-    
-    
+
     /**
      * Get students
      * 
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function getStudents(){
+    public function getStudents() {
         return $this->students;
     }
-    
+
     /**
      * Set students
      * 
      * @param \Doctrine\Common\Collections\ArrayCollection $nwStudents
      */
-    public function setStudents(\Doctrine\Common\Collections\ArrayCollection $nwStudents){
+    public function setStudents(\Doctrine\Common\Collections\ArrayCollection $nwStudents) {
         $this->students = $nwStudents;
     }
-    
+
     /**
      * Set assessments
      * 
      * @param ArrayCollection $assessments
      */
-    public function setAssessments(\Doctrine\Common\Collections\ArrayCollection $assessments){
+    public function setAssessments(\Doctrine\Common\Collections\ArrayCollection $assessments) {
         $this->assessments = $assessments;
     }
-}
 
+}
