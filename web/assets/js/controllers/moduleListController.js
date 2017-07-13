@@ -76,7 +76,7 @@
         function addAssessmentForm() {
             var nwForm = self.dataPrototype.replace(/__name__/g, self.lastAssessmentId);
             self.lastAssessmentId++;
-            $("#assessementsList").before($(nwForm));
+            $("#assessementsList").append($(nwForm));
         }
 
     }

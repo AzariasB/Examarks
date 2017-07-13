@@ -11,6 +11,10 @@
 
 {% endblock %}
 
+{% block title %}
+    Modules list
+{% endblock %}
+
 {% block content %}
     <div class="container-fluid">
         <h1>
@@ -19,8 +23,8 @@
         {% set maxLength = 0 %}
 
         {% for m in modules %}
-            {% if m.assessments.length > maxLength %}
-                {% set maxLength = m.assessments.length %}
+            {% if m.assessments.count > maxLength %}
+                {% set maxLength = m.assessments.count %}
             {% endif %}
         {% endfor %}
 
@@ -39,11 +43,11 @@
                             {{ module.abbreviation }}
                         </td>
                         <td>
-                            {{ user.name }}
+                            {{ module.name }}
                         </td>
                         {% for assess in module.assessments %}
                             <td>
-                                {{ assess.type }} ({{ assess.weight }})
+                                {{ assess.type }} ({{ assess.weight }}%)
                             </td>
                         {% endfor %}
                     </tr>

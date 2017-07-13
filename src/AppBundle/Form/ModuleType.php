@@ -47,7 +47,12 @@ class ModuleType extends AbstractType {
                 ->add('abbreviation', TextType::class)
                 ->add('assessments', CollectionType::class, [
                    'entry_type' => AssessmentType::class,
-                    'allow_add' => true
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'by_reference' => true,
+                    'attr' => [
+                        'class' => 'form-group'
+                    ]
                 ]);
     }
     

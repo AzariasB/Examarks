@@ -39,12 +39,22 @@ class Module
      *
      * @var Assessment
      * 
-     * @ORM\OneToMany(targetEntity="Assessment", mappedBy="module") 
+     * @ORM\OneToMany(targetEntity="Assessment", mappedBy="module", cascade={"all"}, orphanRemoval=true) 
      */
     private $assessments;
+    
+    /**
+     *
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     * 
+     * @ORM\ManyToMany(targetEntity="Student", inversedBy="modules")
+     * @ORM\JoinTable(name="students_modules")
+     */
+    private $students;
 
     public function __construct() {
         $this->assessments = new \Doctrine\Common\Collections\ArrayCollection;
+        $this->students = new \Doctrine\Common\Collections\ArrayCollection;
     }
 
     /**
@@ -112,6 +122,25 @@ class Module
      */
     public function getAssessments(){
         return $this->assessments;
+    }
+    
+    
+    /**
+     * Get students
+     * 
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getStudents(){
+        return $this->students;
+    }
+    
+    /**
+     * Set students
+     * 
+     * @param \Doctrine\Common\Collections\ArrayCollection $nwStudents
+     */
+    public function setStudents(\Doctrine\Common\Collections\ArrayCollection $nwStudents){
+        $this->students = $nwStudents;
     }
     
     /**

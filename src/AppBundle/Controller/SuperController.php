@@ -46,6 +46,18 @@ class SuperController extends Controller {
         $em->flush();
     }
 
+    
+    /**
+     * Merges the entity
+     * 
+     * @param type $entity
+     */
+    protected function mergeEntity(&$entity){
+        $em = $this->getDoctrine()->getManager();
+        $em->merge($entity);
+        $em->flush();
+    }
+    
     /**
      * Remove an entity from the database
      * 

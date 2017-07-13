@@ -46,12 +46,14 @@ class AssessmentType extends AbstractType {
                         Assessment::ASSIGNMENT => Assessment::ASSIGNMENT,
                         Assessment::LAB_TEST => Assessment::LAB_TEST,
                         Assessment::WRITTEN_EXAM => Assessment::WRITTEN_EXAM
-                    ]
+                    ],
+                    'attr' => ['class' => 'form-control']
                 ])
                 ->add('weight', IntegerType::class, [
                     'attr' => [
                         'min' => 0,
-                        'max' => 100
+                        'max' => 100,
+                        'class' => 'form-control col-xs-12 col-sm-4'
                     ]
         ]);
     }

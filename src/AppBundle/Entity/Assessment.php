@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Assessment implements \JsonSerializable {
 
-    const ASSIGNMENT = "Assignemnt";
+    const ASSIGNMENT = "Assignement";
     const LAB_TEST = "Lab test";
     const WRITTEN_EXAM = "Written exam";
 
@@ -43,7 +43,7 @@ class Assessment implements \JsonSerializable {
      *
      * @var Module
      * 
-     * @ORM\ManyToOne(targetEntity="Module", inversedBy="assessments") 
+     * @ORM\ManyToOne(targetEntity="Module", inversedBy="assessments", cascade={"persist"}) 
      * @ORM\JoinColumn(name="module_id", referencedColumnName="id")
      */
     private $module;
@@ -54,7 +54,7 @@ class Assessment implements \JsonSerializable {
      * 
      * @ORM\OneToMany(targetEntity="Mark", mappedBy="assessment") 
      */
-    private $marks;
+    private $marks; 
 
     public function __construct() {
         $this->marks = new \Doctrine\Common\Collections\ArrayCollection;

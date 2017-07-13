@@ -73,8 +73,8 @@ class ModuleListController extends SuperController {
                 $a->setModule($m);
                 $this->saveEntity($a);
             }
-            $this->saveEntity($m);
 
+            $this->mergeEntity($m);
 
             return new JsonResponse([
                 'success' => true,
