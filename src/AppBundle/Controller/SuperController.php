@@ -46,18 +46,19 @@ class SuperController extends Controller {
         $em->flush();
     }
 
-    
     /**
      * Merges the entity
      * 
      * @param type $entity
      */
-    protected function mergeEntity(&$entity){
+    protected function mergeEntity(&$entity, $flush = true) {
         $em = $this->getDoctrine()->getManager();
         $em->merge($entity);
-        $em->flush();
+        if ($flush) {
+            $em->flush();
+        }
     }
-    
+
     /**
      * Remove an entity from the database
      * 
@@ -113,7 +114,6 @@ class SuperController extends Controller {
                         ->getRepository($className)
                         ->findBy($predicate, $ordering);
     }
-
 
     /**
      * If the assertion if false

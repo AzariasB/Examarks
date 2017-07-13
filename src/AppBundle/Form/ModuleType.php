@@ -49,10 +49,7 @@ class ModuleType extends AbstractType {
                    'entry_type' => AssessmentType::class,
                     'allow_add' => true,
                     'allow_delete' => true,
-                    'by_reference' => true,
-                    'attr' => [
-                        'class' => 'form-group'
-                    ]
+                    'by_reference' => true
                 ]);
     }
     

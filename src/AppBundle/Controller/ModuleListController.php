@@ -74,6 +74,14 @@ class ModuleListController extends SuperController {
                 $this->saveEntity($a);
             }
 
+            //For now, set all students to attend to the module
+            $students = $this->getAllFromClass(\AppBundle\Entity\Student::class);
+            $m->setStudents(new \Doctrine\Common\Collections\ArrayCollection($students));
+            foreach ($students as $stud) {
+                $stud->getModules()->add($m);
+                $this->mergeEntity($stud, false);
+            }
+
             $this->mergeEntity($m);
 
             return new JsonResponse([

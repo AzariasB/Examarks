@@ -81,7 +81,14 @@ class StudentListController extends SuperController {
             $s->setRoles(\AppBundle\Entity\User::ROLE_STUDENT | \AppBundle\Entity\User::ROLE_USER);
             $password = base64_encode(random_bytes(15));
             $s->setPassword($encoder->encodePassword($s, $password));
+
+            $allModules = $this->getAllFromClass(\AppBundle\Entity\Module::class);
+            $s->setModules(new \Doctrine\Common\Collections\ArrayCollection($allModules));
             $this->saveEntity($s);
+            foreach ($allModules as $m) {
+                $m->getStudents()->add($s);
+                $this->mergeEntity($m);
+            }
 
             return new JsonResponse([
                 'success' => true,
