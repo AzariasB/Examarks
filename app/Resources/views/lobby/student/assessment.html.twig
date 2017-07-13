@@ -1,0 +1,39 @@
+
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Assessment {{ assessment.type }}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>Assessment {{ assessment.type }} of module 
+                    <a href="{{ path('module',{'moduleId' : assessment.module.id }) }}">
+                        {{ assessment.module.name }} 
+                    </a>
+                </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <ul class="list-group">
+                    {% for stud in assessment.module.students %}
+                        <li class="list-group-item" >
+                            {{ stud.login }}
+                        </li>
+                    {% endfor %}  
+                </ul>
+            </div>
+            <div class="col-xs-12">
+                <span class="pull-right">
+                    <a class="btn btn-default"
+                       href="{{ path('module',{'moduleId' : assessment.module.id }) }}">
+                        Back to module
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
+{% endblock %}

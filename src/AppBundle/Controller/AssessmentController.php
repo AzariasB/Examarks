@@ -28,10 +28,6 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\ModuleType;
-use \Symfony\Component\HttpFoundation\JsonResponse;
-use \Symfony\Component\Form\Form;
-use AppBundle\Entity\Module;
 
 /**
  * Description of AssessmentController
@@ -49,18 +45,24 @@ class AssessmentController extends SuperController {
     public function indexAction($assessmentId, Request $req) {
         $assessment = $this->getEntityFromId(\AppBundle\Entity\Assessment::class, $assessmentId);
 
-        $form = $this->createForm(\AppBundle\Form\AssessmentMarksType::class, $assessment);
+        if ($this->isGranted('ROLE_TEACHER')) {
+            $form = $this->createForm(\AppBundle\Form\AssessmentMarksType::class, $assessment);
 
-        $form->handleRequest($req);
-        
-        if($form->isSubmitted()){
-            $this->mergeEntity($assessment);
+            $form->handleRequest($req);
+
+            if ($form->isSubmitted()) {
+                $this->mergeEntity($assessment);
+            }
+
+            return $this->render('lobby/teacher/assessment.html.twig', [
+                        'assessment' => $assessment,
+                        'form' => $form->createView()
+            ]);
+        } else {
+            return $this->render('lobby/student/assessment.html.twig', [
+                        'assessment' => $assessment
+            ]);
         }
-        
-        return $this->render('lobby/teacher/assessment.html.twig', [
-                    'assessment' => $assessment,
-                    'form' => $form->createView()
-        ]);
     }
 
 }

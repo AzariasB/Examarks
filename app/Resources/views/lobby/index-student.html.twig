@@ -14,7 +14,46 @@
         </div>
         <div class="row">
             <div class="col-xs-12">
-
+                <table class="col-xs-12 table">
+                    <thead>
+                        <tr>
+                            <th>Module </th>
+                            <th> Assessment </th>
+                            <th> Mark </th>
+                            <th> Equivalent Grade </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for mark in student.marks %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('module', {'moduleId' : mark.assessment.module.id }) }}">
+                                        {{ mark.assessment.module.name }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ path('assessment', {'assessmentId' : mark.assessment.id}) }}" >
+                                        {{ mark.assessment.type }}
+                                    </a>
+                                </td>
+                                <td>
+                                    {% if mark.value  %}
+                                        {{ mark.value }}
+                                    {% else %}
+                                        Not marked yet
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if mark.value %}
+                                        {{ mark.grade }}
+                                    {% else %}
+                                        /
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

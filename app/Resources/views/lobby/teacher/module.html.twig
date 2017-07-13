@@ -49,15 +49,17 @@
             </div>
         </div>
 
-        <a href="{{ path('deleteModule',{'moduleId' : module.id }) }}" 
-           ng-click="ctrl.deleteModule($event)"
-           class="btn btn-warning" >
-            Delete this module
-        </a>
-        {#           TODO : EDITION #}
-        <a href="#" class="btn btn-primary" > 
-            Edit this module
-        </a>
+        {% if is_granted('ROLE_TEACHER') %}
+            <a href="{{ path('deleteModule',{'moduleId' : module.id }) }}" 
+               ng-click="ctrl.deleteModule($event)"
+               class="btn btn-warning" >
+                Delete this module
+            </a>
+            {#           TODO : EDITION #}
+            <a href="#" class="btn btn-primary" > 
+                Edit this module
+            </a>
+        {% endif %}
         <span class="pull-right">
             <a class="btn btn-default"  href="/home">
                 Home
