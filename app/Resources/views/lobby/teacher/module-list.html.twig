@@ -8,7 +8,6 @@
 {% block angularServices %}
     <script src="{{ asset('assets/js/services/modalFormService.js') }}"></script>
     <script src="{{ asset('assets/js/services/postService.js') }}"></script>
-
 {% endblock %}
 
 {% block title %}
@@ -40,10 +39,14 @@
                 {% for module in modules%}
                     <tr>
                         <td>
-                            {{ module.abbreviation }}
+                            <a href="{{ path('module',{'moduleId' : module.id }) }}">
+                                {{ module.abbreviation }}
+                            </a>
                         </td>
                         <td>
-                            {{ module.name }}
+                            <a href="{{ path('module', {'moduleId': module.id}) }}"> 
+                                {{ module.name }}
+                            </a>
                         </td>
                         {% for assess in module.assessments %}
                             <td>

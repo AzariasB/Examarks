@@ -23,30 +23,43 @@
  */
 
 
-
 (function () {
-    'use strict';
 
-    angular.module('examarks', ['ui-notification', 'angular-bind-html-compile', 'cp.ngConfirm'])
-            .filter('trustAsHtml', function ($sce) {
-                return $sce.trustAsHtml;
-            })
-            .config(function ($interpolateProvider) {
-                $interpolateProvider.startSymbol('[[');
-                $interpolateProvider.endSymbol(']]');
-            })
-            .config(['$httpProvider', function ($httpProvider) {
-                    $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-                }])
-            .config(function (NotificationProvider) {
-                NotificationProvider.setOptions({
-                    delay: 5000,
-                    startTop: 20,
-                    startRight: 10,
-                    verticalSpacing: 20,
-                    horizontalSpacing: 20,
-                    positionX: 'left',
-                    positionY: 'bottom'
-                });
+    angular.module('examarks')
+            .controller('Controller', ['post', 'modalForm', 'Notification', '$scope', '$ngConfirm', ModuleController]);
+
+    function ModuleController(post, modalForm, Notification, $scope, ngConfirm) {
+
+        var self = this;
+
+        self.deleteModule = deleteModule;
+
+
+        function deleteModule($event) {
+            $event.preventDefault();
+
+            ngConfirm({
+                title: 'Delete this module ?',
+                content: 'Do you really want to delete this module ?',
+                scope: $scope,
+                buttons: {
+                    Yes: {
+                        text: 'Yes',
+                        'btnClass': 'btn-danger',
+                        action: function () {
+                            location.href = $event.target.href;
+                        }
+                    },
+                    No: {
+                        text: 'No',
+                        'btnClass': 'btn-primary',
+                        ation: function () {
+                            return true;
+                        }
+                    }
+                }
             });
+        }
+    }
+
 })();

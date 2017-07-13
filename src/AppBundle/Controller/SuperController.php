@@ -83,7 +83,7 @@ class SuperController extends Controller {
     protected function getEntityFromId($className, $id) {
         $entity = $this->getDoctrine()->getManager()->find($className, $id);
         if (!$entity) {
-            throw $this->createNotFoundException('Entity not found');
+            throw $this->createNotFoundException("Entity with id $id not found");
         }
         return $entity;
     }

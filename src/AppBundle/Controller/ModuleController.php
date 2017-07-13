@@ -1,4 +1,6 @@
-/* 
+<?php
+
+/*
  * The MIT License
  *
  * Copyright 2017 azarias.
@@ -22,31 +24,45 @@
  * THE SOFTWARE.
  */
 
+namespace AppBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Form\ModuleType;
+use \Symfony\Component\HttpFoundation\JsonResponse;
+use \Symfony\Component\Form\Form;
+use AppBundle\Entity\Module;
 
-(function () {
-    'use strict';
+/**
+ * Description of ModuleController
+ *
+ * @author azarias
+ */
+class ModuleController extends SuperController {
+    //put your code here
 
-    angular.module('examarks', ['ui-notification', 'angular-bind-html-compile', 'cp.ngConfirm'])
-            .filter('trustAsHtml', function ($sce) {
-                return $sce.trustAsHtml;
-            })
-            .config(function ($interpolateProvider) {
-                $interpolateProvider.startSymbol('[[');
-                $interpolateProvider.endSymbol(']]');
-            })
-            .config(['$httpProvider', function ($httpProvider) {
-                    $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-                }])
-            .config(function (NotificationProvider) {
-                NotificationProvider.setOptions({
-                    delay: 5000,
-                    startTop: 20,
-                    startRight: 10,
-                    verticalSpacing: 20,
-                    horizontalSpacing: 20,
-                    positionX: 'left',
-                    positionY: 'bottom'
-                });
-            });
-})();
+    /**
+     * 
+     * @param integer $moduleId
+     * @Route("/module/{moduleId}", name="module")
+     *      */
+    public function indexAction($moduleId) {
+        $module = $this->getEntityFromId(Module::class, $moduleId);
+
+        return $this->render('lobby/teacher/module.html.twig', [
+                    'module' => $module
+        ]);
+    }
+
+    /**
+     * 
+     * @param type $moduleId
+     * @Route("/deleteModule/{moduleId}",name="deleteModule")
+     */
+    public function deleteAction($moduleId) {
+        $moduleToDelete = $this->getEntityFromId(Module::class, $moduleId);
+        $this->removeEntity($moduleToDelete);
+        return $this->redirectToRoute('moduleList');
+    }
+
+}
