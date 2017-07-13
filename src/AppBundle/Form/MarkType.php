@@ -24,42 +24,33 @@
  * THE SOFTWARE.
  */
 
-namespace AppBundle\Controller;
+namespace AppBundle\Form;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\ModuleType;
-use \Symfony\Component\HttpFoundation\JsonResponse;
-use \Symfony\Component\Form\Form;
-use AppBundle\Entity\Module;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 /**
- * Description of AssessmentController
+ * Description of MarkType
  *
  * @author azarias
  */
-class AssessmentController extends SuperController {
+class MarkType extends AbstractType {
 
-    /**
-     * 
-     * @param int $assessmentId
-     * 
-     * @Route("/assessment/{assessmentId}",name="assessment")
-     */
-    public function indexAction($assessmentId, Request $req) {
-        $assessment = $this->getEntityFromId(\AppBundle\Entity\Assessment::class, $assessmentId);
-
-        $form = $this->createForm(\AppBundle\Form\AssessmentMarksType::class, $assessment);
-
-        $form->handleRequest($req);
-        
-        if($form->isSubmitted()){
-            $this->mergeEntity($assessment);
-        }
-        
-        return $this->render('lobby/teacher/assessment.html.twig', [
-                    'assessment' => $assessment,
-                    'form' => $form->createView()
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder
+                ->add('value', IntegerType::class, [
+                    'label' => 'mark : ',
+                    'attr' => [
+                        'min' => 0,
+                        'max' => 100
+                    ]
+        ]);
+    }
+    
+    public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver) {
+        $resolver->setDefaults([
+            'data_class' => \AppBundle\Entity\Mark::class
         ]);
     }
 

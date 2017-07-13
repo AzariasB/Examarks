@@ -24,42 +24,39 @@
  * THE SOFTWARE.
  */
 
-namespace AppBundle\Controller;
+namespace AppBundle\Form;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\ModuleType;
-use \Symfony\Component\HttpFoundation\JsonResponse;
-use \Symfony\Component\Form\Form;
-use AppBundle\Entity\Module;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 /**
- * Description of AssessmentController
+ * Description of MarksType
  *
  * @author azarias
  */
-class AssessmentController extends SuperController {
+class AssessmentMarksType extends AbstractType {
 
-    /**
-     * 
-     * @param int $assessmentId
-     * 
-     * @Route("/assessment/{assessmentId}",name="assessment")
-     */
-    public function indexAction($assessmentId, Request $req) {
-        $assessment = $this->getEntityFromId(\AppBundle\Entity\Assessment::class, $assessmentId);
+    //put your code here
 
-        $form = $this->createForm(\AppBundle\Form\AssessmentMarksType::class, $assessment);
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder
+                ->add('marks', CollectionType::class, [
+                    'entry_type' => MarkType::class,
+                    'by_reference' => true
+                ])
+                ->add('submit', SubmitType::class, [
+                    'attr' => [
+                        'class' => 'btn btn-primary'
+                    ],
+                    'label' => 'Save marks'
+                ]);
+    }
 
-        $form->handleRequest($req);
-        
-        if($form->isSubmitted()){
-            $this->mergeEntity($assessment);
-        }
-        
-        return $this->render('lobby/teacher/assessment.html.twig', [
-                    'assessment' => $assessment,
-                    'form' => $form->createView()
+    public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver) {
+        $resolver->setDefaults([
+            'data_class' => \AppBundle\Entity\Assessment::class
         ]);
     }
 

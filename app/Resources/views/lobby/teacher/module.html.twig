@@ -10,6 +10,10 @@
     <script src="{{ asset('assets/js/services/postService.js') }}"></script>
 {% endblock %}
 
+{% block title %}
+    Module {{ module.name }}
+{% endblock %}
+
 {% block content %}
     <div class="container-fluid">
         <div class="row">
@@ -54,5 +58,10 @@
         <a href="#" class="btn btn-primary" > 
             Edit this module
         </a>
+        <span class="pull-right">
+            <a class="btn btn-default"  href="/home">
+                Home
+            </a>
+        </span>
     </div>
 {% endblock %}

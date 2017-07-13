@@ -9,32 +9,38 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-12">
-                <h1>Assessment {{ assessment.type }} of module {{ assessment.module.name }} </h1>
+                <h1>Assessment {{ assessment.type }} of module 
+                    <a href="{{ path('module',{'moduleId' : assessment.module.id }) }}">
+                        {{ assessment.module.name }} 
+                    </a>
+                </h1>
             </div>
         </div>
         <div class="row">
+            {{ form_start(form, {'attr': {'ng-non-bindable':''} }) }}
             <div class="col-xs-12">
                 <ul class="list-group">
-                    {% for stud in assessment.module.students %}
-                        {% set mark = assessment.hasStudentMark(stud) %}
-                        {% if mark %}
-                            <li class="list-group-item" >
-                                {{ stud.login }} :
-                                {% if mark.isMarked %}
-                                    Mark : {{ mark.value }}
-                                {% else %}
-                                    Not marked yet
-                                {% endif %}
-                            </li>
-                        {% else %}
-                            <li class="list-group-item list-group-item-danger" >
-                                No mark found for this student, either this student
-                                will not be marked, or there is a problem with the server
-                            </li>
-                        {% endif %}
+                    {% for mark in form.marks %}
+                        <li class="list-group-item" >
+                            {{ mark.vars.data.student.login }}
+                            <span class="pull-right" > 
+                                {{ form_errors(mark) }}
+                                {{ form_widget(mark) }}
+                            </span>
+                        </li>
                     {% endfor %}  
                 </ul>
             </div>
+            <div class="col-xs-12">
+                {{ form_widget(form.submit) }}
+                <span class="pull-right">
+                    <a class="btn btn-default"
+                       href="{{ path('module',{'moduleId' : assessment.module.id }) }}">
+                        Back to module
+                    </a>
+                </span>
+            </div>
+            {{ form_end(form) }}
         </div>
     </div>
 {% endblock %}
