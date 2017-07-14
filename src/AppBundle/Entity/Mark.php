@@ -62,7 +62,7 @@ class Mark implements \JsonSerializable {
         return Mark::toGrade($this->value);
     }
 
-    public static function toGrade(int $num) {
+    public static function toGrade($num) {
         if ($num < 50) {
             return 'C-';
         }
