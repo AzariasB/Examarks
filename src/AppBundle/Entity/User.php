@@ -58,7 +58,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
      *
      * @var string
      * 
-     * @ORM\Column(name="name", type="string", length=255) 
+     * @ORM\Column(name="name", type="string", length=255, nullable = true) 
      */
     private $name;
     
@@ -280,7 +280,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
         return hash("sha256", $this->login);
     }
 
-    public function getUsername(): string {
+    public function getUsername() {
         return $this->login;
     }
 
