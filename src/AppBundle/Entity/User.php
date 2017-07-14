@@ -91,7 +91,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
      * 
      * @param string $nwPhone
      */
-    public function setPhone(string $nwPhone){
+    public function setPhone($nwPhone){
         $this->phone = $nwPhone; 
     }
     
@@ -109,7 +109,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
      * 
      * @param string $nwAddress
      */
-    public function setAddress(string $nwAddress){
+    public function setAddress($nwAddress){
         $this->address = $nwAddress;
     }
     
@@ -226,7 +226,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
      * 
      * @param string $nwEmail
      */
-    public function setEmail(string $nwEmail) {
+    public function setEmail($nwEmail) {
         $this->email = $nwEmail;
     }
 
@@ -307,7 +307,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
         return $this->isRole(User::ROLE_ADMIN);
     }
 
-    private function isRole(int $role) {
+    private function isRole($role) {
         return $this->roles & $role != 0;
     }
 
