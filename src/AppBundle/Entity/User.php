@@ -53,7 +53,112 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
      * @ORM\Column(name="email", type="string", length=255) 
      */
     private $email;
+    
+    /**
+     *
+     * @var string
+     * 
+     * @ORM\Column(name="name", type="string", length=255) 
+     */
+    private $name;
+    
+    /**
+     *
+     * @var string
+     *
+     * @ORM\Column(name="lastName", type="string", length=255, nullable=true)
+     */
+    private $lastName;
 
+    /**
+     *
+     * @var string
+     * 
+     * @ORM\Column(name="address", type="string", length=255, nullable=true)
+     */
+    private $address;
+    
+    /**
+     *
+     * @var string
+     * 
+     * @ORM\Column(name="phone", type="string", length=255, nullable=true) 
+     */
+    private $phone;
+    
+    /**
+     * Set phone
+     * 
+     * @param string $nwPhone
+     */
+    public function setPhone(string $nwPhone){
+        $this->phone = $nwPhone; 
+    }
+    
+    /**
+     * Get phone
+     * 
+     * @return string
+     */
+    public function getPhone(){
+        return $this->phone;
+    }
+    
+    /**
+     * Set address
+     * 
+     * @param string $nwAddress
+     */
+    public function setAddress(string $nwAddress){
+        $this->address = $nwAddress;
+    }
+    
+    /**
+     * Get address
+     * 
+     * @return string
+     */
+    public function getAddress(){
+        return $this->address;
+    }
+    
+    /**
+     * Set last name
+     * 
+     * @param string $nwLastName
+     */
+    public function setLastName($nwLastName){
+        $this->lastName = $nwLastName;
+    }
+    
+    /**
+     * Get last name
+     * 
+     * @return string
+     */
+    public function getLastName(){
+        return $this->lastName;
+    }
+    
+    
+    /**
+     * Set name
+     * 
+     * @param string $nwName
+     */
+    public function setName($nwName){
+        $this->name = $nwName;
+    }
+    
+    /**
+     * Get name
+     * 
+     * @return string
+     */
+    public function getName(){
+        return $this->name;
+    }
+    
     /**
      * Get id
      *

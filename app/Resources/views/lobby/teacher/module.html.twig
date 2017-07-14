@@ -27,8 +27,7 @@
                 <ul class="list-group list-unstyled" >
                     {% for stud in module.students %}
                         <li class="list-group-item" >
-                            <a href="#">
-                                {#                            Path to the studen page#}
+                            <a href="{{ path('student', {'studentId' : stud.id }) }}">
                                 {{ stud.login }}
                             </a>
                         </li>

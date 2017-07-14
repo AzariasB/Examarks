@@ -22,7 +22,9 @@
                 <ul class="list-group">
                     {% for mark in form.marks %}
                         <li class="list-group-item" >
-                            {{ mark.vars.data.student.login }}
+                            <a href="{{ path('student',{'studentId' : mark.vars.data.student.id}) }}">
+                                {{ mark.vars.data.student.login }}
+                            </a>
                             <span class="pull-right" > 
                                 {{ form_errors(mark) }}
                                 {{ form_widget(mark) }}

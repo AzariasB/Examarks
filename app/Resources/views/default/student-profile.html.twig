@@ -1,0 +1,103 @@
+{% extends "base.html.twig" %}
+
+
+{% block title %}
+    {{ student.login}}'s profile
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1> {{ student.login }}'s profile </h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <label>Login : </label>
+                {{ student.login }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12" >
+                <label>Email : </label>
+                {{ student.email }}
+            </div>
+        </div>
+
+        <div class="row"> 
+            <div class="col-xs-12">
+                <label>Name : </label>
+                {% if student.name %}
+                    {{ student.name }}
+                {% else %}
+                    <i>Name not set yet</i>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row"> 
+            <div class="col-xs-12" >
+                <label>Last Name : </label>
+                {% if student.lastName %}
+                    {{ student.lastName }}
+                {% else %} 
+                    <i>Last name not set yet </i>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if is_granted('ROLE_TEACHER') %}
+            <div class="row" >
+                <div class="col-xs-12" >
+                    <label>Phone number :</label>
+                    {% if student.phone %}
+                        {{ student.phone }}
+                    {% else %}
+                        <i>Phone number not set yet </i>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row" > 
+                <div class="col-xs-12" >
+                    <label>Address : </label>
+                    {% if student.address %} 
+                        {{ student.address }}
+                    {% else %}
+                        <i>Address not set yet</i>
+                    {% endif %}
+                </div>
+
+            </div>
+            <div class="row" >
+                <div class="col-xs-12" >
+                    <ul class="list-group" >
+                        <li class="list-group-item list-group-item-heading" >
+                            Modules
+                        </li>
+                        {% for module in student.modules %}
+                            <li class="list-group-item" >
+                                <a href="{{ path('module',{'moduleId':module.id}) }}">
+                                    {{ module.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+
+        {% endif %}
+
+        <div class="col-xs-12">
+            <span class="pull-right">
+                <a href="/home" class="btn btn-default" >
+                    Home
+                </a>
+            </span>
+        </div>
+
+    </div>
+{% endblock %}
