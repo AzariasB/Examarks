@@ -284,7 +284,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
         return $this->login;
     }
 
-    public function isEqualTo(\Symfony\Component\Security\Core\User\UserInterface $user): bool {
+    public function isEqualTo(\Symfony\Component\Security\Core\User\UserInterface $user) {
         return $user->getUsername() == $this->getUsername();
     }
 
