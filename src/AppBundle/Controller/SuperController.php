@@ -36,6 +36,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class SuperController extends Controller {
 
     /**
+     * Returns the current user from the good table depending on the roles
+     * 
+     * @return \AppBundle\Entity\Teacher|\AppBundle\Entity\Student
+     */
+    protected function getUser() {
+        $user = parent::getUser();
+        if (in_array('ROLE_TEACHER', $user->getRoles())) {
+            return $this->getFromClass(\AppBundle\Entity\Teacher::class, ['login' => $user->getUsername()])[0];
+        } else {
+            return $this->getFromClass(\AppBundle\Entity\Student::class, ['login' => $user->getUsername()])[0];
+        }
+    }
+
+    /**
      * Save entity in the database
      * 
      * @param Object $entity
@@ -66,10 +80,12 @@ class SuperController extends Controller {
      * 
      * @param Object $entity
      */
-    protected function removeEntity($entity) {
+    protected function removeEntity($entity, $flush = true) {
         $em = $this->getDoctrine()->getManager();
         $em->remove($entity);
-        $em->flush();
+        if ($flush) {
+            $em->flush();
+        }
     }
 
     /**

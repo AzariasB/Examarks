@@ -44,9 +44,16 @@ class ModuleListController extends SuperController {
      * @Route("/moduleList",name="moduleList")
      */
     public function indexAction() {
-        return $this->render('lobby/teacher/module-list.html.twig', [
-                    'modules' => $this->getAllFromClass(\AppBundle\Entity\Module::class)
-        ]);
+        if ($this->isGranted('ROLE_TEACHER')) {
+            return $this->render('lobby/teacher/module-list.html.twig', [
+                        'modules' => $this->getAllFromClass(\AppBundle\Entity\Module::class)
+            ]);
+        } else {
+            $student = $this->getUser();
+            return $this->render('lobby/teacher/module-list.html.twig', [
+                        'modules' => $student->getModules()
+            ]);
+        }
     }
 
     /**

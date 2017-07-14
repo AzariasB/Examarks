@@ -31,7 +31,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 /**
  * Description of StudentEditType
@@ -42,14 +41,27 @@ class StudentEditType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
+        $common = [
+            'required' => false,
+            'attr' => ['class' => 'form-control']
+        ];
+
         $builder
-                ->add('email', EmailType::class)
-                ->add('name', TextType::class)
-                ->add('lastName', TextType::class)
-                ->add('phone', TextType::class)
-                ->add('address', TextType::class)
+                ->add('email', EmailType::class, $common)
+                ->add('name', TextType::class, $common)
+                ->add('lastName', TextType::class, $common)
+                ->add('phone', TextType::class, [
+                    'required' => false,
+                    'attr' => [
+                        'class' => 'form-control',
+                        'pattern' => '^\+?[0-9 _-]+$',
+                        'title' => 'Valid phone number'
+                    ]
+                ])
+                ->add('address', TextType::class, $common)
                 ->add('submit', SubmitType::class, [
-                    'label' => 'Save modifications'
+                    'label' => 'Save modifications',
+                    'attr' => ['class' => 'btn btn-primary']
         ]);
     }
 

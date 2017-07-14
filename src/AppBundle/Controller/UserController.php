@@ -80,7 +80,7 @@ class UserController extends SuperController {
 
         $form->handleRequest($req);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->saveEntity($stud);
             return $this->render('default/student-profile.html.twig', [
                         'student' => $stud
@@ -88,7 +88,54 @@ class UserController extends SuperController {
         }
 
         return $this->render('default/student-edit.html.twig', [
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'student' => $stud
+        ]);
+    }
+
+    /**
+     * 
+     * @param int $studentId
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * 
+     * @Route("/studentModules/{studentId}",name="studentModules")
+     */
+    public function getStudentModules($studentId) {
+        $stud = $this->getEntityFromId(Student::class, $studentId);
+
+        return new \Symfony\Component\HttpFoundation\JsonResponse([
+            'modules' => $stud->getModules()->toArray()
+        ]);
+    }
+
+    /**
+     * Removes the student from the given module
+     * also removes all the marks of the modules from the user
+     * 
+     * @param int $studentId
+     * @param int $moduleId
+     * 
+     * @Route("/removeStudentFromModule/{studentId}/{moduleId}", name="removeStudentFromModule")
+     */
+    public function removeStudentFromModule($studentId, $moduleId) {
+        $module = $this->getEntityFromId(\AppBundle\Entity\Module::class, $moduleId);
+        $stud = $this->getEntityFromId(Student::class, $studentId);
+
+        $stud->removeModule($module);
+        $module->removeStudent($stud);
+
+        $marks = $module->studentMarks($stud);
+
+        foreach ($marks as $ma) {
+            $this->removeEntity($ma, false);
+        }
+
+        $this->mergeEntity($stud, false);
+        $this->mergeEntity($module);
+
+        return new \Symfony\Component\HttpFoundation\JsonResponse([
+            'success' => true,
+            'message' => 'Succesfully removed student from module'
         ]);
     }
 

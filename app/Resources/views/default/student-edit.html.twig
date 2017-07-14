@@ -4,13 +4,31 @@
 {% block content %}
 
     <div class="container-fluid" >
+        <div class="row" >
+            <div class="col-xs-12">
+                <h1> Edit student </h1>
+            </div>
+        </div>
         {{ form_start(form, {'attr' : {'ng-non-bindable': ''} } ) }}
-            {{ form_widget(form.name) }}
-            {{ form_widget(form.lastName) }}
-            {{ form_widget(form.email) }}
-            {{ form_widget(form.phone) }}
-            {{ form_widget(form.address) }}
-            {{ form_widget(form.submit) }}
+        <div class="row" >
+            <div class="col-xs-12">
+                {{ form_row(form.name) }}
+                {{ form_row(form.lastName) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.phone) }}
+                {{ form_row(form.address) }}
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-xs-12" >
+                {{ form_widget(form.submit) }}
+                <span class="pull-right" > 
+                    <a class="btn btn-default"  href="{{ path('student', {'studentId' : student.id }) }}" >
+                        Back to user
+                    </a>
+                </span>
+            </div>
+        </div>
         {{ form_end(form) }}
     </div>
 

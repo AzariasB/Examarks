@@ -3,3 +3,8 @@ app:
     type: annotation
 logout:
     path: /logout
+notif-template:
+    path: /notifTemplate
+    defaults:
+        _controller:  FrameworkBundle:Template:template
+        template:     'notif-template.html.twig'

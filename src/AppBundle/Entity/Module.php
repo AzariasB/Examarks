@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="module")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ModuleRepository")
  */
-class Module {
+class Module implements \JsonSerializable {
 
     /**
      * @var int
@@ -55,6 +55,31 @@ class Module {
     public function __construct() {
         $this->assessments = new \Doctrine\Common\Collections\ArrayCollection;
         $this->students = new \Doctrine\Common\Collections\ArrayCollection;
+    }
+
+    /**
+     * 
+     * @param \AppBundle\Entity\Student $s
+     * @return array
+     */
+    public function studentMarks(Student $s) {
+        $res = [];
+        foreach ($this->assessments as $assess) {
+            $mark = $assess->hasStudentMark($s);
+            if ($mark != false && $mark) {
+                $res[] = $mark;
+            }
+        }
+        return $res;
+    }
+    
+    /**
+     * 
+     * @param \AppBundle\Entity\Student $s
+     * @return Student
+     */
+    public function removeStudent(Student $s){
+        return $this->students->removeElement($s);
     }
 
     /**
@@ -199,6 +224,14 @@ class Module {
      */
     public function setAssessments(\Doctrine\Common\Collections\ArrayCollection $assessments) {
         $this->assessments = $assessments;
+    }
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'abbreviation' => $this->abbreviation
+        ];
     }
 
 }

@@ -36,6 +36,8 @@ security:
         - { path: ^/userList, roles: ROLE_ADMIN}
         - { path: ^/deleteModule, roles: ROLE_TEACHER }
         - { path: ^/editStudent, roles: ROLE_TEACHER }
+        - { path: ^/createModule, roles: ROLE_TEACHER }
+        - { path: ^/removeStudentFromModule, roles: ROLE_TEACHER }
         - { path: ^/, role: ROLE_USER }
 
     firewalls:

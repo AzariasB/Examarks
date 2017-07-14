@@ -5,8 +5,18 @@
     {{ student.login}}'s profile
 {% endblock %}
 
+{% block angularController %}
+    {{ asset('assets/js/controllers/studentProfileController.js') }}
+{% endblock %}
+
+{% block angularServices %}
+    <script src="{{ asset('assets/js/services/modalFormService.js') }}"></script>
+    <script src="{{ asset('assets/js/services/postService.js') }}"></script>
+{% endblock %}
+
 {% block content %}
-    <div class="container-fluid">
+    <div class="container-fluid" 
+         ng-init="ctrl.init({{ student.id }},'{{ path('studentModules', {'studentId' : student.id}) }}','{{ path('removeStudentFromModule', {'studentId' : student.id, 'moduleId':'__id__'}) }}')">
         <div class="row">
             <div class="col-xs-12">
                 <h1> {{ student.login }}'s profile </h1>
@@ -77,13 +87,17 @@
                         <li class="list-group-item list-group-item-heading" >
                             Modules
                         </li>
-                        {% for module in student.modules %}
-                            <li class="list-group-item" >
-                                <a href="{{ path('module',{'moduleId':module.id}) }}">
-                                    {{ module.name }}
-                                </a>
-                            </li>
-                        {% endfor %}
+                        <li class="list-group-item" ng-repeat="mod in ctrl.modules" >
+                            <a href="/module/[[mod.id]]">
+                                [[ mod.name ]]
+                            </a>
+                            <a ng-click='ctrl.removeModule(mod)'
+                                href="#" 
+                               title="Remove student's module" 
+                               class="pull-right" >
+                                <i class="glyphicon glyphicon-remove" ></i>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

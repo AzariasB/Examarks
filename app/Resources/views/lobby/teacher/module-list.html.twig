@@ -58,11 +58,13 @@
             </tbody>
         </table>
 
-        <button 
-            ng-click="ctrl.showNewModuleModal('{{ absolute_url(path('createModule')) }}')"
-            type="button" 
-            class="btn btn-default"
-            >Create new module</button>
+        {%  if is_granted('ROLE_TEACHER') %}
+            <button 
+                ng-click="ctrl.showNewModuleModal('{{ absolute_url(path('createModule')) }}')"
+                type="button" 
+                class="btn btn-default"
+                >Create new module</button>
+        {% endif %}
     </div>
 
 {% endblock %}

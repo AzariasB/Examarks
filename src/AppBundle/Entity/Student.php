@@ -70,6 +70,10 @@ class Student extends User {
         $this->marks = $nwMarks;
     }
 
+    public function removeModule(Module $m) {
+        $this->modules->removeElement($m);
+    }
+
     public function jsonSerialize() {
         $parent = parent::jsonSerialize();
         $mMarks = [];
