@@ -92,6 +92,12 @@
         {% endif %}
 
         <div class="col-xs-12">
+            {% if is_granted('ROLE_TEACHER') %}
+                <a href="{{ path('editStudent',{'studentId' : student.id}) }}" class="btn btn-primary" >
+                    Edit student
+                </a>
+            {% endif %}
+
             <span class="pull-right">
                 <a href="/home" class="btn btn-default" >
                     Home

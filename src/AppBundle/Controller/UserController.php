@@ -28,9 +28,6 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\StudentType;
-use \Symfony\Component\HttpFoundation\JsonResponse;
-use \Symfony\Component\Form\Form;
 use \AppBundle\Entity\Student;
 
 /**
@@ -46,6 +43,8 @@ class UserController extends SuperController {
     public function studentProfileAction($studentId) {
 
 
+
+
         $stud = $this->getEntityFromId(Student::class, $studentId);
 
         return $this->render('default/student-profile.html.twig', [
@@ -59,12 +58,37 @@ class UserController extends SuperController {
      * @Route("/teacher/{teacherId}",name="teacher")
      */
     public function teacherProfileAction($teacherId) {
-        
-        
+
+
         $teacher = $this->getEntityFromId(\AppBundle\Entity\Teacher::class, $teacherId);
-        
-        return $this->render('default/teacher-profile',[
-            'teacher' => $teacher
+
+        return $this->render('default/teacher-profile', [
+                    'teacher' => $teacher
+        ]);
+    }
+
+    /**
+     * 
+     * @param type $studentId
+     * 
+     * @Route(path="/editStudent/{studentId}", name="editStudent")
+     */
+    public function editStudentAction($studentId, Request $req) {
+        $stud = $this->getEntityFromId(Student::class, $studentId);
+
+        $form = $this->createForm(\AppBundle\Form\StudentEditType::class, $stud);
+
+        $form->handleRequest($req);
+
+        if ($form->isSubmitted()) {
+            $this->saveEntity($stud);
+            return $this->render('default/student-profile.html.twig', [
+                        'student' => $stud
+            ]);
+        }
+
+        return $this->render('default/student-edit.html.twig', [
+                    'form' => $form->createView()
         ]);
     }
 
