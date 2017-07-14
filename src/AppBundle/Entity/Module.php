@@ -93,6 +93,26 @@ class Module {
     }
 
     /**
+     * Wether the student passed the module :
+     * - completed all the exams and has more than 40% to all marks
+     * 
+     * @param \AppBundle\Entity\Student $s
+     */
+    public function studentPassed(Student $s) {
+        if (!$this->studentCompleted($s)) {
+            return false;
+        }
+
+        foreach ($this->assessments->toArray() as $assess) {
+            $mark = $assess->hasStudentMark($s);
+            if ($mark->getValue() < 40) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Get id
      *
      * @return int

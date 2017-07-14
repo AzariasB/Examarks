@@ -34,53 +34,60 @@
                                         {% endif %}  
                                             >
                                             {% if loop.first %}
-                                                <td rowspan="{{ module.assessments | length }}" >
-                                                    <a href="{{ path('module', {'moduleId' : mark.assessment.module.id }) }}">
-                                                        {{ mark.assessment.module.name }}
-                                                    </a>
-                                                </td>
-                                            {% endif %}
-                                            <td>
-                                                <a href="{{ path('assessment', {'assessmentId' : assess.id}) }}" >
-                                                    {{ assess.type }}
-                                                </a>
-                                                ({{ assess.weight }} %)
-                                            </td>
-                                            <td>
-                                                {% if mark.value  %}
-                                                    {{ mark.value }}
-                                                {% else %}
-                                                    Not marked yet
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                {% if mark.value %}
-                                                    {{ mark.grade }}
-                                                {% else %}
-                                                    /
-                                                {% endif %}
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                            {% set avg = module.studentAverage(student) %}
-                                            <tr
-                                                {% if module.studentCompleted(student) and avg < 40 %}
+                                                <td {% if not module.studentCompleted(student) %}
+                                                    title="Module not completed"
+                                                {% elseif not module.studentPassed(student) %}
                                                     class="warning" title="Module failed"
-                                                {% elseif module.studentCompleted(student) and avg > 40 %}
-                                                    class="success" title="Module passed"
                                                 {% else %}
-                                                    title="Module not completed yet"
+                                                    class="success" title="Module passed"
                                                 {% endif %}
-                                                >
-                                                <th colspan="2" >Average</th>
-                                                <td colspan="2" >
-                                                    {{ avg }}
+                                                rowspan="{{ module.assessments | length }}" >
+                                                <a href="{{ path('module', {'moduleId' : mark.assessment.module.id }) }}">
+                                                    {{ mark.assessment.module.name }}
+                                                </a>
+                                            </td>
+                                            {% endif %}
+                                                <td>
+                                                    <a href="{{ path('assessment', {'assessmentId' : assess.id}) }}" >
+                                                        {{ assess.type }}
+                                                    </a>
+                                                    ({{ assess.weight }} %)
+                                                </td>
+                                                <td>
+                                                    {% if mark.value  %}
+                                                        {{ mark.value }}
+                                                    {% else %}
+                                                        Not marked yet
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if mark.value %}
+                                                        {{ mark.grade }}
+                                                    {% else %}
+                                                        /
+                                                    {% endif %}
                                                 </td>
                                             </tr>
                                             {% endfor %}
-                                            </tbody>
-                                        </table>
+                                                {% set avg = module.studentAverage(student) %}
+                                                <tr
+                                                    {% if not module.studentPassed(student) %}
+                                                        class="warning" title="Module failed"
+                                                    {% elseif not module.studentCompleted(student) %}
+                                                        title="Module not completed yet"
+                                                    {% else %}
+                                                        class="success" title="Module passed"
+                                                    {% endif %}
+                                                    >
+                                                    <th colspan="2" >Average</th>
+                                                    <td colspan="2" >
+                                                        {{ avg }}
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            {% endblock %}
+                                {% endblock %}
