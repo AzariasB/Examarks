@@ -50,6 +50,15 @@
         </div>
 
         {% if is_granted('ROLE_TEACHER') %}
+            <div class="row" >
+                <div class="col-xs-12 col-sm-6" >
+                    <canvas id="canvas1" ></canvas>
+                </div>
+                <div class="col-xs-12 col-sm-6" > 
+                    <canvas id="canvas2" > </canvas>
+                </div>
+            </div>
+
             <a href="{{ path('deleteModule',{'id' : module.id }) }}" 
                ng-click="ctrl.deleteModule($event)"
                class="btn btn-warning" >
@@ -66,4 +75,5 @@
             </a>
         </span>
     </div>
+        <script src="{{ asset('assets/js/modulestats.js') }}" ></script>
 {% endblock %}

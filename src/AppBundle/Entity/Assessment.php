@@ -92,6 +92,12 @@ class Assessment implements \JsonSerializable {
         $this->marks = new \Doctrine\Common\Collections\ArrayCollection;
     }
 
+    public function allMarked() {
+        return $this->marks->forAll(function($i, Mark $m) {
+                    return $m->getValue() != null;
+                });
+    }
+
     public function hasStudentMark(Student $stud) {
         foreach ($this->marks->toArray() as $myMark) {
             foreach ($stud->getMarks()->toArray() as $hisMarks) {

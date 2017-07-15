@@ -152,7 +152,7 @@ class Module implements \JsonSerializable {
 
         return $total / $assessments;
     }
-
+    
     /**
      * Wether the student completed all the exams
      * 

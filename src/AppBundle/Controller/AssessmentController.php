@@ -28,6 +28,8 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Assessment;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Description of AssessmentController
@@ -38,13 +40,12 @@ class AssessmentController extends SuperController {
 
     /**
      * 
-     * @param int $assessmentId
+     * @param \AppBundle\Entity\Assessment $assessment
      * 
      * @Route("/assessment/{assessmentId}",name="assessment")
+     * @ParamConverter("assessment", class="AppBundle:Assessment", options={"id" = "assessmentId"})
      */
-    public function indexAction($assessmentId, Request $req) {
-        $assessment = $this->getEntityFromId(\AppBundle\Entity\Assessment::class, $assessmentId);
-
+    public function indexAction(Assessment $assessment, Request $req) {
         if ($this->isGranted('ROLE_TEACHER')) {
             $form = $this->createForm(\AppBundle\Form\AssessmentMarksType::class, $assessment);
 

@@ -29,8 +29,10 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
-use \Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Entity\Module;
+use AppBundle\Entity\Assessment;
+use AppBundle\Entity\Student;
 
 /**
  * Description of ModuleController
@@ -42,12 +44,11 @@ class ModuleController extends SuperController {
 
     /**
      * 
-     * @param integer $moduleId
+     * @param Module $module
      * @Route("/module/{moduleId}", name="module")
-     *      */
-    public function indexAction($moduleId) {
-        $module = $this->getEntityFromId(Module::class, $moduleId);
-
+     * @ParamConverter("module", class="AppBundle:Module", options={"id" = "moduleId"})
+     */
+    public function indexAction(Module $module) {
         return $this->render('lobby/teacher/module.html.twig', [
                     'module' => $module
         ]);
@@ -87,15 +88,51 @@ class ModuleController extends SuperController {
 
     /**
      * 
-     * @Route("/moduleStats/{id}", name="moduleStats")
+     * @Route("/module/{id}/json", name="moduleStats")
      * @ParamConverter("module", class="AppBundle:Module")
      */
     public function statsAction(Module $module) {
-
-
         return new JsonResponse([
-            'module' => $module
+            'assessments' => $this->getAssessmentStats($module),
+            'students' => $this->getStudentsStats($module)
         ]);
+    }
+
+    private function getAssessmentStats(Module $module) {
+        $totalAssessments = $module->getAssessments()->count();
+
+        $marked = $module->getAssessments()->filter(function(Assessment $s) {
+                    return $s->allMarked();
+                })->count();
+
+        $unmarked = $totalAssessments - $marked;
+
+        return [
+            'Marked' => $marked,
+            'Not marked yet' => $unmarked
+        ];
+    }
+
+    private function getStudentsStats(Module $m) {
+        $notCompleted = 0;
+        $passed = 0;
+        $failed = 0;
+
+        foreach ($m->getStudents()->toArray() as $s) {
+            if (!$m->studentCompleted($s)) {
+                $notCompleted++;
+            } elseif ($m->studentPassed($s)) {
+                $passed++;
+            } else {
+                $failed++;
+            }
+        }
+
+        return [
+            'Not completed' => $notCompleted,
+            'Passed' => $passed,
+            'Failed' => $failed,
+        ];
     }
 
 }
