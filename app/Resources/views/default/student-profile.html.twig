@@ -83,21 +83,15 @@
             </div>
             <div class="row" >
                 <div class="col-xs-12" >
-                    <ul class="list-group" >
-                        <li class="list-group-item list-group-item-heading" >
-                            Modules
-                        </li>
-                        <li class="list-group-item" ng-repeat="mod in ctrl.modules" >
-                            <a href="/module/[[mod.id]]">
-                                [[ mod.name ]]
-                            </a>
-                            <a ng-click='ctrl.removeModule(mod)'
-                                href="#" 
-                               title="Remove student's module" 
-                               class="pull-right" >
-                                <i class="glyphicon glyphicon-remove" ></i>
+                    <label>Modules </label>
+                    <ul class="list-unstyled" >
+                        {% for module in student.modules %}
+                            <li>
+                                <a href="{{ path('module',{'moduleId':module.id}) }}">
+                                    {{ module.name }}
                             </a>
                         </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>

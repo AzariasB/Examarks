@@ -81,7 +81,20 @@ class UserController extends SuperController {
         $form->handleRequest($req);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->saveEntity($stud);
+            $modules = $this->getAllFromClass(\AppBundle\Entity\Module::class);
+            foreach ($modules as $m) {
+                if (!$stud->getModules()->contains($m)) {
+                    $m->removeStudent($stud);
+                }
+            }
+
+            foreach ($stud->getModules()->toArray() as $mod) {
+                if ($mod->addUniqueStudent($stud)) {
+                    $this->mergeEntity($mod, false);
+                }
+            }
+            $this->mergeEntity($stud);
+
             return $this->render('default/student-profile.html.twig', [
                         'student' => $stud
             ]);
@@ -136,6 +149,84 @@ class UserController extends SuperController {
         return new \Symfony\Component\HttpFoundation\JsonResponse([
             'success' => true,
             'message' => 'Succesfully removed student from module'
+        ]);
+    }
+
+    /**
+     * Add the student to the modules
+     * 
+     * @param type $studentId
+     * @param Request $req
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * 
+     * @Route("/addStudentToModules/{studentId}", name="addStudentToModules")
+     */
+    public function addStudentToModules($studentId, Request $req) {
+        $stud = $this->getEntityFromId(Student::class, $studentId);
+
+        $options = $this->getDoctrine()->getRepository(\AppBundle\Entity\Module::class)->findModulesWithoutStudent($stud);
+
+        $form = $this->createForm(\AppBundle\Form\ModuleAddType::class, $stud, [
+            'choices' => $options
+        ]);
+
+        $form->handleRequest($req);
+
+        if ($form->isSubmitted()) {
+            
+        }
+
+        $stud->addModule($module);
+        $module->addStudent($stud);
+
+        foreach ($module->getAssessments()->toArray() as $assess) {
+            $mark = new \AppBundle\Entity\Mark;
+            $mark->setAssessment($assess);
+            $mark->setStudent($stud);
+
+            $stud->getMarks()->add($mark);
+            $assess->getMarks()->add($mark);
+
+            $this->saveEntity($mark, false);
+        }
+
+        $this->mergeEntity($stud, false);
+        $this->mergeEntity($module);
+
+        return new \Symfony\Component\HttpFoundation\JsonResponse([
+            'success' => true,
+            'message' => 'Successfully added student to module',
+            'modules' => $stud->getModules()->toArray()
+        ]);
+    }
+
+    private function handleModuleAdding(\Symfony\Component\Form\Form $form, Student & $s) {
+        if ($form->isValid()) {
+            foreach ($s->getModules()->toArray() as $m) {
+                foreach ($m->getAssessments()->toArray() as $assess) {
+                    if (!$assess->hasStudentMark($s)) {
+                        $mark = new \AppBundle\Entity\Mark;
+                        $mark->setAssessment($assess);
+                        $mark->setStudent($s);
+
+                        $s->getMarks()->add($mark);
+                        $assess->getMarks()->add($mark);
+
+                        $this->saveEntity($mark, false);
+                        $this->mergeEntity($assess, false);
+                    }
+                }
+            }
+
+            $this->mergeEntity($s);
+
+            return new \Symfony\Component\HttpFoundation\JsonResponse([
+            ]);
+        }
+
+        return new \Symfony\Component\HttpFoundation\JsonResponse([
+            'success' => false,
+            'newContent' => $form->createView()
         ]);
     }
 

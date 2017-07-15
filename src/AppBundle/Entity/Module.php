@@ -47,7 +47,7 @@ class Module implements \JsonSerializable {
      *
      * @var \Doctrine\Common\Collections\ArrayCollection
      * 
-     * @ORM\ManyToMany(targetEntity="Student", inversedBy="modules")
+     * @ORM\ManyToMany(targetEntity="Student", inversedBy="modules", cascade={"all"})
      * @ORM\JoinTable(name="students_modules")
      */
     private $students;
@@ -72,14 +72,44 @@ class Module implements \JsonSerializable {
         }
         return $res;
     }
-    
+
     /**
      * 
      * @param \AppBundle\Entity\Student $s
      * @return Student
      */
-    public function removeStudent(Student $s){
+    public function removeStudent(Student $s) {
         return $this->students->removeElement($s);
+    }
+
+    /**
+     * Adds the student to the list of students
+     * 
+     * @param \AppBundle\Entity\Student $s
+     * @return boolean
+     */
+    public function addStudent(Student $s) {
+        return $this->students->add($s);
+    }
+
+    /**
+     * 
+     * @param \AppBundle\Entity\Student $s
+     */
+    public function addUniqueStudent(Student $s) {
+        if (!$this->students->contains($s)) {
+            $this->students->add($s);
+            foreach ($this->assessments->toArray() as $assess) {
+                $mark = new Mark();
+                $mark->setAssessment($assess);
+                $mark->setStudent($s);
+
+                $s->getMarks()->add($mark);
+                $assess->getMarks()->add($mark);
+            }
+            return true;
+        }
+        return false;
     }
 
     /**

@@ -16,7 +16,7 @@ class Student extends User {
      *
      * @var \Doctrine\Common\Collections\ArrayCollection
      * 
-     * @ORM\OneToMany(targetEntity="Mark", mappedBy="student") 
+     * @ORM\OneToMany(targetEntity="Mark", mappedBy="student", cascade={"all"}) 
      */
     private $marks;
 
@@ -24,7 +24,7 @@ class Student extends User {
      *
      * @var \Doctrine\Common\Collections\ArrayCollection
      * 
-     * @ORM\ManyToMany(targetEntity="Module", mappedBy="students")
+     * @ORM\ManyToMany(targetEntity="Module", mappedBy="students", cascade={"all"})
      */
     private $modules;
 
@@ -70,10 +70,24 @@ class Student extends User {
         $this->marks = $nwMarks;
     }
 
+    /**
+     * Remove module from list of modules
+     * 
+     * @param \AppBundle\Entity\Module $m
+     */
     public function removeModule(Module $m) {
         $this->modules->removeElement($m);
     }
 
+    /**
+     * Add module to list of modules
+     * 
+     * @param \AppBundle\Entity\Module $m
+     */
+    public function addModule(Module $m){
+        return $this->modules->add($m);
+    }
+    
     public function jsonSerialize() {
         $parent = parent::jsonSerialize();
         $mMarks = [];

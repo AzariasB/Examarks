@@ -31,7 +31,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 /**
  * Description of StudentEditType
  *
@@ -59,6 +59,15 @@ class StudentEditType extends AbstractType {
                     ]
                 ])
                 ->add('address', TextType::class, $common)
+                ->add('modules', EntityType::class,[
+                    'class' => \AppBundle\Entity\Module::class,
+                    'choice_label' => 'name',
+                    'choice_attr' => ['class' => 'checkbox'],
+                    'multiple' => true,
+                    'expanded' => true,
+                    'required' => false,
+                    'attr' => ['class' => 'form-control']
+                ])
                 ->add('submit', SubmitType::class, [
                     'label' => 'Save modifications',
                     'attr' => ['class' => 'btn btn-primary']
