@@ -30,6 +30,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
  * Description of ModuleEditType
@@ -37,23 +38,31 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
  * @author azarias
  */
 class ModuleEditType extends AbstractType {
+
     //put your code here
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        
-        $options = [
+
+        $typeOptions = [
             'required' => false,
             'attr' => ['class' => 'form-control']
         ];
-        
+
         $builder
-                ->add('number', IntegerType::class, $options )
-                ->add('name', TextType::class, $options)
-                ->add('abbreviation', TextType::class, $options);
+                ->add('number', IntegerType::class, $typeOptions)
+                ->add('name', TextType::class, $typeOptions)
+                ->add('abbreviation', TextType::class, $typeOptions)
+                ->add('students', EntityType::class, [
+                    'class' => \AppBundle\Entity\Student::class,
+                    'choice_label' => 'login',
+                    'multiple' => true,
+                    'expanded' => true
+        ]);
     }
-    
+
     public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver) {
         $resolver->setDefaults([
             'data_class' => \AppBundle\Entity\Module::class
         ]);
     }
+
 }
