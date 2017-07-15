@@ -47,7 +47,7 @@ class Module implements \JsonSerializable {
      *
      * @var \Doctrine\Common\Collections\ArrayCollection
      * 
-     * @ORM\OneToMany(targetEntity="Assessment", mappedBy="module", cascade={"all"}, orphanRemoval=true) 
+     * @ORM\OneToMany(targetEntity="Assessment", mappedBy="module", cascade={"persist"}, orphanRemoval=true) 
      */
     private $assessments;
 
@@ -55,7 +55,7 @@ class Module implements \JsonSerializable {
      *
      * @var \Doctrine\Common\Collections\ArrayCollection
      * 
-     * @ORM\ManyToMany(targetEntity="Student", inversedBy="modules", cascade={"all"})
+     * @ORM\ManyToMany(targetEntity="Student", inversedBy="modules", cascade={"persist"})
      * @ORM\JoinTable(name="students_modules")
      */
     private $students;

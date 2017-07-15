@@ -21,7 +21,6 @@ class DefaultController extends SuperController {
      */
     public function lobbyAction(Request $req, \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $encoder) {
 
-
         if ($this->get("security.authorization_checker")->isGranted("ROLE_TEACHER")) {
             return $this->render('lobby/index-teacher.html.twig', [
                         'modules' => $this->getAllFromClass(\AppBundle\Entity\Module::class)

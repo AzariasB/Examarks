@@ -16,7 +16,7 @@ class Student extends User {
      *
      * @var \Doctrine\Common\Collections\ArrayCollection
      * 
-     * @ORM\OneToMany(targetEntity="Mark", mappedBy="student", cascade={"all"}) 
+     * @ORM\OneToMany(targetEntity="Mark", mappedBy="student", cascade={"persist"}) 
      */
     private $marks;
 
@@ -24,7 +24,7 @@ class Student extends User {
      *
      * @var \Doctrine\Common\Collections\ArrayCollection
      * 
-     * @ORM\ManyToMany(targetEntity="Module", mappedBy="students", cascade={"all"})
+     * @ORM\ManyToMany(targetEntity="Module", mappedBy="students", cascade={"persist"})
      */
     private $modules;
 

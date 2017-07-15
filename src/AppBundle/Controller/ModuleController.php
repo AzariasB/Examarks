@@ -27,10 +27,9 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\ModuleType;
 use \Symfony\Component\HttpFoundation\JsonResponse;
-use \Symfony\Component\Form\Form;
 use AppBundle\Entity\Module;
 
 /**
@@ -56,24 +55,21 @@ class ModuleController extends SuperController {
 
     /**
      * 
-     * @param type $moduleId
-     * @Route("/deleteModule/{moduleId}",name="deleteModule")
+     * @Route("/deleteModule/{id}",name="deleteModule")
+     * @ParamConverter("mod", class="AppBundle:Module")
      */
-    public function deleteAction($moduleId) {
-        $moduleToDelete = $this->getEntityFromId(Module::class, $moduleId);
+    public function deleteAction(Module $moduleToDelete) {
         $this->removeEntity($moduleToDelete);
         return $this->redirectToRoute('moduleList');
     }
 
     /**
      * 
-     * @param type $moduleId
      * @param Request $req
-     * @Route("/editModule/{moduleId}", name="editModule")
+     * @Route("/editModule/{id}", name="editModule")
+     * @ParamConverter("mod", class="AppBundle:Module")
      */
-    public function editAction($moduleId, Request $req) {
-        $mod = $this->getEntityFromId(Module::class, $moduleId);
-
+    public function editAction(Module $mod, Request $req) {
         $form = $this->createForm(\AppBundle\Form\ModuleEditType::class, $mod);
 
         $form->handleRequest($req);
@@ -86,6 +82,19 @@ class ModuleController extends SuperController {
         return $this->render('lobby/teacher/module-edit.html.twig', [
                     'form' => $form->createView(),
                     'module' => $mod
+        ]);
+    }
+
+    /**
+     * 
+     * @Route("/moduleStats/{id}", name="moduleStats")
+     * @ParamConverter("module", class="AppBundle:Module")
+     */
+    public function statsAction(Module $module) {
+
+
+        return new JsonResponse([
+            'module' => $module
         ]);
     }
 

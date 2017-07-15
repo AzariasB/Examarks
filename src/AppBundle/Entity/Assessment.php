@@ -43,7 +43,7 @@ class Assessment implements \JsonSerializable {
      *
      * @var Module
      * 
-     * @ORM\ManyToOne(targetEntity="Module", inversedBy="assessments", cascade={"all"}) 
+     * @ORM\ManyToOne(targetEntity="Module", inversedBy="assessments", cascade={"persist"}) 
      * @ORM\JoinColumn(name="module_id", referencedColumnName="id")
      */
     private $module;
@@ -52,7 +52,7 @@ class Assessment implements \JsonSerializable {
      *
      * @var ArrayCollection
      * 
-     * @ORM\OneToMany(targetEntity="Mark", mappedBy="assessment", cascade={"all"}) 
+     * @ORM\OneToMany(targetEntity="Mark", mappedBy="assessment", cascade={"persist"}, orphanRemoval=true) 
      */
     private $marks;
 

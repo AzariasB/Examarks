@@ -50,13 +50,13 @@
         </div>
 
         {% if is_granted('ROLE_TEACHER') %}
-            <a href="{{ path('deleteModule',{'moduleId' : module.id }) }}" 
+            <a href="{{ path('deleteModule',{'id' : module.id }) }}" 
                ng-click="ctrl.deleteModule($event)"
                class="btn btn-warning" >
                 Delete this module
             </a>
             {#           TODO : EDITION #}
-            <a href="{{ path('editModule', {'moduleId' : module.id}) }}" class="btn btn-primary" > 
+            <a href="{{ path('editModule', {'id' : module.id}) }}" class="btn btn-primary" > 
                 Edit this module
             </a>
         {% endif %}
