@@ -65,4 +65,16 @@ class ModuleController extends SuperController {
         return $this->redirectToRoute('moduleList');
     }
 
+    /**
+     * 
+     * @param type $moduleId
+     * @param Request $req
+     * @Route("/editModule/{moduleId}", name="editModule")
+     */
+    public function editAction($moduleId, Request $req) {
+        $mod = $this->getEntityFromId(Module::class, $moduleId);
+        
+        
+    }
+
 }

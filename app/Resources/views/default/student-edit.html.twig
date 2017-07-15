@@ -17,7 +17,12 @@
                 {{ form_row(form.email) }}
                 {{ form_row(form.phone) }}
                 {{ form_row(form.address) }}
-                {{ form_row(form.modules) }}
+                <label>Modules</label>
+                <div class="form-group well">
+                    {% for mod in form.modules %}
+                        {{ form_row(mod) }}                    
+                    {% endfor %}
+                </div>
             </div>
         </div>
         <div class="row" >

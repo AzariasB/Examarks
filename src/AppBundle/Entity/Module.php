@@ -27,6 +27,14 @@ class Module implements \JsonSerializable {
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
+    
+    /**
+     *
+     * @var int
+     * 
+     * @ORM\Column(name="number", type="integer", nullable = true) 
+     */
+    private $number;
 
     /**
      * @var string
@@ -55,6 +63,23 @@ class Module implements \JsonSerializable {
     public function __construct() {
         $this->assessments = new \Doctrine\Common\Collections\ArrayCollection;
         $this->students = new \Doctrine\Common\Collections\ArrayCollection;
+    }
+
+
+    /**
+     * 
+     * @return int
+     */
+    public function getNumber(){
+        return $this->number;
+    }
+    
+    /**
+     * 
+     * @param int $nwNumber
+     */
+    public function setNumber($nwNumber){
+        $this->number = $nwNumber;
     }
 
     /**

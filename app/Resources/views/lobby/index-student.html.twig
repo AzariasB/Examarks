@@ -71,10 +71,10 @@
                                             {% endfor %}
                                                 {% set avg = module.studentAverage(student) %}
                                                 <tr
-                                                    {% if not module.studentPassed(student) %}
-                                                        class="warning" title="Module failed"
-                                                    {% elseif not module.studentCompleted(student) %}
+                                                    {% if not module.studentCompleted(student) %}
                                                         title="Module not completed yet"
+                                                    {% elseif not module.studentCompleted(student) %}
+                                                        class="warning" title="Module failed"
                                                     {% else %}
                                                         class="success" title="Module passed"
                                                     {% endif %}

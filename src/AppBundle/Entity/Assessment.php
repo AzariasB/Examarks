@@ -56,6 +56,22 @@ class Assessment implements \JsonSerializable {
      */
     private $marks;
 
+    /**
+     *
+     * @var \DateTime
+     * 
+     * @ORM\Column(name="submissionDate" , type="datetime", nullable = true)
+     */
+    private $submissionDate;
+
+    /**
+     *
+     * @var \DateTime
+     * 
+     * @ORM\Column(name="examDate", type="datetime", nullable = true) 
+     */
+    private $examDate;
+
     public function __construct() {
         $this->marks = new \Doctrine\Common\Collections\ArrayCollection;
     }
@@ -69,6 +85,42 @@ class Assessment implements \JsonSerializable {
             }
         }
         return false;
+    }
+
+    /**
+     * Set exam date
+     * 
+     * @param \DateTime $nwexamDate
+     */
+    public function setExamDate(\DateTime $nwexamDate) {
+        $this->examDate = $nwexamDate;
+    }
+
+    /**
+     * Get exam date
+     * 
+     * @return \DateTime
+     */
+    public function getExamDate() {
+        return $this->examDate;
+    }
+
+    /**
+     * Get submission date
+     * 
+     * @return \DateTime
+     */
+    public function getSubmissionDate() {
+        return $this->submissionDate;
+    }
+
+    /**
+     * Set submission date
+     * 
+     * @param \DateTime $nwsubmission
+     */
+    public function setSubmissionDate(\DateTime $nwsubmission) {
+        $this->submissionDate = $nwsubmission;
     }
 
     /**

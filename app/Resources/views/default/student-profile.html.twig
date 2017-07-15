@@ -15,8 +15,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid" 
-         ng-init="ctrl.init({{ student.id }},'{{ path('studentModules', {'studentId' : student.id}) }}','{{ path('removeStudentFromModule', {'studentId' : student.id, 'moduleId':'__id__'}) }}')">
+    <div class="container-fluid"  >
         <div class="row">
             <div class="col-xs-12">
                 <h1> {{ student.login }}'s profile </h1>
