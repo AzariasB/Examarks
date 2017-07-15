@@ -98,6 +98,20 @@ class Assessment implements \JsonSerializable {
                 });
     }
 
+    public function sortedMarks() {
+        $arr = $this->marks->toArray();
+        usort($arr, function(Mark $m1, Mark $m2) {
+            if ($m1->getValue() == $m2->getValue()) {
+                return strcmp($m1->getStudent()->getLogin(), $m2->getStudent()->getLogin());
+            }
+            if (!$m2->getValue() || $m1->getValue() > $m2->getValue()) {
+                return -1;
+            }
+            return 1;
+        });
+        return $arr;
+    }
+
     public function hasStudentMark(Student $stud) {
         foreach ($this->marks->toArray() as $myMark) {
             foreach ($stud->getMarks()->toArray() as $hisMarks) {

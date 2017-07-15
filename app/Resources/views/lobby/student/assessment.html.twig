@@ -5,6 +5,10 @@
     Assessment {{ assessment.type }}
 {% endblock %}
 
+{% block angularServices %}
+    <script src="{{ asset(bower~ 'chart.js/dist/Chart.min.js') }}"></script>
+{% endblock %}
+
 {% block content %}
     <div class="container">
         <div class="row">
@@ -33,13 +37,14 @@
         <div class="row">
             <div class="col-xs-12">
                 <ul class="list-group">
-                    {% for stud in assessment.module.students %}
+                    {% for mark in assessment.sortedMarks %}
                         <li class="list-group-item" >
-                            {{ stud.login }}
+                            {{ loop.index }} - 
+                            {{ mark.student.login }}
                             <span class="pull-right" >
-                                {% if assessment.hasStudentMark(stud).value %}
+                                {% if mark.value %}
                                     <label> Mark : </label>
-                                    {{ assessment.hasStudentMark(stud).value }}
+                                    {{ mark.value }}
                                 {% else %}
                                     Not marked yet
                                 {% endif %}
@@ -48,6 +53,16 @@
                     {% endfor %}  
                 </ul>
             </div>
+        </div>
+        <div class="row" >
+            <div class="col-xs-12 col-sm-6" > 
+                <canvas id="canvas1" ></canvas>
+            </div>
+            <div class="col-xs-12 col-sm-6" > 
+                <canvas id="canvas2" ></canvas>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-xs-12">
                 <span class="pull-right">
                     <a class="btn btn-default"
@@ -58,4 +73,5 @@
             </div>
         </div>
     </div>
+    <script src="{{ asset('assets/js/assessmentstats.js') }}"></script>
 {% endblock %}

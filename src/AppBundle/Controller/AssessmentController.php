@@ -72,4 +72,30 @@ class AssessmentController extends SuperController {
         }
     }
 
+    /**
+     * 
+     * @param Assessment $assessment
+     * @Route("/assessment/{id}/json",name="assessmentJson")
+     * @ParamConverter("assessment", class="AppBundle:Assessment")
+     */
+    public function jsonAction(Assessment $assessment) {
+        return new \Symfony\Component\HttpFoundation\JsonResponse([
+            'grades' => $this->getGrades($assess),
+            'students' => $this->getStudents($assess)
+        ]);
+    }
+
+    
+    private function getGrades(Assessment $assess){
+        $res = [];
+        foreach($assess->getMarks() as $mark){
+            
+        }
+        
+        return $res;
+    }
+    
+    private function getStudents(Assessment $assess){
+        return [];
+    }
 }
