@@ -45,6 +45,14 @@ class Mark implements \JsonSerializable {
      * @ORM\JoinColumn(name="student_id", referencedColumnName="id")
      */
     private $student;
+    
+    /**
+     *
+     * @var \DateTime
+     * 
+     * @ORM\Column(name="markedDate", type="datetime", nullable = true)
+     */
+    private $markedDate;
 
     /**
      * Get id
@@ -60,6 +68,24 @@ class Mark implements \JsonSerializable {
      */
     public function getGrade() {
         return Mark::toGrade($this->value);
+    }
+    
+    /**
+     * Get marked date
+     * 
+     * @return \DateTime
+     */
+    public function getMarkedDate(){
+        return $this->markedDate;
+    }
+    
+    /**
+     * Set marked date
+     * 
+     * @param \DateTime $nwMarkedDate
+     */
+    public function setMarkedDate(\DateTime $nwMarkedDate = null){
+        $this->markedDate = $nwMarkedDate;
     }
 
     public static function toGrade($num) {
