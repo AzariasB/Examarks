@@ -38,7 +38,7 @@ $(function () {
         data: {
             labels: chart1Labels,
             datasets: [{
-                    label: 'Number of Assessments',
+                    label: 'Number of students',
                     data: chart1Data,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -95,9 +95,9 @@ $(function () {
 
     $.post(location.href + '/json', function (data) {
         console.log(data);
-        Object.keys(data.assessments).map(function (k) {
+        Object.keys(data.grades).map(function (k) {
             chart1Labels.push(k);
-            chart1Data.push(data.assessments[k]);
+            chart1Data.push(data.grades[k]);
         });
         chart1.update();
 

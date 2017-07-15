@@ -60,7 +60,7 @@ class Mark implements \JsonSerializable {
      * Returns the grade based on the mark's value
      */
     public function getGrade() {
-        return Mark::toGrade($this->value);
+        return $this->value ? Mark::toGrade($this->value) : 'Not marked';
     }
     
 

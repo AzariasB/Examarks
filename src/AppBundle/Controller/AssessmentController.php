@@ -80,22 +80,41 @@ class AssessmentController extends SuperController {
      */
     public function jsonAction(Assessment $assessment) {
         return new \Symfony\Component\HttpFoundation\JsonResponse([
-            'grades' => $this->getGrades($assess),
-            'students' => $this->getStudents($assess)
+            'grades' => $this->getGrades($assessment),
+            'students' => $this->getStudents($assessment)
         ]);
     }
 
-    
-    private function getGrades(Assessment $assess){
+    private function getGrades(Assessment $assess) {
         $res = [];
-        foreach($assess->getMarks() as $mark){
-            
+        foreach ($assess->getMarks() as $mark) {
+            $g = $mark->getGrade();
+            if (!array_key_exists($g, $res)) {
+                $res[$g] = 0;
+            }
+            $res[$g] ++;
         }
-        
+
         return $res;
     }
-    
-    private function getStudents(Assessment $assess){
-        return [];
+
+    private function getStudents(Assessment $assess) {
+        $res = [
+            'Passed' => 0,
+            'Not marked' => 0,
+            'Failed' => 0
+        ];
+        foreach ($assess->getMarks() as $mark) {
+            if(!$mark->getValue()){
+                $res['Not marked']++;
+            }else if($mark->getValue() > 40){
+                $res['Passed']++;
+            }else{
+                $res['Failed']++;
+            }
+        }
+
+        return $res;
     }
+
 }
