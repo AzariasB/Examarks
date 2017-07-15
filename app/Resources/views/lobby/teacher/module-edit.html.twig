@@ -1,1 +1,51 @@
-{# empty Twig template #}
+
+{% extends "base.html.twig" %}
+
+
+{% block title %}
+    Edit module
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid" >
+        <div class="row" >
+            <div class="col-xs-12" > 
+                <h1>Edit {{ module.name }} module </h1>
+            </div>
+        </div>
+
+        {{ form_start(form, {'attr' : {'ng-non-bindable' :''} }) }}
+
+        <div class="row" >
+            <div class="col-xs-12" >
+                {{ form_row(form.name) }}            
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-xs-12" >
+                {{ form_row(form.number) }}
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-xs-12" >
+                {{ form_row(form.abbreviation) }}
+            </div>
+        </div>
+
+
+        <div class="row" >
+            <div class="col-xs-12" > 
+                <button class="btn btn-primary" type="submit">
+                    Save
+                </button>
+                <span class="pull-right" > 
+                    <a class="btn btn-default" href="{{ path('module', {'moduleId' : module.id }) }}" >
+                        Back to module
+                    </a>
+                </span>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

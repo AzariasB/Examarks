@@ -55,7 +55,7 @@
                 Delete this module
             </a>
             {#           TODO : EDITION #}
-            <a href="#" class="btn btn-primary" > 
+            <a href="{{ path('editModule', {'moduleId' : module.id}) }}" class="btn btn-primary" > 
                 Edit this module
             </a>
         {% endif %}

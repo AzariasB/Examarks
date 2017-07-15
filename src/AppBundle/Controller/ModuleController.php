@@ -73,8 +73,20 @@ class ModuleController extends SuperController {
      */
     public function editAction($moduleId, Request $req) {
         $mod = $this->getEntityFromId(Module::class, $moduleId);
-        
-        
+
+        $form = $this->createForm(\AppBundle\Form\ModuleEditType::class, $mod);
+
+        $form->handleRequest($req);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->saveEntity($mod);
+            return $this->redirectToRoute('module', ['moduleId' => $mod->getId()]);
+        }
+
+        return $this->render('lobby/teacher/module-edit.html.twig', [
+                    'form' => $form->createView(),
+                    'module' => $mod
+        ]);
     }
 
 }
