@@ -29,7 +29,9 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * Description of MarksType
@@ -41,7 +43,14 @@ class AssessmentMarksType extends AbstractType {
     //put your code here
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
+       
+        $assessment = $builder->getData();
+        
         $builder
+                ->add('name', TextType::class, [
+                    'required' => false,
+                    'attr' => ['class' => 'form-control']
+                ])
                 ->add('marks', CollectionType::class, [
                     'entry_type' => MarkType::class,
                     'by_reference' => true
@@ -52,6 +61,18 @@ class AssessmentMarksType extends AbstractType {
                     ],
                     'label' => 'Save marks'
                 ]);
+        
+        $dateOptions = [
+            'required' => false,
+            'widget' => 'single_text',
+            'format' => 'dd/MM/yyyy HH:mm',
+            'attr' => ['class' => 'form-control']
+        ];
+        if($assessment->isWrittenExam()){
+            $builder->add('examDate', DateTimeType::class, $dateOptions);
+        }else{
+            $builder->add('submissionDate', DateTimeType::class, $dateOptions);
+        }
     }
 
     public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver) {
