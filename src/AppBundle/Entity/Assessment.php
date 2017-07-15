@@ -71,7 +71,7 @@ class Assessment implements \JsonSerializable {
      * @ORM\Column(name="examDate", type="datetime", nullable = true) 
      */
     private $examDate;
-    
+
     /**
      *
      * @var string
@@ -79,6 +79,14 @@ class Assessment implements \JsonSerializable {
      * @ORM\Column(name="name", type="string", length=255, nullable = true) 
      */
     private $name;
+
+    /**
+     *
+     * @var string
+     * 
+     * @ORM\Column(name="room", type="string", length=255, nullable = true)
+     */
+    private $room;
 
     public function __construct() {
         $this->marks = new \Doctrine\Common\Collections\ArrayCollection;
@@ -95,25 +103,73 @@ class Assessment implements \JsonSerializable {
         return false;
     }
 
+    /**
+     * 
+     */
+    public function validDates() {
+        if ($this->examDate) {
+            return $this->examDate > new \DateTime;
+        }
+        if ($this->submissionDate) {
+            return $this->submissionDate > new \DateTime;
+        }
+        return true;
+    }
+
+    /**
+     * Due date string
+     */
+    public function dueDate() {
+        if ($this->isWrittenExam()) {
+            $roomstr = $this->room ? " at room : " . $this->room : "";
+            return $this->examDate ? "Exam the " . $this->examDate->format("dd/MM/yyyy HH:mm") . $roomstr : "";
+        } else {
+            return $this->submissionDate ? "Submission due the " . $this->submissionDate->format("d M Y \a\\t H:m") : "";
+        }
+    }
+
+    /**
+     * Set room
+     * 
+     * @param string $nwRoom
+     */
+    public function setRoom($nwRoom) {
+        $this->room = $nwRoom;
+    }
+
+    /**
+     * Get room
+     * 
+     * @return string
+     */
+    public function getRoom() {
+        return $this->room;
+    }
+
+    /**
+     * Wether this assessmentis a written exam
+     * 
+     * @return bool
+     */
     public function isWrittenExam() {
         return $this->type == Assessment::WRITTEN_EXAM;
     }
-    
+
     /**
      * Get name
      * 
      * @return string
      */
-    public function getName(){
+    public function getName() {
         return $this->name;
     }
-    
+
     /**
      * Set name
      * 
      * @param string $nwName
      */
-    public function setName($nwName){
+    public function setName($nwName) {
         $this->name = $nwName;
     }
 

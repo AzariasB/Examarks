@@ -43,9 +43,9 @@ class AssessmentMarksType extends AbstractType {
     //put your code here
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-       
+
         $assessment = $builder->getData();
-        
+
         $builder
                 ->add('name', TextType::class, [
                     'required' => false,
@@ -60,17 +60,21 @@ class AssessmentMarksType extends AbstractType {
                         'class' => 'btn btn-primary'
                     ],
                     'label' => 'Save marks'
-                ]);
-        
+        ]);
+
         $dateOptions = [
             'required' => false,
             'widget' => 'single_text',
             'format' => 'dd/MM/yyyy HH:mm',
             'attr' => ['class' => 'form-control']
         ];
-        if($assessment->isWrittenExam()){
+        if ($assessment->isWrittenExam()) {
             $builder->add('examDate', DateTimeType::class, $dateOptions);
-        }else{
+            $builder->add('room', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'form-control']
+            ]);
+        } else {
             $builder->add('submissionDate', DateTimeType::class, $dateOptions);
         }
     }

@@ -51,7 +51,13 @@ class AssessmentController extends SuperController {
             $form->handleRequest($req);
 
             if ($form->isSubmitted()) {
-                $this->mergeEntity($assessment);
+                if (!$assessment->validDates()) {
+                    $form->addError(new \Symfony\Component\Form\FormError("Dates are invalid"));
+                }
+
+                if ($form->isValid()) {
+                    $this->mergeEntity($assessment);
+                }
             }
 
             return $this->render('lobby/teacher/assessment.html.twig', [

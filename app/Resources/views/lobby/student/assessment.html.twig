@@ -16,12 +16,34 @@
                 </h1>
             </div>
         </div>
+        {% if assessment.name %} 
+            <div class="row" >
+                <div class="col-xs-12" >
+                    Assessment name : {{ assessment.name }}
+                </div>
+            </div>
+        {% endif %}
+        <div class="row" >
+            {% if assessment.dueDate %}
+                <div class="col-xs-12" >
+                    {{ assessment.dueDate }}
+                </div>
+            {% endif %}
+        </div>
         <div class="row">
             <div class="col-xs-12">
                 <ul class="list-group">
                     {% for stud in assessment.module.students %}
                         <li class="list-group-item" >
                             {{ stud.login }}
+                            <span class="pull-right" >
+                                {% if assessment.hasStudentMark(stud).value %}
+                                    <label> Mark : </label>
+                                    {{ assessment.hasStudentMark(stud).value }}
+                                {% else %}
+                                    Not marked yet
+                                {% endif %}
+                            </span>
                         </li>
                     {% endfor %}  
                 </ul>
