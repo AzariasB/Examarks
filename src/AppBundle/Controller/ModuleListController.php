@@ -55,6 +55,17 @@ class ModuleListController extends SuperController {
             ]);
         }
     }
+    
+    /**
+     * 
+     * @return JsonResponse
+     * @Route("/moduleList/json", name="moduleListJson")
+     */
+    public function moduleListJsonAction(){
+       return new JsonResponse([
+            'modules' => $this->getAllFromClass(Module::class)
+       ]);
+    }
 
     /**
      * @Route("/createModule",name="createModule")

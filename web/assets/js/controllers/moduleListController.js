@@ -45,6 +45,7 @@
         self.addAssessment = addAssessment;
         self.removeAssessment = removeAssessment;
         self.addAssessmentForm = addAssessmentForm;
+        self.init = init;
 
         function showNewModuleModal(requestUrl) {
             post(requestUrl, function (response) {
@@ -55,13 +56,13 @@
         function actionUpdated(data) {
             if (data.success) {
                 Notification.success("Successfully created");
+                self.modules.push(data.module);
             } else {
                 Notification.error(data.message);
             }
         }
 
         function addAssessment(lastId) {
-            console.log("Add assessment", lastId);
             if (self.lastAssessmentId === null) {
                 self.lastAssessmentId = lastId;
             }
@@ -75,11 +76,27 @@
 
         function addAssessmentForm() {
             var nwForm = self.dataPrototype.replace(/__name__/g, self.lastAssessmentId);
+            var aId = "assessment" + self.lastAssessmentId;
+            var $span = $("<a class='pull-right' href='#'><span>&times;</span></a>");
+
+            var $el = $("<div id='" + aId + "' class='col-xs-12 well'></div").append($span).append(nwForm);
+
+            $span.click(function () {
+                $el.remove();
+            });
             self.lastAssessmentId++;
-            var $el = $("<div class='col-xs-12'></div").append(nwForm);
+
             $("#assessementsList").append($el);
         }
 
+
+        function init() {
+
+
+            post(window.location.origin + window.location.pathname + '/json', function (response) {
+                self.modules = response.data.modules;
+            });
+        }
     }
 
 })();

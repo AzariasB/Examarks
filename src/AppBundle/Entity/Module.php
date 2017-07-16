@@ -290,7 +290,9 @@ class Module implements \JsonSerializable {
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'abbreviation' => $this->abbreviation
+            'abbreviation' => $this->abbreviation,
+            'students' => $this->students->toArray(),
+            'assessments' => $this->assessments->toArray()
         ];
     }
 

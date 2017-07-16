@@ -1,6 +1,19 @@
 
 {% extends "base.html.twig" %}
 
+{% block angularExtensions %}
+    <script src="{{ asset(bower ~ 'angular-animate/angular-animate.min.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/studentList.css') }}" />
+{% endblock %}
+
+{% block angularApp %}
+    <script src="{{ asset('assets/js/studentListApp.js') }}"></script>
+{% endblock %}
+
 {% block angularController %}
     {{ asset('assets/js/controllers/moduleListController.js') }}
 {% endblock %}
@@ -15,7 +28,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="container" ng-init="ctrl.init()" >
         <h1>
             Modules
         </h1>
@@ -27,36 +40,26 @@
             {% endif %}
         {% endfor %}
 
-        <table class="table-responsive col-xs-12" >
-            <thead>
-                <tr>
-                    <th>Abbreviation</th>
-                    <th>Name</th>
-                    <th colspan="{{ max(1,maxLength) }}" >Assessments and Exams components</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for module in modules%}
-                    <tr>
-                        <td>
-                            <a href="{{ path('module',{'moduleId' : module.id }) }}">
-                                {{ module.abbreviation }}
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{{ path('module', {'moduleId': module.id}) }}"> 
-                                {{ module.name }}
-                            </a>
-                        </td>
-                        {% for assess in module.assessments %}
-                            <td>
-                                {{ assess.type }} ({{ assess.weight }}%)
-                            </td>
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="col-xs-12 col-sm-6 col-md-4 user-profile" ng-repeat="module in ctrl.modules" >
+            <div class="well">
+                <a href="/module/[[ module.id ]]">
+                    [[ module.name]] ([[module.abbreviation]])
+                </a>
+                <p> [[ module.assessments.length]] assessments </p>
+                <p> [[ module.students.length ]] participants </p>
+
+                <a class="btn btn-warning btn-sm"  href="#">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </a>
+                <a href="#" class="btn btn-default btn-sm">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                </a>
+                <a href="/module/[[ module.id ]]" class="btn btn-primary btn-sm" >
+                    <i class="glyphicon glyphicon-eye-open"></i>
+                </a>
+            </div>
+        </div>
+
         <div class="row" >
             <div class="col-xs-12" >
                 {%  if is_granted('ROLE_TEACHER') %}
