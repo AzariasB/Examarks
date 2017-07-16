@@ -41,7 +41,7 @@
             <div class="col-xs-12">
                 <div class="col-xs-12 col-sm-6 col-md-4 user-profile" ng-repeat="user in ctrl.users" >
                     <div class="well">
-                        <a href="[[ ctrl.toPath(user) ]]" > 
+                        <a href="/student/[[user.id]]" > 
                             [[ user.login ]]
                             <span ng-if="user.name || user.lastName">
                                 ([[ user.name||""]] [[user.lastName||""]])

@@ -151,6 +151,9 @@ class Module implements \JsonSerializable {
                 $total += $mark->getCalculatedResult();
             }
         }
+        if ($assessments == 0) {
+            return '/';
+        }
 
         return $total / $assessments;
     }

@@ -29,8 +29,8 @@ div.user-profile {
   opacity: 1; }
 
 div.user-profile.ng-enter {
-  -webkit-transition: 1s;
-  transition: 1s;
+  -webkit-transition: 1.5s;
+  transition: 1.5s;
   opacity: 0; }
 
 div.user-profile.ng-enter-active {

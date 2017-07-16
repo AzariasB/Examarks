@@ -45,6 +45,13 @@ footer {
   border-top: 1px solid black;
   padding: 10px; }
 
+div.container {
+  background-color: #eee;
+  min-height: 80vh; }
+
+footer {
+  background-color: #eee; }
+
 body {
   /*background: #eee !important;
   Pour le background*/

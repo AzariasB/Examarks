@@ -36,7 +36,7 @@
         //Attributse
         self.users = [];
         self.queue = [];
-        
+
         //Functions
         self.showNewStudentModal = showNewStudentModal;
         self.init = init;
@@ -47,30 +47,30 @@
                 modalForm($scope, response.data, requestUrl, actionUpdated, Notification.error);
             });
         }
-        
-        function deleteUser(userId){
-            
+
+        function deleteUser(userId) {
+
         }
 
         function actionUpdated(data) {
             if (data.success) {
-                location.reload();
-                //Notification.success("Successfully created");
+                self.users.push(data.student);
+                Notification.success(data.message);
             } else {
                 Notification.error(data.message);
             }
         }
-        
-        function init(){
-            post(window.location.href+'/json', function(response){
+
+        function init() {
+            post(window.location.href + '/json', function (response) {
                 self.users = response.data.users;
             });
         }
-        
-        function toPath(user){
-            
+
+        function toPath(user) {
+
         }
-        
+
         self.init();
     }
 

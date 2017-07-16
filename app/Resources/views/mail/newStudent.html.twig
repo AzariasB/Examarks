@@ -1,0 +1,40 @@
+
+{% extends "mail/base.html.twig" %}
+
+{% block title %}
+    Welcom to the UWE university
+{% endblock %}
+
+{% block header %}
+    UWE university first login
+{% endblock %}
+
+{% block content %}
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td>
+                <p>Hello {{ student.login }},</p>
+                <p>Welcome to the UWE university, you seem to be a new student of this university,
+                    Your profile was created, here is your password : <b>{{ password }}</b>
+                    Happy browsing !
+                </p>
+                <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
+                    <tbody>
+                        <tr>
+                            <td align="left">
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                    <tbody>
+                                        <tr>
+                                            <td> <a href="{{ absolute_url('/login') }}" target="_blank">Got to website</a> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                {#                <p>Examarks - UWE</p>#}
+            </td>
+        </tr>
+    </table
+{% endblock %}

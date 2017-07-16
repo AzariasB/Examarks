@@ -80,22 +80,23 @@ class StudentListController extends SuperController {
      * @return Response
      * @Route("/createStudent",name="createStudent")
      */
-    public function createStudentAction(Request $req, UserPasswordEncoderInterface $encoder) {
+    public function createStudentAction(Request $req, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer) {
         $s = new Student;
 
         $form = $this->createForm(StudentType::class, $s);
         $form->handleRequest($req);
 
         if ($form->isSubmitted()) {
-            return $this->createStudent($form, $s, $encoder);
+            return $this->createStudent($form, $s, $encoder, $mailer);
         }
         return $this->newStudentForm($form);
     }
 
-    private function createStudent(Form $form, Student $s, UserPasswordEncoderInterface $encoder) {
+    private function createStudent(Form $form, Student $s, UserPasswordEncoderInterface $encoder, \Swift_Mailer $mailer) {
         if ($form->isValid()) {
             $s->setRoles(\AppBundle\Entity\User::ROLE_STUDENT | \AppBundle\Entity\User::ROLE_USER);
             $password = base64_encode(random_bytes(15));
+            $this->newStudentMail($mailer, $s, $password);
             $s->setPassword($encoder->encodePassword($s, $password));
 
             $allModules = $this->getAllFromClass(\AppBundle\Entity\Module::class);
@@ -125,14 +126,28 @@ class StudentListController extends SuperController {
             return new JsonResponse([
                 'success' => true,
                 'student' => $s,
-                'password' => $password//TO REMOVE LATER (when sending an email)
-            ]); //send mail to the studen with generated mail and password
+                'message' => 'Successfully created student.'
+            ]);
         }
 
         return new JsonResponse([
             'success' => false,
             'newContent' => $this->newStudentForm($form)
         ]);
+    }
+
+    private function newStudentMail(\Swift_Mailer $mailer, Student $s, $password) {
+        $message = (new \Swift_Message("UWE sign up"))
+                ->setFrom("examarks@gmail.com")
+                ->setTo($s->getEmail())
+                ->setBody(
+                $this->renderView("mail/newStudent.html.twig", [
+                    'student' => $s,
+                    'password' => $password
+                ]), 'text/html'
+        );
+
+        $mailer->send($message);
     }
 
     private function newStudentForm(Form $form) {
