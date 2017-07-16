@@ -122,10 +122,9 @@ class UserController extends SuperController {
      * @param type $studentId
      * 
      * @Route(path="/editStudent/{studentId}", name="editStudent")
+     * @ParamConverter("stud", class="AppBundle:Student", options={"id" = "studentId"})
      */
-    public function editStudentAction($studentId, Request $req) {
-        $stud = $this->getEntityFromId(Student::class, $studentId);
-
+    public function editStudentAction(Student $stud, Request $req) {
         $form = $this->createForm(\AppBundle\Form\StudentEditType::class, $stud);
 
         $form->handleRequest($req);
@@ -138,7 +137,7 @@ class UserController extends SuperController {
 
         return $this->render('default/student-edit.html.twig', [
                     'form' => $form->createView(),
-                    'student' => $s
+                    'student' => $stud
         ]);
     }
 

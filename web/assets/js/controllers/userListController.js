@@ -64,6 +64,7 @@
             self.users = self.users.map(function (x) {
                 return x.id === data.student.id ? data.student : x;
             });
+            Notification.success(data.message);
         }
 
         function editUserClick(userId) {
