@@ -26,6 +26,23 @@ THE SOFTWARE.
     Author     : azarias
 */
 
+.profile-card{
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.opacity-hover{
+    a.opacity-child{
+        opacity: 0.2;
+        transition: all ease-in-out 200ms;
+    }
+
+    &:hover a.opacity-child{
+        opacity: 1;
+    }
+
+}
+
 .navbar-brand img{
     width: 32px;
     height: 32px;

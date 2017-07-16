@@ -53,7 +53,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
      * @ORM\Column(name="email", type="string", length=255) 
      */
     private $email;
-    
+
     /**
      *
      * @var string
@@ -61,7 +61,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
      * @ORM\Column(name="name", type="string", length=255, nullable = true) 
      */
     private $name;
-    
+
     /**
      *
      * @var string
@@ -77,7 +77,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
      * @ORM\Column(name="address", type="string", length=255, nullable=true)
      */
     private $address;
-    
+
     /**
      *
      * @var string
@@ -85,80 +85,79 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
      * @ORM\Column(name="phone", type="string", length=255, nullable=true) 
      */
     private $phone;
-    
+
     /**
      * Set phone
      * 
      * @param string $nwPhone
      */
-    public function setPhone($nwPhone){
-        $this->phone = $nwPhone; 
+    public function setPhone($nwPhone) {
+        $this->phone = $nwPhone;
     }
-    
+
     /**
      * Get phone
      * 
      * @return string
      */
-    public function getPhone(){
+    public function getPhone() {
         return $this->phone;
     }
-    
+
     /**
      * Set address
      * 
      * @param string $nwAddress
      */
-    public function setAddress($nwAddress){
+    public function setAddress($nwAddress) {
         $this->address = $nwAddress;
     }
-    
+
     /**
      * Get address
      * 
      * @return string
      */
-    public function getAddress(){
+    public function getAddress() {
         return $this->address;
     }
-    
+
     /**
      * Set last name
      * 
      * @param string $nwLastName
      */
-    public function setLastName($nwLastName){
+    public function setLastName($nwLastName) {
         $this->lastName = $nwLastName;
     }
-    
+
     /**
      * Get last name
      * 
      * @return string
      */
-    public function getLastName(){
+    public function getLastName() {
         return $this->lastName;
     }
-    
-    
+
     /**
      * Set name
      * 
      * @param string $nwName
      */
-    public function setName($nwName){
+    public function setName($nwName) {
         $this->name = $nwName;
     }
-    
+
     /**
      * Get name
      * 
      * @return string
      */
-    public function getName(){
+    public function getName() {
         return $this->name;
     }
-    
+
     /**
      * Get id
      *
@@ -291,8 +290,27 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
     public function jsonSerialize() {
         return [
             "id" => $this->id,
-            "login" => $this->login
+            "login" => $this->login,
+            'email' => $this->email,
+            'name' => $this->name,
+            'lastName' => $this->lastName,
+            'isAdmin' => $this->isAdmin(),
+            'isTeacher' => $this->isTeacher(),
+            'higherRole' => $this->higherRole()
         ];
+    }
+
+    public function higherRole() {
+        if ($this->isAdmin()) {
+            return "Admin";
+        }
+        if ($this->isTeacher()) {
+            return "Teacher";
+        }
+        if ($this->isStudent()) {
+            return "Student";
+        }
+        return "User";
     }
 
     public function isStudent() {
@@ -308,7 +326,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
     }
 
     private function isRole($role) {
-        return $this->roles & $role != 0;
+        return ($this->roles & $role) == $role;
     }
 
 }

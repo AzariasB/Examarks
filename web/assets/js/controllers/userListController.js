@@ -33,12 +33,23 @@
 
         var self = this;
 
+        //Attributse
+        self.users = [];
+        self.queue = [];
+        
+        //Functions
         self.showNewStudentModal = showNewStudentModal;
+        self.init = init;
+        self.toPath = toPath;
 
         function showNewStudentModal(requestUrl) {
             post(requestUrl, function (response) {
                 modalForm($scope, response.data, requestUrl, actionUpdated, Notification.error);
             });
+        }
+        
+        function deleteUser(userId){
+            
         }
 
         function actionUpdated(data) {
@@ -49,7 +60,19 @@
                 Notification.error(data.message);
             }
         }
-
+        
+        function init(){
+            post(window.location.href+'/json', function(response){
+                self.users = response.data.users;
+            });
+        }
+        
+        function toPath(user){
+            
+        }
+        
+        self.init();
     }
 
 })();
+//{{ user.isStudent ? path('student', {'studentId' : user.id }) : path('teacher', {'teacherId' : user.id}) }}

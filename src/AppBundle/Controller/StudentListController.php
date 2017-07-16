@@ -47,14 +47,30 @@ class StudentListController extends SuperController {
      * @Route("/studentList", name="studentList")
      */
     public function indexAction() {
+        return $this->render('lobby/teacher/student-list.html.twig', [
+                    'users' => $this->getUsers()
+        ]);
+    }
+
+    /**
+     * @Route("/studentList/json", name="studnetListJson")
+     */
+    public function jsonAction() {
+        return new JsonResponse([
+            'users' => $this->getUsers()
+        ]);
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    private function getUsers() {
         $users = $this->getAllFromClass(Student::class);
         if ($this->isGranted('ROLE_ADMIN')) {
             $users = array_merge($users, $this->getAllFromClass(\AppBundle\Entity\Teacher::class));
         }
-
-        return $this->render('lobby/teacher/student-list.html.twig', [
-                    'users' => $users
-        ]);
+        return $users;
     }
 
     /**
