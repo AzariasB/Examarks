@@ -88,16 +88,126 @@ class Assessment implements \JsonSerializable {
      */
     private $room;
 
+    /**
+     *
+     * @var Assessment
+     * 
+     * @ORM\OneToOne(targetEntity="Assessment", inversedBy="resitParent", cascade={"all"})
+     * @ORM\JoinColumn(name="resit_id", referencedColumnName="id")
+     */
+    private $resit;
+    
+    /**
+     *
+     * @var Assessment 
+     * 
+     * @ORM\OneToOne(targetEntity="Assessment", mappedBy="resit")
+     */
+    private $resitParent;
+
+
     public function __construct() {
         $this->marks = new \Doctrine\Common\Collections\ArrayCollection;
     }
 
+    /**
+     * Called to create the resit exam
+     * Will add all the students who failed the
+     * exam to the newly created assessment
+     */
+    public function createResit() {
+        $this->resit = new Assessment;
+        $this->resit->setIsResit(true);
+        $this->resit->setType($this->type);
+        $this->resit->setModule($this->module);
+        $this->resit->setWeight($this->weight);
+        
+        foreach ($this->marks->toArray() as $m) {
+            if ($m->isFailed()) {
+                $nwMark = new Mark();
+                $nwMark->setStudent($m->getStudent());
+                $nwMark->setAssessment($this->resit);
+                $m->getStudent()->getMarks()->add($nwMark);
+                $this->resit->getMarks()->add($nwMark);
+            }
+        }
+        
+        return $this->resit;
+    }
+
+
+    /**
+     * Get resit parent
+     * 
+     * @return Assessment
+     */
+    public function getResitParent(){
+        return $this->resitParent;
+    }
+    
+    
+    /**
+     * Set resit parent
+     * 
+     * @param \AppBundle\Entity\Assessment $resitParent
+     */
+    public function setResitParent(Assessment $resitParent){
+        $this->resitParent = $resitParent;
+    }
+    
+    /**
+     * 
+     * @return bool
+     */
+    public function isResit() {
+        return $this->resitParent != null;
+    }
+
+    public function hasResit(){
+        return $this->resit != null;
+    }
+    
+    /**
+     * 
+     * @return Assessment
+     */
+    public function getResit() {
+        return $this->resit;
+    }
+
+    /**
+     * Set assessment
+     * 
+     * @param \AppBundle\Entity\Assessment $resit
+     */
+    public function setResit(Assessment $resit = null) {
+        $this->resit = $resit;
+    }
+
+    /**
+     * Wether all the students of this 
+     * assessment have a mark
+     * 
+     * @return boolean
+     */
     public function allMarked() {
         return $this->marks->forAll(function($i, Mark $m) {
                     return $m->getValue() != null;
                 });
     }
 
+    public function hasFailedMarks() {
+        return $this->marks->exists(function($i, Mark $m){
+            return $m->isFailed();
+        });
+    }
+
+    /**
+     * Returns the marks sorted by
+     * their values
+     * 
+     * @return array
+     */
     public function sortedMarks() {
         $arr = $this->marks->toArray();
         usort($arr, function(Mark $m1, Mark $m2) {

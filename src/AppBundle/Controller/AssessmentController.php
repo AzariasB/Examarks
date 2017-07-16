@@ -67,9 +67,26 @@ class AssessmentController extends SuperController {
             ]);
         } else {
             return $this->render('lobby/student/assessment.html.twig', [
-                        'assessment' => $assessment
+                        'assessment' => $assessment,
+                        'student' => $this->getUser()
             ]);
         }
+    }
+
+    /**
+     * 
+     * @param Assessment $assess
+     * 
+     * @Route("/createResit/{id}",name="createResit")
+     * @ParamConverter("asess", class="AppBundle:Assessment")
+     */
+    public function createResitAction(Assessment $assess) {
+        $assess->createResit();
+        $resit = $assess->getResit();
+        $this->saveEntity($resit);
+        $this->mergeEntity($assess);
+
+        return $this->redirectToRoute('assessment', ['assessmentId' => $assess->getResit()->getId()]);
     }
 
     /**
@@ -105,12 +122,12 @@ class AssessmentController extends SuperController {
             'Failed' => 0
         ];
         foreach ($assess->getMarks() as $mark) {
-            if(!$mark->getValue()){
-                $res['Not marked']++;
-            }else if($mark->getValue() > 40){
-                $res['Passed']++;
-            }else{
-                $res['Failed']++;
+            if (!$mark->getValue()) {
+                $res['Not marked'] ++;
+            } else if ($mark->getValue() > 40) {
+                $res['Passed'] ++;
+            } else {
+                $res['Failed'] ++;
             }
         }
 

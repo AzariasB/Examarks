@@ -67,6 +67,12 @@
             </div>
             <div class="col-xs-12">
                 {{ form_widget(form.submit) }}
+
+                {% if assessment.allMarked and assessment.hasFailedMarks and not assessment.isResit %}
+                    <a href='{{ path('createResit',{'id' : assessment.id}) }}' class="btn btn-primary" >
+                        Create resit exam
+                    </a>
+                {% endif %}
                 <span class="pull-right">
                     <a class="btn btn-default"
                        href="{{ path('module',{'moduleId' : assessment.module.id }) }}">
@@ -81,7 +87,7 @@
         $(function () {
             $('#datetimepicker').datetimepicker({
                 'format': 'DD/MM/YYYY HH:mm',
-                'minDate' : moment()
+                'minDate': moment()
             });
         });
     </script>

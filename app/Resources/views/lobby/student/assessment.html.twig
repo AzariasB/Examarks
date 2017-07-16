@@ -38,7 +38,7 @@
             <div class="col-xs-12">
                 <ul class="list-group">
                     {% for mark in assessment.sortedMarks %}
-                        <li class="list-group-item" >
+                        <li class="list-group-item {{ mark.student.id == student.id ? "list-group-item-info list-group-item-heading" }}" >
                             {{ loop.index }} - 
                             {{ mark.student.login }}
                             <span class="pull-right" >

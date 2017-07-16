@@ -45,7 +45,14 @@ class Mark implements \JsonSerializable {
      * @ORM\JoinColumn(name="student_id", referencedColumnName="id")
      */
     private $student;
-    
+
+    public function isPassed() {
+        return $this->value && $this->value >= 40;
+    }
+
+    public function isFailed() {
+        return $this->value && $this->value < 40;
+    }
 
     /**
      * Get id
@@ -62,7 +69,6 @@ class Mark implements \JsonSerializable {
     public function getGrade() {
         return $this->value ? Mark::toGrade($this->value) : 'Not marked';
     }
-    
 
     public static function toGrade($num) {
         if ($num < 50) {

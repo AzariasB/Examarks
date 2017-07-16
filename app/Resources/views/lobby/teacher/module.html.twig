@@ -39,11 +39,20 @@
                 <h2>Assessments</h2>
                 <ul class="list-group list-unstyled" >
                     {% for assessment in module.assessments %}
-                        <li class="list-group-item" >
-                            <a href="{{ path('assessment', { 'assessmentId' : assessment.id }) }}">
-                                {{ assessment.type }}
-                            </a>
-                        </li>
+                        {% if  not assessment.isResit %}
+                            <li class="list-group-item" >
+                                <a href="{{ path('assessment', { 'assessmentId' : assessment.id }) }}">
+                                    {{ assessment.type }}
+                                </a>
+                                {% if assessment.hasResit %}
+                                    (
+                                    <a href="{{ path('assessment', {'assessmentId' : assessment.resit.id }) }}">
+                                        Resit exam
+                                    </a>
+                                    )
+                                {% endif %}
+                            </li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
             </div>
