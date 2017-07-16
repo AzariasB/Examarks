@@ -46,7 +46,13 @@ footer {
   padding: 10px; }
 
 body {
-  background: #eee !important; }
+  /*background: #eee !important;
+  Pour le background*/
+  background: url("../img/background.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
 
 .wrapper {
   margin-top: 80px;
