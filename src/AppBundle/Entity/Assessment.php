@@ -117,7 +117,7 @@ class Assessment implements \JsonSerializable {
      */
     public function createResit() {
         $this->resit = new Assessment;
-        $this->resit->setIsResit(true);
+        $this->resit->setResitParent($this);
         $this->resit->setType($this->type);
         $this->resit->setModule($this->module);
         $this->resit->setWeight($this->weight);

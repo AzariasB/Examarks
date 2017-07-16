@@ -27,7 +27,7 @@ class Module implements \JsonSerializable {
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
-    
+
     /**
      *
      * @var int
@@ -65,20 +65,19 @@ class Module implements \JsonSerializable {
         $this->students = new \Doctrine\Common\Collections\ArrayCollection;
     }
 
-
     /**
      * 
      * @return int
      */
-    public function getNumber(){
+    public function getNumber() {
         return $this->number;
     }
-    
+
     /**
      * 
      * @param int $nwNumber
      */
-    public function setNumber($nwNumber){
+    public function setNumber($nwNumber) {
         $this->number = $nwNumber;
     }
 
@@ -146,13 +145,16 @@ class Module implements \JsonSerializable {
         $total = 0;
         $assessments = 0;
         foreach ($this->assessments->toArray() as $assess) {
-            $assessments += ($assess->getWeight() / 100);
-            $total += $assess->hasStudentMark($s)->getCalculatedResult();
+            $mark = $assess->hasStudentMark($s);
+            if ($mark->getValue()) {
+                $assessments += ($assess->getWeight() / 100);
+                $total += $mark->getCalculatedResult();
+            }
         }
 
         return $total / $assessments;
     }
-    
+
     /**
      * Wether the student completed all the exams
      * 

@@ -62,12 +62,16 @@ class Mark implements \JsonSerializable {
     public function getId() {
         return $this->id;
     }
+    
+    public function getMarkStr(){
+        return $this->value ? $this->value : "Not marked";
+    }
 
     /**
      * Returns the grade based on the mark's value
      */
     public function getGrade() {
-        return $this->value ? Mark::toGrade($this->value) : 'Not marked';
+        return $this->value ? Mark::toGrade($this->value) : 'Not graded';
     }
 
     public static function toGrade($num) {

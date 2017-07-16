@@ -47,27 +47,32 @@
                                                 </a>
                                             </td>
                                             {% endif %}
-                                                <td>
-                                                    <a href="{{ path('assessment', {'assessmentId' : assess.id}) }}" >
-                                                        {{ assess.type }}
-                                                    </a>
-                                                    ({{ assess.weight }} %)
-                                                </td>
-                                                <td>
-                                                    {% if mark.value  %}
-                                                        {{ mark.value }}
-                                                    {% else %}
-                                                        Not marked yet
-                                                    {% endif %}
-                                                </td>
-                                                <td>
-                                                    {% if mark.value %}
+                                                {% if not assess.isResit %}
+                                                    <td>
+                                                        <a href="{{ path('assessment', {'assessmentId' : assess.id}) }}" >
+                                                            {{ assess.type }}
+                                                        </a>
+                                                        {% if assess.hasResit %}
+                                                            - <a href="{{ path('assessment', {'assessmentId' : assess.resit.id}) }}" >
+                                                                Resit  
+                                                            </a>
+                                                        {% endif %}
+                                                        ({{ assess.weight }} %)
+                                                    </td>
+                                                    <td>
+                                                        {{ mark.markStr }}
+                                                        {% if assess.hasResit and assess.resit.hasStudentMark(student) %}
+                                                            (Resit : {{ assess.resit.hasStudentMark(student).markStr }})
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
                                                         {{ mark.grade }}
-                                                    {% else %}
-                                                        /
-                                                    {% endif %}
-                                                </td>
-                                            </tr>
+                                                        {% if assess.hasResit and assess.resit.hasStudentMark(student) %}
+                                                            (Resit :  {{ assess.resit.hasStudentMark(student).grade }})
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
                                             {% endfor %}
                                                 {% set avg = module.studentAverage(student) %}
                                                 <tr

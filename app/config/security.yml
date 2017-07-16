@@ -38,6 +38,7 @@ security:
         - { path: ^/editStudent, roles: ROLE_TEACHER }
         - { path: ^/createModule, roles: ROLE_TEACHER }
         - { path: ^/removeStudentFromModule, roles: ROLE_TEACHER }
+        - { path: ^/createResit, roles: ROLE_TEACHER }
         - { path: ^/, role: ROLE_USER }
 
     firewalls:

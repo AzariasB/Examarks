@@ -64,6 +64,15 @@
         </div>
         <div class="row">
             <div class="col-xs-12">
+                {% if assessment.hasResit %}
+                    <a href="{{ path('assessment', {'assessmentId' : assessment.resit.id}) }}" class="btn btn-primary"  >
+                        Resit
+                    </a>
+                {% elseif assessment.isResit %}
+                    <a class="btn btn-primary" href="{{ path('assessment', {'assessmentId' : assessment.resitParent.id}) }}" > 
+                        Original assessment
+                    </a>
+                {% endif %}
                 <span class="pull-right">
                     <a class="btn btn-default"
                        href="{{ path('module',{'moduleId' : assessment.module.id }) }}">
