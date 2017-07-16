@@ -27,18 +27,23 @@
     'use strict';
 
     angular.module('examarks')
-            .factory('post', ['$http', postService]);
+            .factory('post', ['$http', 'Notification', postService]);
 
-    function postService($http) {
+    function postService($http, Notification) {
         function defaultFailure(response) {
+            Notification.erro("An error occured...");
             console.error(response.data);
         }
 
-        function post(url, callback, data, failure) {
+        function post(url, callback, data, failure, async) {
             failure = failure || defaultFailure;
+            if (async !== false || async !== true) {
+                async = true;
+            }
             $http({
                 method: 'POST',
                 url: url,
+                async: async,
                 data: data,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(callback, failure);

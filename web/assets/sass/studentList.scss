@@ -30,6 +30,10 @@ div.user-profile{
     opacity: 1;
 }
 
+div.user-profile div.well{
+    min-height: 155px;
+}
+
 div.user-profile.ng-enter{
     -webkit-transition: 1.5s;
     transition: 1.5s;
@@ -38,4 +42,8 @@ div.user-profile.ng-enter{
 
 div.user-profile.ng-enter-active{
     opacity: 1;
+}
+
+div.user-profile.ng-leave-active{
+    opacity: 0;
 }

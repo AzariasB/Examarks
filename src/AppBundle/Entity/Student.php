@@ -16,7 +16,7 @@ class Student extends User {
      *
      * @var \Doctrine\Common\Collections\ArrayCollection
      * 
-     * @ORM\OneToMany(targetEntity="Mark", mappedBy="student", cascade={"persist"}) 
+     * @ORM\OneToMany(targetEntity="Mark", mappedBy="student", cascade={"all"}) 
      */
     private $marks;
 

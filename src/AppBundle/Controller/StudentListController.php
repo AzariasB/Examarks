@@ -33,6 +33,7 @@ use \Symfony\Component\HttpFoundation\JsonResponse;
 use \Symfony\Component\Form\Form;
 use \AppBundle\Entity\Student;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Description of StudentListController
@@ -71,6 +72,21 @@ class StudentListController extends SuperController {
             $users = array_merge($users, $this->getAllFromClass(\AppBundle\Entity\Teacher::class));
         }
         return $users;
+    }
+
+    /**
+     * 
+     * @param Student $s
+     * 
+     * @Route("/deleteStudent/{id}", name="deleteStudent")
+     * @ParamConverter("s", class="AppBundle:Student")
+     */
+    public function deleteStudentAction(Student $s) {
+        $this->removeEntity($s);
+        return new JsonResponse([
+            'success' => true,
+            'message' => 'Successfully deleted student'
+        ]);
     }
 
     /**

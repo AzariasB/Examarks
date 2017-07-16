@@ -27,20 +27,45 @@
     'use strict';
 
     angular.module('examarks')
-            .controller('Controller', ['post', 'modalForm', 'Notification', '$scope', userListController]);
+            .controller('Controller', ['post', 'modalForm', 'Notification', '$scope', '$window', userListController]);
 
-    function userListController(post, modalForm, Notification, $scope) {
+    function userListController(post, modalForm, Notification, $scope, $window) {
 
         var self = this;
 
         //Attributse
         self.users = [];
         self.queue = [];
+        self.deleteUserPath;
 
         //Functions
         self.showNewStudentModal = showNewStudentModal;
         self.init = init;
-        self.toPath = toPath;
+        self.deleteUser = deleteUser;
+        self.confirmRemoval = confirmRemoval;
+        self.cancelRemoval = cancelRemoval;
+        self.fastUserRemove = fastUserRemove;
+
+        var cleanedUp = false;
+
+        $window.onbeforeunload = function () {
+            if (!cleanedUp) {
+                self.queue.map(function (x) {
+                    self.fastUserRemove(x.id);
+                });
+            }
+            cleanedUp = true;
+        };
+
+        function fastUserRemove(userId) {
+            post(self.deleteUserPath.replace('__id__', userId), function (response) {
+                if (response.data.success) {
+                    Notification.success(response.data.message);
+                } else {
+                    Notification.error(response.data.message);
+                }
+            }, null, null, false);
+        }
 
         function showNewStudentModal(requestUrl) {
             post(requestUrl, function (response) {
@@ -49,29 +74,67 @@
         }
 
         function deleteUser(userId) {
+            self.users = self.users.filter(function (x) {
+                if (x.id === userId) {
+                    self.queue.push(x);
+                    return false;
+                }
+                return true;
+            });
+            Notification.info({
+                'message': 'Deleting user ...<a href="#" ng-click="ctrl.cancelRemoval(' + userId + ')" >Cancel</a>',
+                'templateUrl': '/notifTemplate',
+                'scope': $scope,
+                'onClose': function () {
+                    self.confirmRemoval(userId);
+                }
+            });
+        }
 
+        function cancelRemoval(userId) {
+            self.queue = self.queue.filter(function (x) {
+                if (x.id === userId) {
+                    self.users.push(x);
+                    return false;
+                }
+                return true;
+            });
+        }
+
+        function confirmRemoval(userId) {
+            if (!self.queue.some(function (x) {
+                return x.id === userId;
+            })) {
+                return;
+            }
+
+            self.queue.filter(function (x) {
+                return x.id !== userId;
+            });
+            post(self.deleteUserPath.replace('__id__', userId), function (response) {
+                if (response.data.success) {
+                    Notification.success(response.data.message);
+                } else {
+                    Notification.error(response.data.message);
+                }
+            });
         }
 
         function actionUpdated(data) {
             if (data.success) {
-                self.users.push(data.student);
+                self.users.unshift(data.student);
                 Notification.success(data.message);
             } else {
                 Notification.error(data.message);
             }
         }
 
-        function init() {
-            post(window.location.href + '/json', function (response) {
+        function init(deleteSPath) {
+            self.deleteUserPath = deleteSPath;
+            post(window.location.origin + window.location.pathname + '/json', function (response) {
                 self.users = response.data.users;
             });
         }
-
-        function toPath(user) {
-
-        }
-
-        self.init();
     }
 
 })();
