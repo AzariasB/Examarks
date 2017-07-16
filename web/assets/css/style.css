@@ -22,51 +22,74 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 /* 
-    Created on : 16 juil. 2017, 12:27:18
+    Created on : 11 juil. 2017, 21:26:44
     Author     : azarias
 */
-.navbar-brand img {
-  width: 32px;
-  height: 32px; }
 
-footer {
-  text-align: center;
-  width: 100vw;
-  border-top: 1px solid black;
-  padding: 10px; }
+.navbar-brand img{
+    width: 32px;
+    height: 32px;
+}
+
+footer{
+    text-align: center;
+    width: 100vw;
+    border-top: 1px solid black;
+    padding: 10px;
+}
 
 body {
-  background: #eee !important; }
+	/*background: #eee !important;
+	Pour le background*/	
+ 	background: url('../img/background.jpg') no-repeat center center fixed; 
+ 	-webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
 
-.wrapper {
-  margin-top: 80px;
-  margin-bottom: 80px; }
+.wrapper {	
+	margin-top: 80px;
+  margin-bottom: 80px;
+}
 
 .form-signin {
   max-width: 380px;
   padding: 15px 35px 45px;
   margin: 0 auto;
   background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.1); }
-  .form-signin .form-signin-heading,
-  .form-signin .checkbox {
-    margin-bottom: 30px; }
-  .form-signin .checkbox {
-    font-weight: normal; }
-  .form-signin .form-control {
-    position: relative;
-    font-size: 16px;
-    height: auto;
-    padding: 10px; }
-    .form-signin .form-control:focus {
-      z-index: 2; }
-  .form-signin input[type="text"] {
-    margin-bottom: -1px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0; }
-  .form-signin input[type="password"] {
-    margin-bottom: 20px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0; }
+  border: 1px solid rgba(0,0,0,0.1);  
 
-/*# sourceMappingURL=style.css.map */
+  .form-signin-heading,
+	.checkbox {
+	  margin-bottom: 30px;
+	}
+
+	.checkbox {
+	  font-weight: normal;
+	}
+
+	.form-control {
+	  position: relative;
+	  font-size: 16px;
+	  height: auto;
+	  padding: 10px;
+		@include box-sizing(border-box);
+
+		&:focus {
+		  z-index: 2;
+		}
+	}
+
+	input[type="text"] {
+	  margin-bottom: -1px;
+	  border-bottom-left-radius: 0;
+	  border-bottom-right-radius: 0;
+	}
+
+	input[type="password"] {
+	  margin-bottom: 20px;
+	  border-top-left-radius: 0;
+	  border-top-right-radius: 0;
+	}
+}
