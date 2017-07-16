@@ -25,7 +25,8 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container" ng-init="ctrl.init('{{ path('deleteStudent',{'id':'__id__'}) }}')" >
+    <div class="container" 
+         ng-init="ctrl.init('{{ path('deleteStudent',{'id':'__id__'}) }}', '{{ path('editStudentJson', {'id' : '__id__'}) }}')" >
         <div class="row">
             <div class="col-xs-12">
                 <h1>
@@ -54,10 +55,16 @@
                             [[ user.email ]]
                         </p>
                         <span ng-if="!user.isAdmin">
-                            <a ng-click="ctrl.deleteUser(user.id)" href="#" class="btn btn-sm btn-warning opacity-child" title="Delete this user" >
+                            <a ng-click="ctrl.deleteUser(user.id)"
+                               href="#" 
+                               class="btn btn-sm btn-warning opacity-child" 
+                               title="Delete this user" >
                                 <i class="glyphicon glyphicon-trash"></i>
                             </a>
-                            <a href="#" class="btn btn-sm btn-default opacity-child" title="Edit this user" >
+                            <a ng-click="ctrl.editUserClick(user.id)"
+                                href="#" 
+                               class="btn btn-sm btn-default opacity-child" 
+                               title="Edit this user" >
                                 <i class="glyphicon glyphicon-pencil" ></i>
                             </a>
                         </span>

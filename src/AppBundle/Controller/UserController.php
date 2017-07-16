@@ -29,6 +29,8 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use \AppBundle\Entity\Student;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Description of UserController
@@ -69,6 +71,54 @@ class UserController extends SuperController {
 
     /**
      * 
+     * @param Student $s
+     * @param Request $req
+     * @Route("/editStudent/{id}/json",name="editStudentJson")
+     * @ParamConverter("s", class="AppBundle:Student")
+     */
+    public function editStudentJsonAction(Student $s, Request $req) {
+
+        $form = $this->createForm(\AppBundle\Form\StudentEditType::class, $s);
+
+        $form->handleRequest($req);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->handleStudentEdition($s);
+
+            return new JsonResponse([
+                'success' => true,
+                'message' => 'Successfully updated student',
+                'student' => $s
+            ]);
+        }
+
+        return new JsonResponse([
+            'success' => false,
+            'form' => $this->renderView('lobby/teacher/student-edit-modal.html.twig', [
+                'form' => $form->createView(),
+                'student' => $s
+            ])
+        ]);
+    }
+
+    private function handleStudentEdition(Student $stud) {
+        $modules = $this->getAllFromClass(\AppBundle\Entity\Module::class);
+        foreach ($modules as $m) {
+            if (!$stud->getModules()->contains($m)) {
+                $m->removeStudent($stud);
+            }
+        }
+
+        foreach ($stud->getModules()->toArray() as $mod) {
+            if ($mod->addUniqueStudent($stud)) {
+                $this->mergeEntity($mod, false);
+            }
+        }
+        $this->mergeEntity($stud);
+    }
+
+    /**
+     * 
      * @param type $studentId
      * 
      * @Route(path="/editStudent/{studentId}", name="editStudent")
@@ -81,31 +131,15 @@ class UserController extends SuperController {
         $form->handleRequest($req);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $modules = $this->getAllFromClass(\AppBundle\Entity\Module::class);
-            foreach ($modules as $m) {
-                if (!$stud->getModules()->contains($m)) {
-                    $m->removeStudent($stud);
-                }
-            }
+            $this->handleStudentEdition($stud);
 
-            foreach ($stud->getModules()->toArray() as $mod) {
-                if ($mod->addUniqueStudent($stud)) {
-                    $this->mergeEntity($mod, false);
-                }
-            }
-            $this->mergeEntity($stud);
-
-            return $this->render('default/student-profile.html.twig', [
-                        'student' => $stud
-            ]);
+            return $this->redirectToRoute('student', ['studentId' => $stud->getId()]);
         }
 
         return $this->render('default/student-edit.html.twig', [
                     'form' => $form->createView(),
-                    'student' => $stud
+                    'student' => $s
         ]);
     }
-
-
 
 }

@@ -37,6 +37,7 @@
         self.users = [];
         self.queue = [];
         self.deleteUserPath;
+        self.editUserPath;
 
         //Functions
         self.showNewStudentModal = showNewStudentModal;
@@ -45,6 +46,8 @@
         self.confirmRemoval = confirmRemoval;
         self.cancelRemoval = cancelRemoval;
         self.fastUserRemove = fastUserRemove;
+        self.editUserClick = editUserClick;
+        self.editedUser = editedUser;
 
         var cleanedUp = false;
 
@@ -56,6 +59,19 @@
             }
             cleanedUp = true;
         };
+
+        function editedUser(data) {
+            self.users = self.users.map(function (x) {
+                return x.id === data.student.id ? data.student : x;
+            });
+        }
+
+        function editUserClick(userId) {
+            var editPath = self.editUserPath.replace('__id__', userId);
+            post(editPath, function (response) {
+                modalForm($scope, response.data.form, editPath, self.editedUser);
+            });
+        }
 
         function fastUserRemove(userId) {
             post(self.deleteUserPath.replace('__id__', userId), function (response) {
@@ -129,8 +145,9 @@
             }
         }
 
-        function init(deleteSPath) {
+        function init(deleteSPath, editPath) {
             self.deleteUserPath = deleteSPath;
+            self.editUserPath = editPath;
             post(window.location.origin + window.location.pathname + '/json', function (response) {
                 self.users = response.data.users;
             });

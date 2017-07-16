@@ -1,0 +1,31 @@
+
+{% set formId = "edit-student-form" %}
+
+{% extends "lobby/modalForm.html.twig" %}
+
+{% block modalBody %}
+    <div class="row" >
+        <div class="col-xs-12">
+            <h1> Edit student </h1>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-xs-12">
+            {{ form_row(form.name) }}
+            {{ form_row(form.lastName) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.phone) }}
+            {{ form_row(form.address) }}
+            <label>Modules</label>
+            <div class="form-group well">
+                {% for mod in form.modules %}
+                    {{ form_row(mod) }}                    
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block parentButtonConfirm %}
+    {{ form_widget(form.submit) }}
+{% endblock %}

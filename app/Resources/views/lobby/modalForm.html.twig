@@ -25,11 +25,13 @@
     {% endblock %}
 </div>
 <div class="modal-footer">
-    <button id="submit-create-project" class="btn btn-default" type="submit">
-        {% block buttonConfirm %}
-            Create
-        {% endblock %}
-    </button>
+    {% block parentButtonConfirm %}
+        <button id="submit-create-project" class="btn btn-default" type="submit">
+            {% block buttonConfirm %}
+                Create
+            {% endblock %}
+        </button>
+    {% endblock %}
     <button type="button" class="btn btn-default" data-dismiss="modal">
         {% block buttonCancel %}
             Close

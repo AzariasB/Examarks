@@ -31,7 +31,7 @@
 
     function postService($http, Notification) {
         function defaultFailure(response) {
-            Notification.erro("An error occured...");
+            Notification.error("An error occured...");
             console.error(response.data);
         }
 
