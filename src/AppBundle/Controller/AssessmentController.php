@@ -45,9 +45,15 @@ class AssessmentController extends SuperController {
      * @Route("/assessment/{assessmentId}",name="assessment")
      * @ParamConverter("assessment", class="AppBundle:Assessment", options={"id" = "assessmentId"})
      */
-    public function indexAction(Assessment $assessment, Request $req) {
+    public function indexAction(Assessment $assessment, Request $req, \Swift_Mailer $mailer) {
         if ($this->isGranted('ROLE_TEACHER')) {
             $form = $this->createForm(\AppBundle\Form\AssessmentMarksType::class, $assessment);
+
+            //Save the old marks
+            $marks = [];
+            foreach ($assessment->getMarks() as $m) {
+                $marks[$m->getId()] = $m->getValue();
+            }
 
             $form->handleRequest($req);
 
@@ -58,6 +64,7 @@ class AssessmentController extends SuperController {
 
                 if ($form->isValid()) {
                     $this->mergeEntity($assessment);
+                    $this->warnMarkedStudent($assessment, $marks, $mailer);
                 }
             }
 
@@ -71,6 +78,38 @@ class AssessmentController extends SuperController {
                         'student' => $this->getUser()
             ]);
         }
+    }
+
+    /**
+     * 
+     * @param Assessment $assessment
+     * @param \Swift_Mailer $mailer
+     */
+    private function warnMarkedStudent(Assessment $assessment, $oldMarks, \Swift_Mailer $mailer) {
+        foreach ($assessment->getMarks() as $mark) {
+            if ($mark->getValue() && $oldMarks[$mark->getId()] != $mark->getValue()) {
+                $this->sendMarkMail($mark->getStudent(), $mark, $mailer);
+            }
+        }
+    }
+
+    /**
+     * 
+     * @param \AppBundle\Entity\Student $s
+     * @param \Swift_Mailer $mailer
+     */
+    private function sendMarkMail(\AppBundle\Entity\Student $s, \AppBundle\Entity\Mark $mark, \Swift_Mailer $mailer) {
+        $message = (new \Swift_Message("[UWE] New mark"))
+                ->setFrom("examarks@gmail.com")
+                ->setTo($s->getEmail())
+                ->setBody(
+                $this->renderView('mail/mark.html.twig', [
+                    'student' => $s,
+                    'mark' => $mark
+                ]), 'text/html'
+        );
+
+        $mailer->send($message);
     }
 
     /**
