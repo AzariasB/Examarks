@@ -37,6 +37,7 @@
         self.lastAssessmentId = null;
         self.dataPrototype = null;
         self.deleteModulePath = null;
+        self.editModulePath = null;
         self.modules = [];
         self.queue = [];
 
@@ -48,12 +49,34 @@
         self.removeAssessment = removeAssessment;
         self.addAssessmentForm = addAssessmentForm;
         self.deleteModule = deleteModule;
-        self.moduleDeleted = moduleDeleted;
+        self.editModule = editModule;
         self.cancelRemoval = cancelRemoval;
         self.init = init;
 
-        function moduleDeleted(response) {
-            Notification.success(response.message);
+
+        function editModule(moduleId) {
+            var path = self.editModulePath.replace('__id__', moduleId);
+            post(path, function (response) {
+                modalForm($scope, response.data.form, path, function (data) {
+                    var mod = data.module;
+                    if (!Array.isArray(mod.students)) {
+                        var studs = mod.students;
+                        mod.students = [];
+                        Object.keys(studs).map(function (x) {
+                            mod.students.push(x);
+                        });
+                    }
+
+                    self.modules = self.modules.map(function (x) {
+                        return x.id === data.module.id ? data.module : x;
+                    });
+                    if (data.success) {
+                        Notification.success(data.message);
+                    } else {
+                        Notification.error(data.message);
+                    }
+                });
+            });
         }
 
         function deleteModule(moduleId) {
@@ -143,8 +166,9 @@
         }
 
 
-        function init(deleteModulePath) {
+        function init(deleteModulePath, editModulePath) {
             self.deleteModulePath = deleteModulePath;
+            self.editModulePath = editModulePath;
 
             post(window.location.origin + window.location.pathname + '/json', function (response) {
                 self.modules = response.data.modules;

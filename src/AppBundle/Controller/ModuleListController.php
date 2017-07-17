@@ -71,6 +71,43 @@ class ModuleListController extends SuperController {
     /**
      * 
      * @param Module $m
+     * @Route("/editModule/{id}/json", name="editModuleJson")
+     * @ParamConverter("m", class="AppBundle:Module")
+     */
+    public function editModuleJsonAction(Module $m, Request $req) {
+        $form = $this->createForm(\AppBundle\Form\ModuleEditType::class, $m);
+
+        $form->handleRequest($req);
+
+        if ($form->isSubmitted()) {
+
+            if ($form->isValid()) {
+                $this->mergeEntity($m);
+
+                return new JsonResponse([
+                    'success' => true,
+                    'message' => 'Successfully edited module',
+                    'module' => $m
+                ]);
+            }
+
+            return new JsonResponse([
+                'success' => false,
+                'message' => 'Failed to edit module'
+            ]);
+        }
+
+        return new JsonResponse([
+            'success' => false,
+            'form' => $this->renderView('lobby/teacher/module-edit-modal.html.twig', [
+                'form' => $form->createView()
+            ])
+        ]);
+    }
+
+    /**
+     * 
+     * @param Module $m
      * @Route("/deleteModule/{id}/json", name="deleteModuleJson")
      * @ParamConverter("m", class="AppBundle:Module")
      */
@@ -128,7 +165,7 @@ class ModuleListController extends SuperController {
             if (!$m->getAssessments()->isEmpty()) {
                 $this->mergeEntity($m);
             } else {
-                $this->saveEntity($m);//Exception when no assessment
+                $this->saveEntity($m); //Exception when no assessment
             }
 
             return new JsonResponse([

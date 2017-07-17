@@ -1,0 +1,43 @@
+
+{% set formId = "edit-module" %}
+
+{% extends "lobby/modalForm.html.twig" %}
+
+
+{% block modalBody %}
+    <div class="row" >
+        <div class="col-xs-12" >
+            {{ form_row(form.name) }}            
+        </div>
+    </div>
+    <hr/>
+    <div class="row" >
+        <div class="col-xs-12" >
+            {{ form_row(form.number) }}
+        </div>
+    </div>
+    <hr/>
+    <div class="row" >
+        <div class="col-xs-12" >
+            {{ form_row(form.abbreviation) }}
+        </div>
+    </div>
+    <hr/>
+    <div class="row" >
+        <div class="col-xs-12" >
+            <div>
+                {{ form_label(form.students) }}
+            </div>
+            {% for student in form.students %}
+                <div class="" >
+                    {{ form_widget(student) }}
+                    {{ form_label(student) }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block buttonConfirm %}
+    Edit module
+{% endblock %}

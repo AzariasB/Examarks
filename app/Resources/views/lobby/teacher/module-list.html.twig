@@ -28,7 +28,8 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container" ng-init="ctrl.init('{{ path('deleteModuleJson',{'id': '__id__'}) }}')" >
+    <div class="container"
+         ng-init="ctrl.init('{{ path('deleteModuleJson',{'id': '__id__'}) }}','{{ path('editModuleJson', {'id' : '__id__'}) }}')" >
         <h1>
             Modules
         </h1>
