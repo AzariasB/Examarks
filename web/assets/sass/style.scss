@@ -26,6 +26,11 @@ THE SOFTWARE.
     Author     : azarias
 */
 
+.list-group-item-last{
+    margin-bottom: 5px;
+    border-bottom: 2px solid black;
+}
+
 .profile-card{
     margin-right: 5px;
     margin-bottom: 5px;
@@ -62,7 +67,7 @@ div.container{
 
 footer{
     background-color: #eee;
-    
+
 }
 
 body {

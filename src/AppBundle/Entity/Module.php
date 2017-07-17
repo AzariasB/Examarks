@@ -146,7 +146,7 @@ class Module implements \JsonSerializable {
         $assessments = 0;
         foreach ($this->assessments->toArray() as $assess) {
             $mark = $assess->hasStudentMark($s);
-            if ($mark->getValue()) {
+            if ($mark && $mark->getValue()) {
                 $assessments += ($assess->getWeight() / 100);
                 $total += $mark->getCalculatedResult();
             }
