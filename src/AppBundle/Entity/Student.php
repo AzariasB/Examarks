@@ -77,6 +77,10 @@ class Student extends User {
         return $this->survey;
     }
     
+    public function didSurvey(){
+        return $this->survey != null;
+    }
+    
     /**
      * Get marks
      * 

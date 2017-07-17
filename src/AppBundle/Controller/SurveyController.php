@@ -28,10 +28,9 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Survey\Overall;
+use AppBundle\Entity\Survey\Survey;
+use AppBundle\Form\Survey\SurveyType;
 use AppBundle\Entity\Survey\Agreement;
-use AppBundle\Form\Survey\AgreementType;
-use AppBundle\Form\Survey\OverallType;
 
 /**
  * Description of SurveyController
@@ -45,34 +44,9 @@ class SurveyController extends SuperController {
      * @Route("/survey",)
      */
     public function indexAction(Request $req) {
-        $agreement = new Overall(1);
+        $survey = new Survey();
 
-        $agreements = [];
-        $overalls = [];
-
-        $forms = [];
-
-        for ($i = 0; $i < count(Agreement::QUESTIONS) / 2; $i++) {
-            $randAgreemen = rand(0, count(Agreement::QUESTIONS) - 1);
-            if (array_key_exists($randAgreemen, $agreements)) {
-                $i--;
-            } else {
-                $agreements[$randAgreemen] = Agreement::QUESTIONS[$randAgreemen];
-                $forms[] = $this->createForm(AgreementType::class, $agreement[$randAgreemen]);
-            }
-        }
-
-        for ($i = 0; $i < count($overalls) / 2; $i++) {
-            $randO = rand(0, count(Overall::QUESTIONS) - 1);
-            if(array_key_exists($randO, $overalls)){
-                $i--;
-            }else{
-                $overalls[$randO] = Agreement::QUESTIONS[$randO];
-//                $forms[] = $this->createForm(OverallType::class, $)
-            }
-        }
-
-        $form = $this->createForm(OverallType::class, $agreement);
+        $form = $this->createForm(SurveyType::class, $survey);
 
         $form->handleRequest($req);
 
@@ -81,9 +55,7 @@ class SurveyController extends SuperController {
         }
 
         return $this->render('survey/agreement.html.twig', [
-                    'forms' => array_map(function(Form $f) {
-                                return $f->createView();
-                            }, $forms)
+                    'form' => $form->createView()
         ]);
     }
 
