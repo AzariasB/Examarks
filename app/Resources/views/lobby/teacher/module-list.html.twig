@@ -49,15 +49,17 @@
                 <p> [[ module.assessments.length]] assessments </p>
                 <p> [[ module.students.length ]] participants </p>
 
-                <a ng-click="ctrl.deleteModule(module.id)" class="btn btn-warning btn-sm"  href="#">
-                    <i class="glyphicon glyphicon-trash"></i>
-                </a>
-                <a ng-click="ctrl.editModule(module.id)" href="#" class="btn btn-default btn-sm">
-                    <i class="glyphicon glyphicon-pencil"></i>
-                </a>
-                <a href="/module/[[ module.id ]]" class="btn btn-primary btn-sm" >
-                    <i class="glyphicon glyphicon-eye-open"></i>
-                </a>
+                {% if is_granted('ROLE_TEACHER') %}
+                    <a ng-click="ctrl.deleteModule(module.id)" class="btn btn-warning btn-sm"  href="#">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </a>
+                    <a ng-click="ctrl.editModule(module.id)" href="#" class="btn btn-default btn-sm">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                    </a>
+                    <a href="/module/[[ module.id ]]" class="btn btn-primary btn-sm" >
+                        <i class="glyphicon glyphicon-eye-open"></i>
+                    </a>
+                {% endif %}
             </div>
         </div>
 

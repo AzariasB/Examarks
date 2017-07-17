@@ -37,6 +37,7 @@ security:
         - { path: ^/deleteModule, roles: ROLE_TEACHER }
         - { path: ^/deleteStudent, roles: ROLE_TEACHER }
         - { path: ^/editStudent, roles: ROLE_TEACHER }
+        - { path: ^/editModule, roles: ROLE_TEACHER }
         - { path: ^/createModule, roles: ROLE_TEACHER }
         - { path: ^/removeStudentFromModule, roles: ROLE_TEACHER }
         - { path: ^/createResit, roles: ROLE_TEACHER }
