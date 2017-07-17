@@ -24,83 +24,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for module in student.modules %}
-                            {% for assess in module.assessments %}
-                                {% set mark = assess.hasStudentMark(student) %}
-                                <tr {% if mark.value and mark.value < 40 %}
-                                    class="warning" title="Missed module" 
-                                    {% elseif mark.value and mark.value > 40 %}
-                                        class="success" title="Exam passed"
-                                        {% endif %}  
-                                            >
-                                            {% if loop.first %}
-                                                <td {% if not module.studentCompleted(student) %}
-                                                    title="Module not completed"
-                                                {% elseif not module.studentPassed(student) %}
-                                                    class="warning" title="Module failed"
-                                                {% else %}
-                                                    class="success" title="Module passed"
-                                                {% endif %}
-                                                rowspan="{{ module.assessments | length }}" >
-                                                <a href="{{ path('module', {'moduleId' : mark.assessment.module.id }) }}">
-                                                    {{ mark.assessment.module.name }}
-                                                </a>
-                                            </td>
-                                            {% endif %}
-                                                {% if not assess.isResit %}
-                                                    <td>
-                                                        <a href="{{ path('assessment', {'assessmentId' : assess.id}) }}" >
-                                                            {{ assess.type }}
-                                                        </a>
-                                                        {% if assess.hasResit %}
-                                                            - <a href="{{ path('assessment', {'assessmentId' : assess.resit.id}) }}" >
-                                                                Resit  
-                                                            </a>
-                                                        {% endif %}
-                                                        ({{ assess.weight }} %)
-                                                    </td>
-                                                    <td>
-                                                        {{ mark.markStr }}
-                                                        {% if assess.hasResit and assess.resit.hasStudentMark(student) %}
-                                                            (Resit : {{ assess.resit.hasStudentMark(student).markStr }})
-                                                        {% endif %}
-                                                    </td>
-                                                    <td>
-                                                        {{ mark.grade }}
-                                                        {% if assess.hasResit and assess.resit.hasStudentMark(student) %}
-                                                            (Resit :  {{ assess.resit.hasStudentMark(student).grade }})
-                                                        {% endif %}
-                                                    </td>
-                                                </tr>
-                                            {% endif %}
-                                            {% endfor %}
-                                                {% set avg = module.studentAverage(student) %}
-                                                <tr
-                                                    {% if not module.studentCompleted(student) %}
-                                                        title="Module not completed yet"
-                                                    {% elseif not module.studentPassed(student) %}
-                                                        class="warning" title="Module failed"
-                                                    {% else %}
-                                                        class="success" title="Module passed"
-                                                    {% endif %}
-                                                    >
-                                                    <th colspan="2" >Average</th>
-                                                    <td colspan="2" >
-                                                        {{ avg }}
-                                                    </td>
-                                                </tr>
-                                                {% endfor %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="row" >
-                                        <div class="col-xs-12">
-                                            <a class="btn btn-default" href="{{ path('moduleList') }}" >
-                                                See my modules
-                                            </a>
-                                        </div>                                           
-                                    </div>
+                        {% include 'lobby/student/report.html.twig' with {'student' : student } %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-xs-12">
+                <a class="btn btn-default" href="{{ path('moduleList') }}" >
+                    See my modules
+                </a>
+            </div>                                           
+        </div>
 
-                                </div>
-                                {% endblock %}
+    </div>
+{% endblock %}

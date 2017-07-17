@@ -28,7 +28,8 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container" ng-init="ctrl.init()" >
+    <div class="container"
+         ng-init="ctrl.init('{{ path('deleteModuleJson',{'id': '__id__'}) }}','{{ path('editModuleJson', {'id' : '__id__'}) }}')" >
         <h1>
             Modules
         </h1>
@@ -48,10 +49,10 @@
                 <p> [[ module.assessments.length]] assessments </p>
                 <p> [[ module.students.length ]] participants </p>
 
-                <a class="btn btn-warning btn-sm"  href="#">
+                <a ng-click="ctrl.deleteModule(module.id)" class="btn btn-warning btn-sm"  href="#">
                     <i class="glyphicon glyphicon-trash"></i>
                 </a>
-                <a href="#" class="btn btn-default btn-sm">
+                <a ng-click="ctrl.editModule(module.id)" href="#" class="btn btn-default btn-sm">
                     <i class="glyphicon glyphicon-pencil"></i>
                 </a>
                 <a href="/module/[[ module.id ]]" class="btn btn-primary btn-sm" >

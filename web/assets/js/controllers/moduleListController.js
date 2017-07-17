@@ -36,7 +36,10 @@
         //Attributes
         self.lastAssessmentId = null;
         self.dataPrototype = null;
+        self.deleteModulePath = null;
+        self.editModulePath = null;
         self.modules = [];
+        self.queue = [];
 
         self.nwAssessments = [];
 
@@ -45,7 +48,84 @@
         self.addAssessment = addAssessment;
         self.removeAssessment = removeAssessment;
         self.addAssessmentForm = addAssessmentForm;
+        self.deleteModule = deleteModule;
+        self.editModule = editModule;
+        self.cancelRemoval = cancelRemoval;
         self.init = init;
+
+
+        function editModule(moduleId) {
+            var path = self.editModulePath.replace('__id__', moduleId);
+            post(path, function (response) {
+                modalForm($scope, response.data.form, path, function (data) {
+                    var mod = data.module;
+                    if (!Array.isArray(mod.students)) {
+                        var studs = mod.students;
+                        mod.students = [];
+                        Object.keys(studs).map(function (x) {
+                            mod.students.push(x);
+                        });
+                    }
+
+                    self.modules = self.modules.map(function (x) {
+                        return x.id === data.module.id ? data.module : x;
+                    });
+                    if (data.success) {
+                        Notification.success(data.message);
+                    } else {
+                        Notification.error(data.message);
+                    }
+                });
+            });
+        }
+
+        function deleteModule(moduleId) {
+            self.modules = self.modules.filter(function (x) {
+                if (x.id === moduleId) {
+                    self.queue.push(x);
+                    return false;
+                }
+                return true;
+            });
+            Notification.info({
+                'message': 'Deleting module ...<a href="#" ng-click="ctrl.cancelRemoval(' + moduleId + ')" >Cancel</a>',
+                'templateUrl': '/notifTemplate',
+                'scope': $scope,
+                'onClose': function () {
+                    confirmDeletion(moduleId);
+                }
+            });
+        }
+
+        function confirmDeletion(moduleId) {
+            if (!self.queue.some(function (x) {
+                return x.id === moduleId;
+            }))
+                return;
+
+            var path = self.deleteModulePath.replace('__id__', moduleId);
+            post(path, function (response) {
+                if (response.data.success) {
+                    Notification.success(response.data.message);
+                } else {
+                    Notification.error(response.data.message);
+                }
+            });
+
+            self.queue = self.queue.filter(function (x) {
+                return x.id !== moduleId;
+            });
+        }
+
+        function cancelRemoval(moduleId) {
+            self.queue = self.queue.filter(function (x) {
+                if (x.id === moduleId) {
+                    self.modules.push(x);
+                    return false;
+                }
+                return true;
+            });
+        }
 
         function showNewModuleModal(requestUrl) {
             post(requestUrl, function (response) {
@@ -90,8 +170,9 @@
         }
 
 
-        function init() {
-
+        function init(deleteModulePath, editModulePath) {
+            self.deleteModulePath = deleteModulePath;
+            self.editModulePath = editModulePath;
 
             post(window.location.origin + window.location.pathname + '/json', function (response) {
                 self.modules = response.data.modules;
