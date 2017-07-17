@@ -20,3 +20,4 @@ nbproject
 /web/assets/vendor
 /web/phpmyadmin
 *.map
+composer.phar
