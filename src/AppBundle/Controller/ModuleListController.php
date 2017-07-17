@@ -27,6 +27,7 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\ModuleType;
 use \Symfony\Component\HttpFoundation\JsonResponse;
@@ -55,16 +56,30 @@ class ModuleListController extends SuperController {
             ]);
         }
     }
-    
+
     /**
      * 
      * @return JsonResponse
      * @Route("/moduleList/json", name="moduleListJson")
      */
-    public function moduleListJsonAction(){
-       return new JsonResponse([
+    public function moduleListJsonAction() {
+        return new JsonResponse([
             'modules' => $this->getAllFromClass(Module::class)
-       ]);
+        ]);
+    }
+
+    /**
+     * 
+     * @param Module $m
+     * @Route("/deleteModule/{id}/json", name="deleteModuleJson")
+     * @ParamConverter("m", class="AppBundle:Module")
+     */
+    public function deleteModuleJsonAction(Module $m) {
+        $this->removeEntity($m);
+        return new JsonResponse([
+            'success' => true,
+            'message' => 'Successfully deleted module'
+        ]);
     }
 
     /**
@@ -110,7 +125,11 @@ class ModuleListController extends SuperController {
                 $this->mergeEntity($stud, false);
             }
 
-            $this->mergeEntity($m);
+            if (!$m->getAssessments()->isEmpty()) {
+                $this->mergeEntity($m);
+            } else {
+                $this->saveEntity($m);//Exception when no assessment
+            }
 
             return new JsonResponse([
                 'success' => true,

@@ -36,7 +36,9 @@
         //Attributes
         self.lastAssessmentId = null;
         self.dataPrototype = null;
+        self.deleteModulePath = null;
         self.modules = [];
+        self.queue = [];
 
         self.nwAssessments = [];
 
@@ -45,7 +47,58 @@
         self.addAssessment = addAssessment;
         self.removeAssessment = removeAssessment;
         self.addAssessmentForm = addAssessmentForm;
+        self.deleteModule = deleteModule;
+        self.moduleDeleted = moduleDeleted;
+        self.cancelRemoval = cancelRemoval;
         self.init = init;
+
+        function moduleDeleted(response) {
+            Notification.success(response.message);
+        }
+
+        function deleteModule(moduleId) {
+            self.modules = self.modules.filter(function (x) {
+                if (x.id === moduleId) {
+                    self.queue.push(x);
+                    return false;
+                }
+                return true;
+            });
+            Notification.info({
+                'message': 'Deleting module ...<a href="#" ng-click="ctrl.cancelRemoval(' + moduleId + ')" >Cancel</a>',
+                'templateUrl': '/notifTemplate',
+                'scope': $scope,
+                'onClose': function () {
+                    confirmDeletion(moduleId);
+                }
+            });
+        }
+
+        function confirmDeletion(moduleId) {
+            if (!self.queue.some(function (x) {
+                return x.id === moduleId;
+            }))
+                return;
+
+            var path = self.deleteModulePath.replace('__id__', moduleId);
+            post(path, function (response) {
+                if (response.data.success) {
+                    Notification.success(response.data.message);
+                } else {
+                    Notification.error(response.data.message);
+                }
+            });
+        }
+
+        function cancelRemoval(moduleId) {
+            self.queue = self.queue.filter(function (x) {
+                if (x.id === moduleId) {
+                    self.modules.push(x);
+                    return false;
+                }
+                return true;
+            });
+        }
 
         function showNewModuleModal(requestUrl) {
             post(requestUrl, function (response) {
@@ -90,8 +143,8 @@
         }
 
 
-        function init() {
-
+        function init(deleteModulePath) {
+            self.deleteModulePath = deleteModulePath;
 
             post(window.location.origin + window.location.pathname + '/json', function (response) {
                 self.modules = response.data.modules;
