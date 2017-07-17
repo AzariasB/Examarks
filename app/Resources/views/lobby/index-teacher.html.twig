@@ -10,7 +10,7 @@
         <h1>Welcome back, {{ app.user.username }}</h1>
         <div class="row" >
             <div class="col-xs-12" id='modules'>
-                <ul class="nav nav-pills navbar-nav nav-stacked col-xs-12 col-md-3 lobby-button" >
+                <ul class="nav nav-pills navbar-nav nav-stacked col-xs-12 col-md-3" >
                     <li> 
                         <a href="{{ path('studentList') }}">
                             {% if is_granted('ROLE_ADMIN') %}
