@@ -111,6 +111,10 @@
                     Notification.error(response.data.message);
                 }
             });
+
+            self.queue = self.queue.filter(function (x) {
+                return x.id !== moduleId;
+            });
         }
 
         function cancelRemoval(moduleId) {
