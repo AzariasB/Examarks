@@ -36,6 +36,9 @@ div.user-profile.ng-enter {
   transition: 1.5s;
   opacity: 0; }
 
+div.user-profile.ng-enter-stagger {
+  transition-delay: 0.1s; }
+
 div.user-profile.ng-enter-active {
   opacity: 1; }
 

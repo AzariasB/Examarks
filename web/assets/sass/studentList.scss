@@ -40,6 +40,10 @@ div.user-profile.ng-enter{
     opacity: 0;
 }
 
+div.user-profile.ng-enter-stagger{
+    transition-delay: 0.1s;
+}
+
 div.user-profile.ng-enter-active{
     opacity: 1;
 }
