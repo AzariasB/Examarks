@@ -29,41 +29,31 @@ namespace AppBundle\Entity\Survey;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Agreement
+ * Overall
  *
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Survey\AgreementRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Survey\OverallRepository")
  */
-class Agreement extends Question {
+class Overall extends Question {
 
-    //put your code here
-
-    const STRONGLY_DISAGREE = 0;
-    const DISAGREE = 1;
-    const NEUTRAL = 2;
-    const AGREE = 3;
-    const STRONGRLY_AGREE = 4;
+    const EXCELLENT = 0;
+    const VERY_GOOD = 1;
+    const GOOD = 2;
+    const FAIR = 3;
+    const POOR = 4;
     const CHOICES = array(
-        'Strongly disagree' => self::STRONGLY_DISAGREE,
-        'Disagree' => self::DISAGREE,
-        'Neutral' => self::NEUTRAL,
-        'Agree' => self::AGREE,
-        'Strongly agree' => self::STRONGRLY_AGREE
+        'Excellent' => self::EXCELLENT,
+        'Very good' => self::VERY_GOOD,
+        'Good' => self::GOOD,
+        'Fair' => self::FAIR,
+        'Poor' => self::POOR
     );
     const QUESTIONS = array(
-        'The course objectives were clear',
-        'The course textbooks were clear and well written',
-        'The assignments were appropriate for the level of this class',
-        'The course increased my interest in the subject',
-        'The course corresponded to my expectations',
-        'The teacher demonstrated knowledge of the subject matter',
-        'The teacher was effective in communicating the content of the course',
-        'The teacher encouraged feedback from the class',
-        'The teacher showed genuine concern for the students',
-        'The teacher was enthusiastic about the course'
+        'What overall rating would you give the course?',
+        'What overall rating would you give the teacher?',
     );
 
-    public function __construct($questionNumber) {
-        $this->setQuestion($questionNumber);
+    public function __construct($question) {
+        $this->setQuestion($question);
     }
 
     public function questionString() {

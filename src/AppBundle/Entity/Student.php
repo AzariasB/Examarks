@@ -1,4 +1,5 @@
 <?php
+
 /*
  * The MIT License
  *
@@ -51,6 +52,31 @@ class Student extends User {
      */
     private $modules;
 
+    /**
+     *
+     * @var Survey\Survey
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Survey\Survey", mappedBy="student")
+     */
+    private $survey;
+
+    /**
+     * Set survey
+     * 
+     * @param \AppBundle\Entity\Survey\Survey $s
+     */
+    public function setSurvey(Survey\Survey $s){
+        $this->survey = $s;
+    }
+    
+    /**
+     * Get survey
+     * 
+     * @return Survey\Survey
+     */
+    public function getSurvey(){
+        return $this->survey;
+    }
+    
     /**
      * Get marks
      * 
@@ -107,10 +133,10 @@ class Student extends User {
      * 
      * @param \AppBundle\Entity\Module $m
      */
-    public function addModule(Module $m){
+    public function addModule(Module $m) {
         return $this->modules->add($m);
     }
-    
+
     public function jsonSerialize() {
         $parent = parent::jsonSerialize();
         $mMarks = [];
