@@ -35,14 +35,35 @@
         self.formPath = null;
         self.questionNumber = 0;
         self.currentValues = [];
+        self.submitting = false;
+        self.showHomeButton = false;
 
         //Functions
         self.init = init;
         self.nextQuestion = nextQuestion;
         self.previousQuestion = previousQuestion;
         self.updateProgression = updateProgression;
+        self.submit = submit;
 
         $scope.$watch('ctrl.questionIndex', self.updateProgression);
+
+        function submit() {
+            self.submitting = true;
+            var data = $("#survey-form").serialize();
+            self.currentValues.map(function (value, i) {
+                data += '&survey[questions][' + i + '][rating]=' + value;
+            });
+            console.log(data);
+            post(self.formPath, function (response) {
+                var data = response.data;
+                if (data.success) {
+                    Notif.success(data.message);
+                    self.showHomeButton = true;
+                } else {
+                    Notif.error(data.message);
+                }
+            }, data);
+        }
 
         function updateProgression() {
             self.progression = (self.questionIndex / self.questionNumber) * 100 | 0;
