@@ -1,4 +1,6 @@
 {% for module in student.modules %}
+    <div class=""
+    
     <td {% if not module.studentCompleted(student) %}
         title="Module not completed"
         {% elseif not module.studentPassed(student) %}

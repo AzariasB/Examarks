@@ -55,6 +55,8 @@ class QuestionType extends AbstractType {
                         'choices' => $choices,
                         'label' => $builder->getData()->questionString(),
                         'expanded' => true,
+                        'required' => false,
+                        'placeholder' => false,
                         'attr' => [
                             'class' => 'form-control'
                         ],

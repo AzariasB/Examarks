@@ -64,23 +64,23 @@ class Student extends User {
      * 
      * @param \AppBundle\Entity\Survey\Survey $s
      */
-    public function setSurvey(Survey\Survey $s){
+    public function setSurvey(Survey\Survey $s) {
         $this->survey = $s;
     }
-    
+
     /**
      * Get survey
      * 
      * @return Survey\Survey
      */
-    public function getSurvey(){
+    public function getSurvey() {
         return $this->survey;
     }
-    
-    public function didSurvey(){
+
+    public function didSurvey() {
         return $this->survey != null;
     }
-    
+
     /**
      * Get marks
      * 
@@ -112,6 +112,12 @@ class Student extends User {
     public function __construct() {
         $this->marks = new \Doctrine\Common\Collections\ArrayCollection;
         $this->modules = new \Doctrine\Common\Collections\ArrayCollection;
+    }
+
+    public function completedOneModule() {
+        return $this->modules->exists(function($i, Module $m) {
+                    return $m->studentCompleted($this);
+                });
     }
 
     /**

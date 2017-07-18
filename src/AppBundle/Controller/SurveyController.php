@@ -43,7 +43,11 @@ class SurveyController extends SuperController {
      * 
      * @Route("/survey",)
      */
-    public function indexAction(Request $req) {
+    public function indexAction() {
+        if($this->getUser()->didSurvey()){
+            return $this->redirectToRoute('lobby');
+        }
+        
         return $this->render('survey/survey.html.twig');
     }
 
@@ -59,7 +63,11 @@ class SurveyController extends SuperController {
 
         $form->handleRequest($req);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {       
+            $survey->setStudent($this->getUser());
+            $this->getUser()->setSurvey($survey);
+            $this->saveEntity($survey);
+            
             return new JsonResponse([
                 'success' => true,
                 'message' => 'Thank your for answering the survey'

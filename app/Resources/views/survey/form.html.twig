@@ -1,6 +1,6 @@
 
-
-<div class="row"  
+{{ form_start(form, {'attr' : {'ng-submit' : 'ctrl.submit()', 'id' : 'survey-form'} } ) }}
+<div class="row ng-cloak"  
      ng-init="ctrl.questionNumber = {{ form.questions | length }}" >
     {% for qu in form.questions %}
         <div class="col-xs-12 survey-row" ng-show="ctrl.questionIndex == {{ loop.index0 }}" >
@@ -13,24 +13,33 @@
     <div class="col-xs-12">
 
         <button ng-click="ctrl.previousQuestion()"
-
-                ng-disabled="ctrl.questionIndex === 0"
+                type="button"
+                ng-disabled="ctrl.questionIndex === 0 || ctrl.showHomeButton || ctrl.submitting"
                 class="btn btn-primary">
             <i class="glyphicon glyphicon-chevron-left"></i>
             Previous
         </button>
-        <button ng-click="ctrl.nextQuestion()"
+        <button type="button"
+                ng-click="ctrl.nextQuestion()"
                 ng-show="ctrl.questionIndex < ctrl.questionNumber" 
                 ng-disabled="!ctrl.currentValues[ctrl.questionIndex]"
                 class="btn btn-primary">
             Next
             <i class="glyphicon glyphicon-chevron-right"></i>
         </button>
-        <button ng-show="ctrl.questionIndex == ctrl.questionNumber" 
-                class="btn btn-success" 
-                 type="submit">
+        <button
+            ng-disabled="ctrl.submitting"
+            ng-show="ctrl.questionIndex == ctrl.questionNumber && !ctrl.showHomeButton" 
+            class="btn btn-success" 
+            type="submit">
             Finish
             <i class="glyphicon glyphicon-ok"></i>
         </button>
+        <a ng-show="ctrl.showHomeButton"
+           href="/home" 
+           class="btn btn-default" >
+            Home
+        </a>
     </div>
 </div>
+{{ form_end(form) }}

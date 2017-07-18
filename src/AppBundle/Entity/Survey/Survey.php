@@ -58,7 +58,7 @@ class Survey {
     /**
      *
      * @var \Doctrine\Common\Collections\ArrayCollection 
-     * @ORM\ManyToMany(targetEntity="Question")
+     * @ORM\ManyToMany(targetEntity="Question",cascade={"persist"}, orphanRemoval=true)
      * @ORM\JoinTable(name="survey_questions",
      *      joinColumns={@ORM\JoinColumn(name="survey_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="question_id", referencedColumnName="id", unique=true)}
