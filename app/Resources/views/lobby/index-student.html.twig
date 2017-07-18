@@ -5,6 +5,11 @@
     Lobby - {{ student.login }}
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/indexStudent.css') }}" />
+{% endblock %}
+
 {% block content %}
     <div class="container">
         <div class="row">
@@ -13,20 +18,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12">
-                <table class="col-xs-12 table">
-                    <thead>
-                        <tr>
-                            <th> </th>
-                            <th> Assessment </th>
-                            <th> Mark </th>
-                            <th> Equivalent Grade </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% include 'lobby/student/report.html.twig' with {'student' : student } %}
-                    </tbody>
-                </table>
+            <div class="col-xs-12 module-list">
+                {% include 'lobby/student/report.html.twig' with {'student' : student } %}
             </div>
         </div>
         <div class="row" >

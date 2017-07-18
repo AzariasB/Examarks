@@ -1,4 +1,5 @@
 <?php
+
 /*
  * The MIT License
  *
@@ -77,6 +78,10 @@ class Mark implements \JsonSerializable {
         return $this->value && $this->value < 40;
     }
 
+    public function toCssClass() {
+        return $this->value ? $this->isPassed() ? $this->value >= 80 ? "success" : "primary" : "warning" : "";
+    }
+
     /**
      * Get id
      *
@@ -85,8 +90,8 @@ class Mark implements \JsonSerializable {
     public function getId() {
         return $this->id;
     }
-    
-    public function getMarkStr(){
+
+    public function getMarkStr() {
         return $this->value ? $this->value : "Not marked";
     }
 

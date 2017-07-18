@@ -1,68 +1,98 @@
 {% for module in student.modules %}
-    <div class=""
-    
-    <td {% if not module.studentCompleted(student) %}
-        title="Module not completed"
-        {% elseif not module.studentPassed(student) %}
-            class="warning" title="Module failed"
-            {% else %}
-                class="success" title="Module passed"
-                {% endif %}
-                    rowspan="{{ module.assessments | length }}" >
-                    <a href="{{ path('module', {'moduleId' : module.id }) }}">
-                        {{ module.name }}
-                    </a>
-                </td>
-                {% for assess in module.assessments %}
-                    {% if  not assess.isResit %}
-                        {% set mark = assess.hasStudentMark(student) %}
-                        <tr {% if mark.value and mark.value < 40 %}
-                            class="warning" title="Missed module" 
-                        {% elseif mark.value and mark.value > 40 %}
-                            class="success" title="Exam passed"
-                        {% endif %}  
-                        >
-                        {% if not assess.isResit %}
-                            <td>
-                                <a href="{{ path('assessment', {'assessmentId' : assess.id}) }}" >
+    <div class="module row" >
+        <div class="module-name col-xs-1" >
+            <h4> 
+                <a href="{{ path('module', { 'moduleId' : module.id}) }}" >
+                    {{ module.name | title}}                    
+                </a> 
+            </h4>
+        </div>
+        <div class="col-xs-11">
+            {% for assess in module.assessments %}
+                {% if not assess.isResit %}
+                    {% set mark = assess.hasStudentMark(student) %}
+                    <div class="row module-informations warning">
+                        <div class="col-xs-2">
+                            <h5>
+                                <a href="{{ path('assessment', {'assessmentId' : assess.id } ) }}">
                                     {{ assess.type }}
                                 </a>
-                                {% if assess.hasResit %}
-                                    - <a href="{{ path('assessment', {'assessmentId' : assess.resit.id}) }}" >
-                                        Resit  
-                                    </a>
-                                {% endif %}
-                                ({{ assess.weight }} %)
-                            </td>
-                            <td>
-                                {{ mark.markStr }}
-                                {% if assess.hasResit and assess.resit.hasStudentMark(student) %}
-                                    (Resit : {{ assess.resit.hasStudentMark(student).markStr }})
-                                {% endif %}
-                            </td>
-                            <td>
-                                {{ mark.grade }}
-                                {% if assess.hasResit and assess.resit.hasStudentMark(student) %}
-                                    (Resit :  {{ assess.resit.hasStudentMark(student).grade }})
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endif %}
-                    {% endif %}
-                        {% endfor %}
-                            {% set avg = module.studentAverage(student) %}
-                            <tr
-                                {% if not module.studentCompleted(student) %}
-                                    title="Module not completed yet" class="list-group-item-last"
-                                {% elseif not module.studentPassed(student) %}
-                                    class="warning list-group-item-last" title="Module failed"
+                            </h5>
+                        </div>
+                        <div class="col-xs-4 assessment-mark">
+                            {% if mark and mark.value %}
+                                <span>{{ mark.value }}/100</span>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-{{ mark.toCssClass }}" role="progressbar" aria-valuenow="{{ mark.value }}"
+                                         aria-valuemin="0" aria-valuemax="100" style="width:{{ mark.value }}%">
+                                    </div>
+                                </div>
+                            {% else %}
+                                <h5>
+                                    Not marked yet
+                                </h5>
+                            {% endif %}
+                        </div>
+                        <div class="col-xs-2">
+                            <h5>
+                                {% if mark %}
+                                    {{ mark.getGrade }}
                                 {% else %}
-                                    class="success list-group-item-last" title="Module passed"
+                                    /
                                 {% endif %}
-                                >
-                                <th colspan="2" >Average</th>
-                                <td colspan="2" >
-                                    {{ avg|round(2, 'floor') }}
-                                </td>
-                            </tr>
-                            {% endfor %}
+                            </h5>
+                        </div>
+                        <div class="col-xs-4">
+                            <h5>
+                                {% if assess.hasResit %}
+                                    {% set resit = assess.resit %}
+                                    {% set mark = resit.hasStudentMark(student) %}
+                                    {% if mark %}
+                                        <a href="{{ path('assessment', {'assessmentId' : resit.id }) }}">
+                                            Resit
+                                        </a>
+                                        :
+                                        {% if mark.value %}
+                                            {{ mark.value }} ({{ mark.getGrade }})
+                                        {% else %}
+                                            Not marked yet
+                                        {% endif %}
+
+                                    {% else %}
+                                        You don't need a resit exam
+                                    {% endif %}
+                                {% else %}
+                                    Assessment not completed yet
+                                {% endif %}
+                            </h5>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="module-average row">
+        <div class="col-xs-12">
+            {% set avg = module.studentAverage(student) | round(2,'floor') %}
+            <div class="col-xs-1">
+                <h5>Average : </h5>
+            </div>
+            <div class="col-xs-2">
+                <h5>
+                    {{ avg }}/100
+                </h5>
+            </div>
+            <div class="col-xs-3">
+                <h5 class="text-center" >
+                    {% if not module.studentCompleted(student) %}
+                        Module not completed
+                    {% elseif module.studentPassed(student) %}
+                        Module passed !
+                    {% else %}
+                        Module failed
+                    {% endif %}               
+                </h5>
+            </div>
+        </div>
+    </div>
+{% endfor %}

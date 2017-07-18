@@ -1,4 +1,5 @@
 <?php
+
 /*
  * The MIT License
  *
@@ -86,6 +87,11 @@ class Module implements \JsonSerializable {
     public function __construct() {
         $this->assessments = new \Doctrine\Common\Collections\ArrayCollection;
         $this->students = new \Doctrine\Common\Collections\ArrayCollection;
+    }
+
+    public function studentAverageToCSs(Student $s) {
+        $avg = $this->studentAverage($s);
+        return $avg != '/' ? $avg > 40 ? $avg >= 80 ? "success" : "primary" : "warning" : "";
     }
 
     /**
@@ -192,6 +198,10 @@ class Module implements \JsonSerializable {
         }
 
         foreach ($this->assessments->toArray() as $assess) {
+            if($assess->isResit()){
+               continue; 
+            }
+            
             $mark = $assess->hasStudentMark($s);
             if (!$mark || !$mark->getValue()) {
                 return false;
