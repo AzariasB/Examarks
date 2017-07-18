@@ -1,13 +1,13 @@
 {% for module in student.modules %}
     <div class="module row" >
-        <div class="module-name col-xs-1" >
+        <div class="module-name col-xs-2" >
             <h4> 
                 <a href="{{ path('module', { 'moduleId' : module.id}) }}" >
                     {{ module.name | title}}                    
                 </a> 
             </h4>
         </div>
-        <div class="col-xs-11">
+        <div class="col-xs-10">
             {% for assess in module.assessments %}
                 {% if not assess.isResit %}
                     {% set mark = assess.hasStudentMark(student) %}
