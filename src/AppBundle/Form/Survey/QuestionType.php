@@ -26,29 +26,42 @@
 
 namespace AppBundle\Form\Survey;
 
-/**
- * Description of OverallType
- *
- * @author azarias
- */
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use AppBundle\Entity\Survey\Overall;
+use AppBundle\Entity\Survey\Agreement;
+use Symfony\Component\Form\FormEvent;
 
-class OverallType extends AbstractType {
+/**
+ * Description of QuestionType
+ *
+ * @author azarias
+ */
+class QuestionType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('rating', ChoiceType::class, [
-            'choices' => Overall::CHOICES,
-            'label' => $builder->getData()->questionString(),
-            'expanded' => true
-        ]);
+        $builder->addEventListener(\Symfony\Component\Form\FormEvents::POST_SET_DATA, function(FormEvent $event) {
+            $choices = [];
+            $builder = $event->getForm();
+            if ($builder->getData() instanceof Overall) {
+                $choices = Overall::CHOICES;
+            } else if ($builder->getData() instanceof Agreement) {
+                $choices = Agreement::CHOICES;
+            }
+
+            $builder
+                    ->add('rating', ChoiceType::class, [
+                        'choices' => $choices,
+                        'label' => $builder->getData()->questionString(),
+                        'expanded' => true
+            ]);
+        });
     }
 
     public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver) {
         $resolver->setDefaults([
-            'data_class' => Overall::class
+            'data_class' => \AppBundle\Entity\Survey\Question::class
         ]);
     }
 

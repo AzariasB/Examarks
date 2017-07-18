@@ -75,8 +75,23 @@ class Survey {
         return $this->id;
     }
 
+    private function chooseRandom($array, $className) {
+        $indexes = [];
+        for ($i = 0; $i < count($array) / 2; $i++) {
+            $randIndex = rand(0, count($array) - 1);
+            if (in_array($randIndex, $indexes)) {
+                $i--;
+            } else {
+                $indexes[] = $randIndex;
+                $this->getQuestions()->add(new $className($randIndex));
+            }
+        }
+    }
+
     public function __construct() {
         $this->questions = new ArrayCollection;
+        $this->chooseRandom(Agreement::CHOICES, Agreement::class);
+        $this->chooseRandom(Overall::CHOICES, Agreement::class);
     }
 
     /**

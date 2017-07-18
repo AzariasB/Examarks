@@ -67,7 +67,7 @@ class Agreement extends Question {
     }
 
     public function questionString() {
-        return self::QUESTIONS[$this->question];
+        return self::QUESTIONS[$this->getQuestion()];
     }
 
 }

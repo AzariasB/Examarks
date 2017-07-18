@@ -26,33 +26,32 @@
 
 namespace AppBundle\Form\Survey;
 
-
-/**
- * Description of AgreementType
- *
- * @author azarias
- */
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use AppBundle\Entity\Survey\Agreement;
+use AppBundle\Entity\Survey\Overall;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class AgreementType extends AbstractType {
 
-    //put your code here
-
+/**
+ * Description of SurveyType
+ *
+ * @author azarias
+ */
+class SurveyType extends AbstractType {
+    
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('rating', ChoiceType::class, [
-            'choices' => Agreement::CHOICES,
-            'label' => $builder->getData()->questionString(),
-            'expanded' => true
-        ]);
+        $builder
+                ->add('questions', CollectionType::class,[
+                    'entry_type' => QuestionType::class,
+                    'allow_add' => false,
+                    'allow_delete' => false
+                ]);
     }
     
     public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver) {
         $resolver->setDefaults([
-            'data_class' => Agreement::class
+            'data_class' => \AppBundle\Entity\Survey\Survey::class
         ]);
     }
-
 }
