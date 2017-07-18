@@ -54,7 +54,14 @@ class QuestionType extends AbstractType {
                     ->add('rating', ChoiceType::class, [
                         'choices' => $choices,
                         'label' => $builder->getData()->questionString(),
-                        'expanded' => true
+                        'expanded' => true,
+                        'attr' => [
+                            'class' => 'form-control',
+                            'ng-model' => 'ctrl.currentValue'
+                        ],
+                        'choice_attr' => [
+                            'class' => 'radio'
+                        ]
             ]);
         });
     }

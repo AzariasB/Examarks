@@ -332,7 +332,7 @@ class Assessment implements \JsonSerializable {
      * @param \DateTime $nwexamDate
      */
     public function setExamDate(\DateTime $nwexamDate = null) {
-        $this->examDate = $nwexamDate;
+        $this->examDate = clone $nwexamDate;
     }
 
     /**
@@ -341,7 +341,7 @@ class Assessment implements \JsonSerializable {
      * @return \DateTime
      */
     public function getExamDate() {
-        return $this->examDate;
+        return clone $this->examDate;
     }
 
     /**

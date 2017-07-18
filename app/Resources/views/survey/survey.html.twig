@@ -1,0 +1,50 @@
+{% extends "base.html.twig" %}
+
+{% block angularController %}
+    {{ asset('assets/js/controllers/surveyController.js') }}
+{% endblock %}
+
+{% block angularApp %}
+    <script src="{{ asset('assets/js/studentListApp.js') }}"></script>
+{% endblock %}
+
+{% block angularExtensions %}
+    <script src="{{ asset(bower ~ 'angular-animate/angular-animate.min.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/survey.css') }}" />
+{% endblock %}
+
+{% block angularServices %}
+    <script src="{{ asset('assets/js/services/modalFormService.js') }}"></script>
+    <script src="{{ asset('assets/js/services/postService.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container" ng-init="ctrl.init('{{ path('surveyFormJson') }}')" >
+        <div class="row" >
+            <div class="col-xs-12" >
+                <h1>Survey</h1>
+            </div>
+        </div>
+        <div class="container-bar">
+            Progression
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped" 
+                     role="progressbar" 
+                     aria-valuenow="[[ ctrl.progression ]]" 
+                     aria-valuemin="0" 
+                     aria-valuemax="100" 
+                     ng-style="{width: (ctrl.progression+'%')}" >
+                    [[ctrl.progression]]%
+                </div>
+            </div> 
+        </div>
+        <div bind-html-compile="form" >
+
+        </div>
+    </div>
+
+{% endblock %}
