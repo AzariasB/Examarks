@@ -27,14 +27,14 @@
                 <a class="btn btn-default" href="{{ path('moduleList') }}" >
                     See my modules
                 </a>
+                {% if student.completedOneModule and not student.didSurvey %}
+                    <span class="pull-right">
+                        <a href="/survey"  class="btn btn-primary" >
+                            Answer the survey
+                        </a>
+                    </span>
+                {% endif %}
             </div>           
-            {% if student.completedOneModule and not student.didSurvey %}
-                <span class="pull-right">
-                    <a href="/survey"  class="btn btn-primary" >
-                        Answer the survey
-                    </a>
-                </span>
-            {% endif %}
         </div>
     </div>
 {% endblock %}
