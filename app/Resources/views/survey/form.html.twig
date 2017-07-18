@@ -1,0 +1,24 @@
+
+
+<div class="row"  
+     ng-init="ctrl.questionNumber = {{ form.questions | length }}" >
+    {% for qu in form.questions %}
+        <div class="col-xs-12 survey-row" ng-show="ctrl.questionIndex == {{ loop.index - 1 }}" >
+            {{ form_row(qu) }}
+        </div>
+    {% endfor %}
+    <div class="col-xs-12">
+        <button ng-click="ctrl.previousQuestion()"
+                ng-show="ctrl.questionIndex > 0"
+                class="btn btn-primary">
+            Previous
+        </button>
+        <span class="pull-right" >
+            <button ng-click="ctrl.nextQuestion()"
+                    ng-show="ctrl.questionIndex < ctrl.questionNumber - 1 && ctrl.currentValue" 
+                    class="btn btn-primary">
+                Next
+            </button>
+        </span>        
+    </div>
+</div>

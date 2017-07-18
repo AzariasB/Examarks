@@ -28,26 +28,27 @@ THE SOFTWARE.
 
 div.user-profile{
     opacity: 1;
-}
 
-div.user-profile div.well{
-    min-height: 155px;
-}
+    div.well{
+        min-height: 155px;        
+    }
 
-div.user-profile.ng-enter{
-    -webkit-transition: 1.5s;
-    transition: 1.5s;
-    opacity: 0;
-}
+    &.ng-enter{
+        -webkit-transition: 1.5s;
+        transition: 1.5s;
+        opacity: 0;
+    }
 
-div.user-profile.ng-enter-stagger{
-    transition-delay: 0.1s;
-}
+    &.ng-enter-stagger{
+        transition-delay: 0.1s;        
+    }
 
-div.user-profile.ng-enter-active{
-    opacity: 1;
-}
+    &.ng-enter-active{
+        opacity: 1;        
+    }
 
-div.user-profile.ng-leave-active{
-    opacity: 0;
+    &.ng-leave-active{
+        opacity: 0;
+
+    }
 }

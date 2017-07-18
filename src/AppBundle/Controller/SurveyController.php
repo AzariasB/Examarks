@@ -30,7 +30,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Survey\Survey;
 use AppBundle\Form\Survey\SurveyType;
-use AppBundle\Entity\Survey\Agreement;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Description of SurveyController
@@ -44,6 +44,15 @@ class SurveyController extends SuperController {
      * @Route("/survey",)
      */
     public function indexAction(Request $req) {
+        return $this->render('survey/survey.html.twig');
+    }
+
+    /**
+     * 
+     * @param Request $req
+     * @Route("/surveyForm/json", name="surveyFormJson")
+     */
+    public function formJsonAction(Request $req) {
         $survey = new Survey();
 
         $form = $this->createForm(SurveyType::class, $survey);
@@ -51,11 +60,17 @@ class SurveyController extends SuperController {
         $form->handleRequest($req);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->redirectToRoute('lobby');
+            return new JsonResponse([
+                'success' => true,
+                'message' => 'Thank your for answering the survey'
+            ]);
         }
 
-        return $this->render('survey/agreement.html.twig', [
-                    'form' => $form->createView()
+
+        return new JsonResponse([
+            'form' => $this->renderView('survey/form.html.twig', [
+                'form' => $form->createView()
+            ])
         ]);
     }
 

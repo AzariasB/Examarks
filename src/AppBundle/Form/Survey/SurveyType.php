@@ -28,8 +28,6 @@ namespace AppBundle\Form\Survey;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use AppBundle\Entity\Survey\Overall;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 
@@ -44,8 +42,14 @@ class SurveyType extends AbstractType {
         $builder
                 ->add('questions', CollectionType::class,[
                     'entry_type' => QuestionType::class,
+                    'entry_options' =>[
+                        'label' => ''
+                    ],
                     'allow_add' => false,
-                    'allow_delete' => false
+                    'allow_delete' => false,
+                    'attr' => [
+                        'class' => 'form-group'
+                    ]
                 ]);
     }
     
