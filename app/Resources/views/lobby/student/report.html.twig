@@ -60,7 +60,7 @@
                                 >
                                 <th colspan="2" >Average</th>
                                 <td colspan="2" >
-                                    {{ avg }}
+                                    {{ avg|round(2, 'floor') }}
                                 </td>
                             </tr>
                             {% endfor %}
