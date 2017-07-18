@@ -59,6 +59,9 @@
                 post(url, ajaxCallback(submitCallback), serialized, failure);
             };
             $("#modal-main").modal();
+            $("#modal-main").on("hide.bs.modal",function(e){
+                $scope.modalHtml = '';//reset html
+            });
         }
 
         return showModal;
