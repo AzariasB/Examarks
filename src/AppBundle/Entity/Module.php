@@ -223,7 +223,7 @@ class Module implements \JsonSerializable {
 
         foreach ($this->assessments->toArray() as $assess) {
             $mark = $assess->hasStudentMark($s);
-            if ($mark->getValue() < 40) {
+            if ($mark && $mark->getValue() < 40) {
                 return false;
             }
         }
