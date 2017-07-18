@@ -34,7 +34,7 @@
         self.questionIndex = 0;
         self.formPath = null;
         self.questionNumber = 0;
-        self.currentValue = null;
+        self.currentValues = [];
 
         //Functions
         self.init = init;

@@ -56,12 +56,13 @@ class QuestionType extends AbstractType {
                         'label' => $builder->getData()->questionString(),
                         'expanded' => true,
                         'attr' => [
-                            'class' => 'form-control',
-                            'ng-model' => 'ctrl.currentValue'
+                            'class' => 'form-control'
                         ],
-                        'choice_attr' => [
-                            'class' => 'radio'
-                        ]
+                        'choice_attr' => function() {
+                            return [
+                                'ng-model' => 'ctrl.currentValues[ctrl.questionIndex]'
+                            ];
+                        }
             ]);
         });
     }

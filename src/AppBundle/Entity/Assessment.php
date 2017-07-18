@@ -1,4 +1,5 @@
 <?php
+
 /*
  * The MIT License
  *
@@ -119,7 +120,7 @@ class Assessment implements \JsonSerializable {
      * @ORM\JoinColumn(name="resit_id", referencedColumnName="id")
      */
     private $resit;
-    
+
     /**
      *
      * @var Assessment 
@@ -127,7 +128,6 @@ class Assessment implements \JsonSerializable {
      * @ORM\OneToOne(targetEntity="Assessment", mappedBy="resit")
      */
     private $resitParent;
-
 
     public function __construct() {
         $this->marks = new \Doctrine\Common\Collections\ArrayCollection;
@@ -144,7 +144,7 @@ class Assessment implements \JsonSerializable {
         $this->resit->setType($this->type);
         $this->resit->setModule($this->module);
         $this->resit->setWeight($this->weight);
-        
+
         foreach ($this->marks->toArray() as $m) {
             if ($m->isFailed()) {
                 $nwMark = new Mark();
@@ -154,30 +154,28 @@ class Assessment implements \JsonSerializable {
                 $this->resit->getMarks()->add($nwMark);
             }
         }
-        
+
         return $this->resit;
     }
-
 
     /**
      * Get resit parent
      * 
      * @return Assessment
      */
-    public function getResitParent(){
+    public function getResitParent() {
         return $this->resitParent;
     }
-    
-    
+
     /**
      * Set resit parent
      * 
      * @param \AppBundle\Entity\Assessment $resitParent
      */
-    public function setResitParent(Assessment $resitParent){
+    public function setResitParent(Assessment $resitParent) {
         $this->resitParent = $resitParent;
     }
-    
+
     /**
      * 
      * @return bool
@@ -186,10 +184,10 @@ class Assessment implements \JsonSerializable {
         return $this->resitParent != null;
     }
 
-    public function hasResit(){
+    public function hasResit() {
         return $this->resit != null;
     }
-    
+
     /**
      * 
      * @return Assessment
@@ -220,9 +218,9 @@ class Assessment implements \JsonSerializable {
     }
 
     public function hasFailedMarks() {
-        return $this->marks->exists(function($i, Mark $m){
-            return $m->isFailed();
-        });
+        return $this->marks->exists(function($i, Mark $m) {
+                    return $m->isFailed();
+                });
     }
 
     /**
@@ -332,7 +330,7 @@ class Assessment implements \JsonSerializable {
      * @param \DateTime $nwexamDate
      */
     public function setExamDate(\DateTime $nwexamDate = null) {
-        $this->examDate = clone $nwexamDate;
+        $this->examDate = $nwexamDate ? clone $nwexamDate : null;
     }
 
     /**
@@ -341,7 +339,7 @@ class Assessment implements \JsonSerializable {
      * @return \DateTime
      */
     public function getExamDate() {
-        return clone $this->examDate;
+        return $this->examDate ? clone $this->examDate : null;
     }
 
     /**
@@ -350,7 +348,7 @@ class Assessment implements \JsonSerializable {
      * @return \DateTime
      */
     public function getSubmissionDate() {
-        return $this->submissionDate;
+        return $this->submissionDate ? clone $this->submissionDate : null;
     }
 
     /**
@@ -359,7 +357,7 @@ class Assessment implements \JsonSerializable {
      * @param \DateTime $nwsubmission
      */
     public function setSubmissionDate(\DateTime $nwsubmission = null) {
-        $this->submissionDate = $nwsubmission;
+        $this->submissionDate = $nwsubmission ? clone $nwsubmission : $nwsubmission;
     }
 
     /**

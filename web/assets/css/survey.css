@@ -25,6 +25,16 @@ THE SOFTWARE.
     Created on : 18 juil. 2017, 12:29:31
     Author     : azarias
 */
+div.progress {
+  height: 10px;
+  text-align: center; }
+  div.progress .progress-bar {
+    font-size: 10px;
+    line-height: 10px; }
+
+div.end-text {
+  text-align: center; }
+
 div.survey-row {
   -webkit-transition: 1.5s;
   transition: 1.5s;
@@ -34,5 +44,17 @@ div.survey-row {
     display: none; }
   div.survey-row.ng-hide-remove {
     display: block; }
+  div.survey-row .survey-row {
+    display: block; }
+  div.survey-row input[type="radio"] {
+    margin-left: 5px;
+    display: block;
+    float: left; }
+  div.survey-row .form-control label {
+    padding-left: 25px;
+    display: block; }
+  div.survey-row .form-control {
+    height: auto;
+    margin-bottom: 10px; }
 
 /*# sourceMappingURL=survey.css.map */

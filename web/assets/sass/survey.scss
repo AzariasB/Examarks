@@ -26,17 +26,53 @@ THE SOFTWARE.
     Author     : azarias
 */
 
+div.progress
+{
+    height: 10px;
+    text-align: center;
+
+    .progress-bar{
+        font-size: 10px;
+        line-height: 10px;
+    }
+}
+
+div.end-text{
+    text-align: center;
+}
+
 div.survey-row{
     -webkit-transition: 1.5s;
     transition: 1.5s;
     opacity: 1;
-    
+
     &.ng-hide{
         opacity: 0;
         display: none;
     }
-    
+
     &.ng-hide-remove{
         display: block;
     }
+
+    .survey-row{
+        display: block;
+    }
+
+    input[type="radio"]{
+        margin-left: 5px;
+        display: block;
+        float: left;
+    }
+
+    .form-control label{
+        padding-left: 25px;
+        display: block;
+    }
+
+    .form-control{
+        height: auto;
+        margin-bottom: 10px;
+    }
 }
+
