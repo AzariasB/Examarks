@@ -70,14 +70,14 @@ $(function () {
                     label: 'Number of students',
                     data: chart2Data,
                     backgroundColor: [
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
+                        'rgba(39, 128, 227, 0.8)',
+                        'rgba(63, 182, 24, 0.8)',
+                        'rgba(255, 0, 30, 0.8)'
                     ],
                     borderColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
+                        'rgba(39, 128, 227, 1)',
+                        'rgba(63, 182, 24, 1)',
+                        'rgba(255, 0, 30, 1)'
                     ],
                     borderWidth: 1
                 }]
