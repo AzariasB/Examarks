@@ -41,6 +41,7 @@ security:
         - { path: ^/createModule, roles: ROLE_TEACHER }
         - { path: ^/removeStudentFromModule, roles: ROLE_TEACHER }
         - { path: ^/createResit, roles: ROLE_TEACHER }
+        - { path: ^/surveyResult, roles: ROLE_TEACHER }
         - { path: ^/survey, roles: ROLE_STUDENT }
         - { path: ^/, role: ROLE_USER }
 

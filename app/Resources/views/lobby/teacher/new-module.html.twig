@@ -43,5 +43,19 @@
                 class="btn btn-success"
                 type="button">Add an assessment</button>
         </div>
+        <div 
+            ng-show="ctrl.totalWeight() !== 100"
+            class="pull-right alert alert-box alert-warning">
+            Total weight must add up to 100
+        </div>
     </div>
+{% endblock %}
+
+{% block parentButtonConfirm %}
+    <button
+        ng-disabled="ctrl.totalWeight() !== 100"
+        id="submit-create-project" 
+        class="btn btn-default" type="submit">
+        Create
+    </button>
 {% endblock %}
