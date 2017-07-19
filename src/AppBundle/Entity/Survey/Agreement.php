@@ -43,11 +43,11 @@ class Agreement extends Question {
     const AGREE = 3;
     const STRONGRLY_AGREE = 4;
     const CHOICES = array(
-        'Strongly disagree' => self::STRONGLY_DISAGREE,
-        'Disagree' => self::DISAGREE,
-        'Neutral' => self::NEUTRAL,
+        'Strongly agree' => self::STRONGRLY_AGREE,
         'Agree' => self::AGREE,
-        'Strongly agree' => self::STRONGRLY_AGREE
+        'Neutral' => self::NEUTRAL,
+        'Disagree' => self::DISAGREE,
+        'Strongly disagree' => self::STRONGLY_DISAGREE,
     );
     const QUESTIONS = array(
         'The course objectives were clear',

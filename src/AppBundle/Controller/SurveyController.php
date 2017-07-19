@@ -97,6 +97,7 @@ class SurveyController extends SuperController {
      */
     public function formJsonAction(Request $req) {
         $survey = new Survey();
+        $survey->generateQuestions();
 
         $form = $this->createForm(SurveyType::class, $survey);
 
@@ -112,7 +113,6 @@ class SurveyController extends SuperController {
                 'message' => 'Thank your for answering the survey'
             ]);
         }
-
 
         return new JsonResponse([
             'form' => $this->renderView('survey/form.html.twig', [

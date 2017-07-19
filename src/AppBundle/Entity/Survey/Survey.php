@@ -79,19 +79,22 @@ class Survey {
         $indexes = [];
         for ($i = 0; $i < count($array) / 2; $i++) {
             $randIndex = rand(0, count($array) - 1);
-            if (in_array($randIndex, $indexes)) {
+            if (array_key_exists($randIndex, $indexes)) {
                 $i--;
             } else {
-                $indexes[] = $randIndex;
+                $indexes[$randIndex] = true;
                 $this->getQuestions()->add(new $className($randIndex));
             }
         }
     }
 
+    public function generateQuestions() {
+        $this->chooseRandom(Agreement::QUESTIONS, Agreement::class);
+        $this->chooseRandom(Overall::QUESTIONS, Overall::class);
+    }
+
     public function __construct() {
         $this->questions = new ArrayCollection;
-        $this->chooseRandom(Agreement::CHOICES, Agreement::class);
-        $this->chooseRandom(Overall::CHOICES, Agreement::class);
     }
 
     /**

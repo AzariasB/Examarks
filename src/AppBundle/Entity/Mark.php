@@ -103,11 +103,13 @@ class Mark implements \JsonSerializable {
     }
 
     public static function toGrade($num) {
-        if ($num < 50) {
-            return 'C-';
+        if ($num < 40) {
+            return 'F';
         }
 
-        if ($num >= 50 && $num < 60) {
+        if ($num >= 40 && $num < 50) {
+            return 'D';
+        } else if ($num >= 50 && $num < 60) {
             return 'C';
         } else if ($num >= 60 && $num < 70) {
             return 'B';
