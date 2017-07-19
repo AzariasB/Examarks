@@ -45,7 +45,9 @@ class SurveyController extends SuperController {
      * @Route("/surveyResult", name="surveyResult")
      */
     public function surveyResultAction() {
-        return $this->render('survey/result.html.twig');
+        return $this->render('survey/result.html.twig', [
+            'surveys' => $this->getAllFromClass(Survey::class)
+        ]);
     }
 
     /**
