@@ -116,8 +116,8 @@ class Assessment implements \JsonSerializable {
      *
      * @var Assessment
      * 
-     * @ORM\OneToOne(targetEntity="Assessment", inversedBy="resitParent", cascade={"all"})
-     * @ORM\JoinColumn(name="resit_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="Assessment", inversedBy="resitParent")
+     * @ORM\JoinColumn(name="resit_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $resit;
 
