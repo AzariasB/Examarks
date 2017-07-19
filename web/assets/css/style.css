@@ -77,7 +77,8 @@ body {
   padding: 15px 35px 45px;
   margin: 0 auto;
   background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.1); }
+  border: 1px solid rgba(0, 0, 0, 0.1); 
+}
   .form-signin .form-signin-heading,
   .form-signin .checkbox {
     margin-bottom: 30px; }
@@ -96,5 +97,5 @@ body {
   .form-signin input[type="password"] {
     border-top-left-radius: 0;
     border-top-right-radius: 0; }
-
+    
 /*# sourceMappingURL=style.css.map */

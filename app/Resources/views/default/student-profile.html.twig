@@ -74,34 +74,24 @@
                     </tbody>
                   </table>
 
-
-
-
         {% if is_granted('ROLE_TEACHER') %}
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Student's Modules:</h3>
-  </div>
-  <div class="panel-body">
-                    <ul class="list-unstyled" >
-                        {% for module in student.modules %}
-                            <li>
-                                <a href="{{ path('module',{'moduleId':module.id}) }}">
-                                    {{ module.name }}
-                            </a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-  </div>
-</div>
-        
-        
-        
-        
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Student's Modules:</h3>
+          </div>
+          <div class="panel-body">
+            <ul class="list-unstyled nav navbar-nav student-module">
+            {% for module in student.modules %}
+            <li>
+                <a href="{{ path('module',{'moduleId':module.id}) }}">
+                {{ module.name }}
+                </a>
+            </li>
+            {% endfor %}
+            </ul>
+          </div>
+        </div>
         {% endif %}
-
-
-
 
         <div class="col-xs-12">
             {% if is_granted('ROLE_TEACHER') %}
