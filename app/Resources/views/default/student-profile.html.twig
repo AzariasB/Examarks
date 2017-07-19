@@ -22,67 +22,67 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-xs-12">
-                <label>Login : </label>
-                {{ student.login }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12" >
-                <label>Email : </label>
-                {{ student.email }}
-            </div>
-        </div>
+        
+<table class="table table-user-information">
+                    <tbody>
+                      <tr>
+                        <td><span class="glyphicon glyphicon-cloud one" style="width:50px;"></span></span>Login : </td>
+                        <td>{{ student.login }}</td>
+                      </tr>
+                      <tr>
+                        <td><span class="glyphicon glyphicon-user one" style="width:50px;"></span>First Name : </td>
+                        <td>
+                        {% if student.name %}
+                        {{ student.name }}
+                        {% else %}
+                        <i>Name not set yet</i>
+                        {% endif %}    
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><span class="glyphicon glyphicon-pencil one" style="width:50px;"></span>Last Name :</td>
+                        <td>
+                        {% if student.lastName %}
+                        {{ student.lastName }}
+                        {% else %} 
+                        <i>Last name not set yet </i>
+                        {% endif %}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><span class="glyphicon glyphicon-envelope one" style="width:50px;"></span>Email : </td>
+                        <td>{{ student.email }}</td>
+                      </tr>
+                      <tr>
+                        <td><span class="glyphicon glyphicon-home one" style="width:50px;"></span>Home Address</td>
+                        <td>
+                        {% if student.address %} 
+                        {{ student.address }}
+                        {% else %}
+                        <i>Address not set yet</i>
+                        {% endif %}
+                        </td>
+                      </tr>
+                        <td><span class="glyphicon glyphicon-earphone one" style="width:50px;"></span>Phone Number :</td>
+                        <td>
+                        {% if student.phone %}
+                        {{ student.phone }}
+                        {% else %}
+                        <i>Phone number not set yet </i>
+                        {% endif %}
+                        </td>
+                    </tbody>
+                  </table>
 
-        <div class="row"> 
-            <div class="col-xs-12">
-                <label>Name : </label>
-                {% if student.name %}
-                    {{ student.name }}
-                {% else %}
-                    <i>Name not set yet</i>
-                {% endif %}
-            </div>
-        </div>
 
-        <div class="row"> 
-            <div class="col-xs-12" >
-                <label>Last Name : </label>
-                {% if student.lastName %}
-                    {{ student.lastName }}
-                {% else %} 
-                    <i>Last name not set yet </i>
-                {% endif %}
-            </div>
-        </div>
+
 
         {% if is_granted('ROLE_TEACHER') %}
-            <div class="row" >
-                <div class="col-xs-12" >
-                    <label>Phone number :</label>
-                    {% if student.phone %}
-                        {{ student.phone }}
-                    {% else %}
-                        <i>Phone number not set yet </i>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="row" > 
-                <div class="col-xs-12" >
-                    <label>Address : </label>
-                    {% if student.address %} 
-                        {{ student.address }}
-                    {% else %}
-                        <i>Address not set yet</i>
-                    {% endif %}
-                </div>
-
-            </div>
-            <div class="row" >
-                <div class="col-xs-12" >
-                    <label>Modules </label>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Student's Modules:</h3>
+  </div>
+  <div class="panel-body">
                     <ul class="list-unstyled" >
                         {% for module in student.modules %}
                             <li>
@@ -92,11 +92,16 @@
                         </li>
                         {% endfor %}
                     </ul>
-                </div>
-            </div>
-
-
+  </div>
+</div>
+        
+        
+        
+        
         {% endif %}
+
+
+
 
         <div class="col-xs-12">
             {% if is_granted('ROLE_TEACHER') %}
@@ -117,3 +122,4 @@
 
     </div>
 {% endblock %}
+
