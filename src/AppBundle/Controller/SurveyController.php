@@ -31,6 +31,8 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Survey\Survey;
 use AppBundle\Form\Survey\SurveyType;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use AppBundle\Entity\Survey\Agreement;
+use AppBundle\Entity\Survey\Overall;
 
 /**
  * Description of SurveyController
@@ -42,19 +44,49 @@ class SurveyController extends SuperController {
     /**
      * @Route("/surveyResult", name="surveyResult")
      */
-    public function surveyResultAction(){
+    public function surveyResultAction() {
         return $this->render('survey/result.html.twig');
     }
-    
+
+    /**
+     * @Route("/surveyJson", name="surveyJson")
+     */
+    public function surveyJsonAction() {
+        $agreements = $this->getAllFromClass(Agreement::class);
+        $overalls = $this->getAllFromClass(Overall::class);
+
+        $questions = [];
+        $this->addResult($agreements, Agreement::class, $questions);
+        $this->addResult($overalls, Overall::class, $questions);
+
+        return new JsonResponse([
+            'questions' => $questions
+        ]);
+    }
+
+    private function addResult($questions, $class, &$total) {
+        foreach ($questions as $q) {
+            $qStr = $class::QUESTIONS[$q->getQuestion()];
+            $qRating = array_search($q->getRating(), $class::CHOICES);
+            if (!in_array($qStr, $total)) {
+                $total[$qStr] = [];
+                foreach ($class::CHOICES as $choice => $value) {
+                    $total[$qStr][$choice] = 0;
+                }
+            }
+            $total[$qStr][$qRating] ++;
+        }
+    }
+
     /**
      * 
      * @Route("/survey",)
      */
     public function indexAction() {
-        if($this->getUser()->didSurvey()){
+        if ($this->getUser()->didSurvey()) {
             return $this->redirectToRoute('lobby');
         }
-        
+
         return $this->render('survey/survey.html.twig');
     }
 
@@ -70,11 +102,11 @@ class SurveyController extends SuperController {
 
         $form->handleRequest($req);
 
-        if ($form->isSubmitted() && $form->isValid()) {       
+        if ($form->isSubmitted() && $form->isValid()) {
             $survey->setStudent($this->getUser());
             $this->getUser()->setSurvey($survey);
             $this->saveEntity($survey);
-            
+
             return new JsonResponse([
                 'success' => true,
                 'message' => 'Thank your for answering the survey'

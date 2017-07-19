@@ -94,7 +94,6 @@ $(function () {
     });
 
     $.post(location.href + '/json', function (data) {
-        console.log(data);
         Object.keys(data.assessments).map(function (k) {
             chart1Labels.push(k);
             chart1Data.push(data.assessments[k]);
