@@ -69,6 +69,8 @@
                                     {% else %}
                                         You don't need a resit exam
                                     {% endif %}
+                                {% elseif assess.allMarked %}
+                                    You don't need a resit exam                                    
                                 {% else %}
                                     Assessment not completed yet
                                 {% endif %}
