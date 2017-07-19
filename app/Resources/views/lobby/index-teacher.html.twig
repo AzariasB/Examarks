@@ -10,23 +10,16 @@
         <h1>Welcome back, {{ app.user.username }}</h1>
         <div class="row" >
             <div class="col-xs-12" id='modules'>
-                <ul class="nav nav-pills navbar-nav nav-stacked col-xs-12 col-md-3" >
-                    <li> 
-                        <a href="{{ path('studentList') }}">
+
+                        <a href="{{ path('studentList') }}" class="btn btn-primary"><span class="glyphicon glyphicon-user"></span>
                             {% if is_granted('ROLE_ADMIN') %}
-                                Users
+                                 Users
                             {% else %}
-                                Students
+                                 Students
                             {% endif %}
                         </a>                                
-                    </li>
-                    <li>
-                        <a href="{{ path('moduleList') }}">Modules</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('surveyResult') }}">Surveys</a>
-                    </li>
-                </ul>
+                        <a href="{{ path('moduleList') }}" class="btn btn-primary"><span class="glyphicon glyphicon-book"></span> Modules</a>
+                        <a href="{{ path('surveyResult') }}" class="btn btn-primary"><span class="glyphicon glyphicon-signal"></span> Surveys</a>
             </div>
         </div>
     </div>
