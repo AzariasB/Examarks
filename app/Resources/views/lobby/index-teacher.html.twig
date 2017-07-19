@@ -10,17 +10,29 @@
         <h1>Welcome back, {{ app.user.username }}</h1>
         <div class="row" >
             <div class="col-xs-12" id='modules'>
-
-                        <a href="{{ path('studentList') }}" class="btn btn-primary"><span class="glyphicon glyphicon-user"></span>
-                            {% if is_granted('ROLE_ADMIN') %}
-                                 Users
-                            {% else %}
-                                 Students
-                            {% endif %}
-                        </a>                                
-                        <a href="{{ path('moduleList') }}" class="btn btn-primary"><span class="glyphicon glyphicon-book"></span> Modules</a>
-                        <a href="{{ path('surveyResult') }}" class="btn btn-primary"><span class="glyphicon glyphicon-signal"></span> Surveys</a>
+                <div class="btn-group btn-group-justified" >
+                    <a href="{{ path('studentList') }}" class="btn btn-primary"><span class="glyphicon glyphicon-user"></span>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            Users
+                        {% else %}
+                            Students
+                        {% endif %}
+                    </a>                                
+                    <a href="{{ path('moduleList') }}" class="btn btn-primary" style="background-color: white; color : black;" ><span class="glyphicon glyphicon-book"></span> Modules</a>
+                    <a href="{{ path('surveyResult') }}" class="btn btn-danger"><span class="glyphicon glyphicon-signal"></span> Surveys</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="text-center col-xs-12">
+                <img id="coq" src="{{ asset('assets/img/logo-french.png') }}" class="img" style="cursor: pointer;" />
             </div>
         </div>
     </div>
+            <video id="coq-video" src="{{ asset('assets/video/cocorico.mp3') }}" />
+    <script>
+        $("#coq").click(function(){
+            document.getElementById('coq-video').play();
+        });
+    </script>
 {% endblock %}
