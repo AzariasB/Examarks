@@ -27,9 +27,9 @@
     'use strict';
 
     angular.module('examarks')
-            .controller('Controller', ['post', 'modalForm', 'Notification', '$scope', userListController]);
+            .controller('Controller', ['post', 'modalForm', 'Notification', '$scope', '$compile', userListController]);
 
-    function userListController(post, modalForm, Notification, $scope) {
+    function userListController(post, modalForm, Notification, $scope, $compile) {
 
         var self = this;
 
@@ -41,17 +41,23 @@
         self.modules = [];
         self.queue = [];
 
-        self.nwAssessments = [];
+        self.nwAssessments = {};
 
         //Funtions
         self.showNewModuleModal = showNewModuleModal;
         self.addAssessment = addAssessment;
-        self.removeAssessment = removeAssessment;
         self.addAssessmentForm = addAssessmentForm;
         self.deleteModule = deleteModule;
         self.editModule = editModule;
         self.cancelRemoval = cancelRemoval;
+        self.totalWeight = totalWeight;
         self.init = init;
+
+        function totalWeight() {
+            return Object.keys(self.nwAssessments).reduce(function (a, b) {
+                return a + self.nwAssessments[b];
+            }, 0);
+        }
 
 
         function editModule(moduleId) {
@@ -150,20 +156,26 @@
 
         }
 
-        function removeAssessment($el) {
-
-        }
-
         function addAssessmentForm() {
-            var nwForm = self.dataPrototype.replace(/__name__/g, self.lastAssessmentId);
+            var $nwForm = $(self.dataPrototype.replace(/__name__/g, self.lastAssessmentId));
             var aId = "assessment" + self.lastAssessmentId;
+
+            self.nwAssessments[aId] = 0;
+            $nwForm.find("input[type=number]").attr("ng-model", "ctrl.nwAssessments['" + aId + "']");
+
             var $span = $("<a class='pull-right' href='#'><span>&times;</span></a>");
 
-            var $el = $("<div id='" + aId + "' class='col-xs-12 well'></div").append($span).append(nwForm);
+            var $el = $("<div id='" + aId + "' class='col-xs-12 well'></div").append($span).append($compile($nwForm)($scope));
 
             $span.click(function () {
                 $el.remove();
+                delete self.nwAssessments[aId];
             });
+
+            $("#modal-main").on("hide.bs.modal", function (e) {
+                self.nwAssessments = {};
+            });
+
             self.lastAssessmentId++;
 
             $("#assessementsList").append($el);
