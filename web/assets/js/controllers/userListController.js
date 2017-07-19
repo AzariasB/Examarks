@@ -38,6 +38,8 @@
         self.queue = [];
         self.deleteUserPath;
         self.editUserPath;
+        self.validModal = false;
+        self.nwLogin = '';
 
         //Functions
         self.showNewStudentModal = showNewStudentModal;
@@ -48,6 +50,7 @@
         self.fastUserRemove = fastUserRemove;
         self.editUserClick = editUserClick;
         self.editedUser = editedUser;
+        self.checkLogin = checkLogin;
 
         var cleanedUp = false;
 
@@ -59,6 +62,12 @@
             }
             cleanedUp = true;
         };
+
+        function checkLogin() {
+            self.validModal = !self.users.some(function (u) {
+                return u.login === self.nwLogin;
+            });
+        }
 
         function editedUser(data) {
             self.users = self.users.map(function (x) {
@@ -156,4 +165,3 @@
     }
 
 })();
-//{{ user.isStudent ? path('student', {'studentId' : user.id }) : path('teacher', {'teacherId' : user.id}) }}

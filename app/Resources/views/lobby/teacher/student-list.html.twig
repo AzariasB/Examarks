@@ -42,27 +42,32 @@
             <div class="col-xs-12">
                 <div class="col-xs-12 col-sm-6 col-md-4 user-profile" ng-repeat="user in ctrl.users" >
                     <div class="well">
-                        <a href="/student/[[user.id]]" > 
+                        <span ng-if="user.isStudent">
+                            <a href="/student/[[user.id]]" > 
+                                [[ user.login ]]
+                                <span ng-if="user.name || user.lastName">
+                                    ([[ user.name||""]] [[user.lastName||""]])
+                                </span>
+                            </a>
+                        </span>
+                        <span ng-if="!user.isStudent">
                             [[ user.login ]]
-                            <span ng-if="user.name || user.lastName">
-                                ([[ user.name||""]] [[user.lastName||""]])
-                            </span>
-                        </a>
+                        </span>
                         <p>
                             [[ user.higherRole ]]
                         </p>
                         <p>
                             [[ user.email ]]
                         </p>
-                        <span ng-if="!user.isAdmin">
+                        <span ng-if="user.isStudent">
                             <a ng-click="ctrl.deleteUser(user.id)"
-                               href="#" 
+                               href="javascript:void(0)" 
                                class="btn btn-sm btn-warning opacity-child" 
                                title="Delete this user" >
                                 <i class="glyphicon glyphicon-trash"></i>
                             </a>
                             <a ng-click="ctrl.editUserClick(user.id)"
-                                href="#" 
+                               href="javascript:void(0)" 
                                class="btn btn-sm btn-default opacity-child" 
                                title="Edit this user" >
                                 <i class="glyphicon glyphicon-pencil" ></i>

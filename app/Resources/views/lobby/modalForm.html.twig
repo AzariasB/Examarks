@@ -26,10 +26,18 @@
 </div>
 <div class="modal-footer">
     {% block parentButtonConfirm %}
-        <button id="submit-create-project" class="btn btn-default" type="submit">
-            {% block buttonConfirm %}
-                Create
-            {% endblock %}
+        <button ng-disabled="submitting || !ctrl.validModal" id="submit-create-project" class="btn btn-default" type="submit">
+            <span ng-show="!submitting" >
+                {% block buttonConfirm %}
+                    Create
+                {% endblock %}
+            </span>
+            <span ng-show="submitting" >
+                {% block buttonLoading %}
+                    <i class="glyphicon glyphicon-refresh gly-spin"></i>
+                    Loading ...
+                {% endblock %}
+            </span>
         </button>
     {% endblock %}
     <button type="button" class="btn btn-default" data-dismiss="modal">

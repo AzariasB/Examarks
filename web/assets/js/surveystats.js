@@ -66,8 +66,8 @@ $(function () {
                     'title': {
                         display: true,
                         text: q,
-                        'position' : 'bottom',
-                        'fontSize' : 14
+                        'position': 'bottom',
+                        'fontSize': 14
                     }
                 }
             });

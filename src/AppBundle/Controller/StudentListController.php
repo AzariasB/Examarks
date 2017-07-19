@@ -82,6 +82,10 @@ class StudentListController extends SuperController {
      * @ParamConverter("s", class="AppBundle:Student")
      */
     public function deleteStudentAction(Student $s) {
+        $survey = $s->getSurvey();
+        $s->setSurvey(null);
+        $survey->setStudent(null);
+        $this->removeEntity($survey);
         $this->removeEntity($s);
         return new JsonResponse([
             'success' => true,

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * The MIT License
  *
@@ -319,6 +320,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Symf
             'lastName' => $this->lastName,
             'isAdmin' => $this->isAdmin(),
             'isTeacher' => $this->isTeacher(),
+            'isStudent' => $this->isStudent(),
             'higherRole' => $this->higherRole()
         ];
     }

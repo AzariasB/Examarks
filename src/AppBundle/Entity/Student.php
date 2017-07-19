@@ -55,7 +55,7 @@ class Student extends User {
     /**
      *
      * @var Survey\Survey
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Survey\Survey", mappedBy="student")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Survey\Survey", mappedBy="student", )
      */
     private $survey;
 
@@ -64,7 +64,7 @@ class Student extends User {
      * 
      * @param \AppBundle\Entity\Survey\Survey $s
      */
-    public function setSurvey(Survey\Survey $s) {
+    public function setSurvey(Survey\Survey $s = null) {
         $this->survey = $s;
     }
 

@@ -22,94 +22,95 @@
             </div>
         </div>
 
-        
-<table class="table table-user-information">
-                    <tbody>
-                      <tr>
-                        <td><span class="glyphicon glyphicon-cloud one" style="width:50px;"></span></span>Login : </td>
-                        <td>{{ student.login }}</td>
-                      </tr>
-                      <tr>
-                        <td><span class="glyphicon glyphicon-user one" style="width:50px;"></span>First Name : </td>
-                        <td>
+
+        <table class="table table-user-information">
+            <tbody>
+                <tr>
+                    <td><span class="glyphicon glyphicon-cloud one" style="width:50px;"></span></span>Login : </td>
+                    <td>{{ student.login }}</td>
+                </tr>
+                <tr>
+                    <td><span class="glyphicon glyphicon-user one" style="width:50px;"></span>First Name : </td>
+                    <td>
                         {% if student.name %}
-                        {{ student.name }}
+                            {{ student.name }}
                         {% else %}
-                        <i>Name not set yet</i>
+                            <i>Name not set yet</i>
                         {% endif %}    
-                        </td>
-                      </tr>
-                      <tr>
-                        <td><span class="glyphicon glyphicon-pencil one" style="width:50px;"></span>Last Name :</td>
-                        <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="glyphicon glyphicon-pencil one" style="width:50px;"></span>Last Name :</td>
+                    <td>
                         {% if student.lastName %}
-                        {{ student.lastName }}
+                            {{ student.lastName }}
                         {% else %} 
-                        <i>Last name not set yet </i>
+                            <i>Last name not set yet </i>
                         {% endif %}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td><span class="glyphicon glyphicon-envelope one" style="width:50px;"></span>Email : </td>
-                        <td>{{ student.email }}</td>
-                      </tr>
-                      <tr>
-                        <td><span class="glyphicon glyphicon-home one" style="width:50px;"></span>Home Address</td>
-                        <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="glyphicon glyphicon-envelope one" style="width:50px;"></span>Email : </td>
+                    <td>{{ student.email }}</td>
+                </tr>
+                <tr>
+                    <td><span class="glyphicon glyphicon-home one" style="width:50px;"></span>Home Address</td>
+                    <td>
                         {% if student.address %} 
-                        {{ student.address }}
+                            {{ student.address }}
                         {% else %}
-                        <i>Address not set yet</i>
+                            <i>Address not set yet</i>
                         {% endif %}
-                        </td>
-                      </tr>
-                        <td><span class="glyphicon glyphicon-earphone one" style="width:50px;"></span>Phone Number :</td>
-                        <td>
-                        {% if student.phone %}
-                        {{ student.phone }}
-                        {% else %}
-                        <i>Phone number not set yet </i>
-                        {% endif %}
-                        </td>
-                    </tbody>
-                  </table>
+                    </td>
+                </tr>
+            <td><span class="glyphicon glyphicon-earphone one" style="width:50px;"></span>Phone Number :</td>
+            <td>
+                {% if student.phone %}
+                    {{ student.phone }}
+                {% else %}
+                    <i>Phone number not set yet </i>
+                {% endif %}
+            </td>
+            </tbody>
+        </table>
 
         {% if is_granted('ROLE_TEACHER') %}
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Student's Modules:</h3>
-          </div>
-          <div class="panel-body">
-            <ul class="list-unstyled nav navbar-nav student-module">
-            {% for module in student.modules %}
-            <li>
-                <a href="{{ path('module',{'moduleId':module.id}) }}">
-                {{ module.name }}
-                </a>
-            </li>
-            {% endfor %}
-            </ul>
-          </div>
-        </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Student's Modules:</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled nav navbar-nav student-module">
+                        {% for module in student.modules %}
+                            <li>
+                                <a href="{{ path('module',{'moduleId':module.id}) }}">
+                                    {{ module.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         {% endif %}
+        <div class="row">
+            <div class="col-xs-12">
+                {% if is_granted('ROLE_TEACHER') %}
+                    <a href="{{ path('editStudent',{'studentId' : student.id}) }}" class="btn btn-primary" >
+                        Edit student
+                    </a>
+                {% endif %}
 
-        <div class="col-xs-12">
-            {% if is_granted('ROLE_TEACHER') %}
-                <a href="{{ path('editStudent',{'studentId' : student.id}) }}" class="btn btn-primary" >
-                    Edit student
-                </a>
-            {% endif %}
-
-            <span class="pull-right">
-                <a  class="btn btn-default" href="/studentList">
-                    Student list
-                </a>
-                <a href="/home" class="btn btn-default" >
-                    Home
-                </a>
-            </span>
-        </div>
-
+                <span class="pull-right">
+                    <a  class="btn btn-default" href="/studentList">
+                        Student list
+                    </a>
+                    <a href="/home" class="btn btn-default" >
+                        Home
+                    </a>
+                </span>
+            </div>
+        </div
     </div>
+
 {% endblock %}
 

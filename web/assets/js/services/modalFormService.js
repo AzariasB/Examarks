@@ -40,9 +40,10 @@
             console.error(response.data);
         }
 
-        function ajaxCallback(submitCallback) {
-
+        function ajaxCallback($scope, submitCallback) {
+            $scope.submitting = true;
             return function (response) {
+                $scope.submitting = false;
                 var data = response.data;
                 if (data.success) {
                     $("#modal-main").modal('hide');
@@ -56,10 +57,10 @@
             $scope.modalHtml = data;
             $scope.submit = function (fId) {
                 var serialized = $('#' + fId).serialize();
-                post(url, ajaxCallback(submitCallback), serialized, failure);
+                post(url, ajaxCallback($scope, submitCallback), serialized, failure);
             };
             $("#modal-main").modal();
-            $("#modal-main").on("hide.bs.modal",function(e){
+            $("#modal-main").on("hide.bs.modal", function (e) {
                 $scope.modalHtml = '';//reset html
             });
         }

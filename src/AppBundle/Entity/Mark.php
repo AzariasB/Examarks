@@ -79,7 +79,7 @@ class Mark implements \JsonSerializable {
     }
 
     public function toCssClass() {
-        return $this->value ? $this->isPassed() ? $this->value >= 80 ? "success" : "primary" : "warning" : "";
+        return $this->value ? $this->value > 20 ? $this->isPassed() ? $this->value >= 80 ? "success" : "primary" : "warning" : "danger" : "";
     }
 
     /**

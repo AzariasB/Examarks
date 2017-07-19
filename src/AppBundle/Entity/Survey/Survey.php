@@ -110,7 +110,7 @@ class Survey {
      * 
      * @param Student $s
      */
-    public function setStudent(Student $s) {
+    public function setStudent(Student $s = null) {
         $this->student = $s;
     }
 
