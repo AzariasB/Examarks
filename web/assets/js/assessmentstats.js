@@ -41,8 +41,8 @@ $(function () {
                     label: 'Number of students',
                     data: chart1Data,
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)'
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)'
                     ],
                     borderColor: [
                         'rgba(255,99,132,1)',
