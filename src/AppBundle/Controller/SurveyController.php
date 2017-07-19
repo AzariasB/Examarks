@@ -70,7 +70,7 @@ class SurveyController extends SuperController {
         foreach ($questions as $q) {
             $qStr = $class::QUESTIONS[$q->getQuestion()];
             $qRating = array_search($q->getRating(), $class::CHOICES);
-            if (!in_array($qStr, $total)) {
+            if (!array_key_exists($qStr, $total)) {
                 $total[$qStr] = [];
                 foreach ($class::CHOICES as $choice => $value) {
                     $total[$qStr][$choice] = 0;
