@@ -1,6 +1,11 @@
 
 {% extends "base.html.twig" %}
 
+{% block angularServices %}
+    <script src="{{ asset(bower ~ 'chart.js/dist/Chart.min.js') }}"></script>
+    <script src="{{ asset('assets/js/surveystats.js') }}"></script>
+{% endblock %}
+
 {% block title %}
     Survey result
 {% endblock %}
@@ -12,10 +17,7 @@
                 <h1>Survey result </h1>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-6">
-                <canvas id=''
-            </div>
+        <div class="row" id="canvas-holder" >
         </div>
     </div>
 {% endblock %}
