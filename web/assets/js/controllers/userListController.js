@@ -63,7 +63,8 @@
             cleanedUp = true;
         };
 
-        function checkLogin() {
+        function checkLogin() 
+                console.log("check login");
             self.validModal = !self.users.some(function (u) {
                 return u.login === self.nwLogin;
             });

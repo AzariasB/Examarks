@@ -27,7 +27,6 @@ $(function () {
 
 
     $.post('/surveyJson', function (data) {
-        console.log(data.questions);
         Object.keys(data.questions).map(function (q) {
             var question = data.questions[q];
             var $div = $("<div class='col-xs-12 col-sm-4'></div>");
