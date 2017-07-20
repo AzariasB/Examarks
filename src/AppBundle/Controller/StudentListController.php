@@ -83,9 +83,11 @@ class StudentListController extends SuperController {
      */
     public function deleteStudentAction(Student $s) {
         $survey = $s->getSurvey();
+        if ($survey) {
+            $survey->setStudent(null);
+            $this->removeEntity($survey);
+        }
         $s->setSurvey(null);
-        $survey->setStudent(null);
-        $this->removeEntity($survey);
         $this->removeEntity($s);
         return new JsonResponse([
             'success' => true,
