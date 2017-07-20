@@ -147,6 +147,8 @@
         }
 
         function actionUpdated(data) {
+            self.nwLogin = '';
+            self.validModal = false;
             if (data.success) {
                 self.users.unshift(data.student);
                 Notification.success(data.message);
