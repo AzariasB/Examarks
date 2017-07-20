@@ -28,11 +28,11 @@
                 <img id="coq" src="{{ asset('assets/img/logo-french.png') }}" class="img" style="cursor: pointer;" />
             </div>
         </div>
+        <video hidden="" style="display: none;" id="coq-video" src="{{ asset('assets/video/cocorico.mp3') }}" />
+        <script>
+            $("#coq").click(function () {
+                document.getElementById('coq-video').play();
+            });
+        </script>
     </div>
-            <video id="coq-video" src="{{ asset('assets/video/cocorico.mp3') }}" />
-    <script>
-        $("#coq").click(function(){
-            document.getElementById('coq-video').play();
-        });
-    </script>
 {% endblock %}
